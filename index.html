@@ -10,124 +10,115 @@
             --azul: #4A90E2; --azul-claro: #7BB3F0; --amarelo: #F4D03F;
             --amarelo-claro: #F9E79F; --branco: #FFFFFF; --cinza: #8899A6;
             --cinza-claro: #AAB8C2; --verde: #2ECC71; --vermelho: #E74C3C;
-            --laranja: #F39C12; --roxo: #7C3AED; --borda: #2A3344;
-            --radius: 16px;
+            --laranja: #F39C12; --roxo: #7C3AED; --borda: #2A3344; --radius: 16px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif; background: var(--bg-dark); color: var(--branco); min-height: 100vh; line-height: 1.5; }
-        .top-bar { background: var(--bg-header); border-bottom: 1px solid var(--borda); padding: 14px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .top-bar .logo-area { display: flex; align-items: center; gap: 12px; }
-        .top-bar .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--azul), var(--azul-claro)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .top-bar .company-name { font-weight: 700; font-size: 15px; }
-        .top-bar .company-sub { font-size: 11px; color: var(--cinza); }
-        .top-bar .quick-links { display: flex; gap: 8px; align-items: center; }
-        .top-bar .quick-link { background: rgba(255,255,255,0.05); border: 1px solid var(--borda); color: var(--cinza-claro); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.3s; cursor: pointer; }
-        .top-bar .quick-link:hover { background: rgba(74,144,226,0.15); border-color: var(--azul); color: var(--azul-claro); }
-        .sync-status { font-size: 10px; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
-        .sync-on { background: rgba(46,204,113,0.2); color: var(--verde); }
-        .sync-off { background: rgba(231,76,60,0.2); color: var(--vermelho); }
-        .sync-loading { background: rgba(243,156,18,0.2); color: var(--laranja); animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #1A2535, #1E2A40, #1A2535); border: 1px solid var(--borda); border-radius: var(--radius); padding: 24px 30px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .header h1 { font-size: 26px; font-weight: 800; background: linear-gradient(135deg, var(--branco), var(--azul-claro)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .header .subtitle { color: var(--cinza); font-size: 12px; }
-        .date-display { text-align: right; }
-        .date-display .day-number { font-size: 44px; font-weight: 900; line-height: 1; background: linear-gradient(135deg, var(--amarelo), var(--amarelo-claro)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .date-display .month-text { font-size: 13px; color: var(--cinza-claro); }
-        .btn { padding: 10px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 12px; letter-spacing: 0.3px; transition: all 0.3s; text-transform: uppercase; }
-        .btn-gold { background: linear-gradient(135deg, var(--amarelo), #F1C40F); color: #1A1F2E; }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(244,208,63,0.4); }
-        .btn-outline { background: transparent; border: 2px solid var(--borda); color: var(--cinza-claro); }
-        .btn-outline:hover { border-color: var(--azul); color: var(--azul-claro); }
-        .btn-azul { background: var(--azul); color: var(--branco); }
-        .btn-azul:hover { background: #357ABD; transform: translateY(-2px); }
-        .btn-sync { background: var(--verde); color: var(--branco); font-size: 11px; padding: 8px 14px; }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 20px; }
-        .metric-card { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 18px; transition: all 0.3s; position: relative; overflow: hidden; cursor: pointer; }
-        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
-        .metric-card:nth-child(1)::before { background: var(--azul); }
-        .metric-card:nth-child(2)::before { background: var(--amarelo); }
-        .metric-card:nth-child(3)::before { background: var(--verde); }
-        .metric-card:nth-child(4)::before { background: var(--laranja); }
-        .metric-card:nth-child(5)::before { background: var(--roxo); }
-        .metric-card:nth-child(6)::before { background: var(--vermelho); }
-        .metric-card:hover { border-color: var(--azul); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        .metric-icon { font-size: 24px; margin-bottom: 8px; }
-        .metric-value { font-size: 26px; font-weight: 800; }
-        .metric-label { font-size: 9px; color: var(--cinza); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-top: 4px; }
-        .metric-change { font-size: 10px; margin-top: 6px; font-weight: 600; }
-        .change-up { color: var(--verde); }
-        .change-down { color: var(--vermelho); }
-
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .panel { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 20px; }
-        .panel-full { grid-column: 1 / -1; }
-        .panel-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .panel-subtitle { font-size: 10px; color: var(--cinza); margin-bottom: 12px; }
-
-        .states-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 6px; }
-        .state-item { padding: 10px 6px; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s; font-weight: 600; font-size: 12px; }
-        .state-item.high { background: rgba(74,144,226,0.3); border: 1px solid rgba(74,144,226,0.5); color: var(--azul-claro); }
-        .state-item.medium { background: rgba(244,208,63,0.2); border: 1px solid rgba(244,208,63,0.4); color: var(--amarelo-claro); }
-        .state-item.low { background: rgba(255,255,255,0.03); border: 1px solid var(--borda); color: var(--cinza-claro); }
-        .state-item:hover { transform: scale(1.1); z-index: 10; }
-
-        .ranking-item { display: flex; align-items: center; padding: 10px 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--borda); border-radius: 10px; margin-bottom: 6px; transition: all 0.3s; cursor: pointer; }
-        .ranking-item:hover { background: rgba(74,144,226,0.05); border-color: var(--azul); transform: translateX(4px); }
-        .ranking-pos { font-size: 16px; font-weight: 800; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 10px; }
-        .pos-1 { background: var(--amarelo); color: #1A1F2E; }
-        .pos-2 { background: #8899A6; color: #1A1F2E; }
-        .pos-3 { background: #8D6E63; color: var(--branco); }
-        .pos-4 { background: rgba(255,255,255,0.06); color: var(--cinza-claro); }
-        .ranking-info { flex: 1; }
-        .ranking-name { font-weight: 700; font-size: 13px; }
-        .ranking-detail { font-size: 10px; color: var(--cinza); }
-        .ranking-value { text-align: right; font-weight: 700; font-size: 13px; color: var(--verde); }
-
-        .balance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
-        .balance-item { background: rgba(255,255,255,0.03); border: 1px solid var(--borda); border-radius: 10px; padding: 14px; text-align: center; }
-        .balance-item .b-value { font-size: 22px; font-weight: 800; }
-        .balance-item .b-label { font-size: 9px; color: var(--cinza); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-        .balance-item .b-sub { font-size: 10px; margin-top: 2px; }
-        .progress-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 8px; overflow: hidden; }
-        .progress-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
-
-        .table-section { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
-        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .filter-select { background: var(--bg-dark); border: 1px solid var(--borda); color: var(--cinza-claro); padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; }
-        .table-wrapper { overflow-x: auto; border-radius: 10px; }
-        table { width: 100%; border-collapse: collapse; min-width: 1400px; }
-        th { background: rgba(74,144,226,0.1); color: var(--azul-claro); padding: 10px 8px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; border-bottom: 1px solid var(--borda); white-space: nowrap; }
-        td { padding: 8px; border-bottom: 1px solid var(--borda); font-size: 11px; color: var(--cinza-claro); white-space: nowrap; }
-        tr:hover td { background: rgba(74,144,226,0.03); }
-        .badge { padding: 4px 8px; border-radius: 12px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
-        .badge-success { background: rgba(46,204,113,0.15); color: var(--verde); }
-        .badge-warning { background: rgba(244,208,63,0.15); color: var(--amarelo); }
-        .btn-sm { padding: 4px 8px; font-size: 9px; border-radius: 5px; border: none; cursor: pointer; font-weight: 600; }
-        .btn-edit { background: rgba(244,208,63,0.2); color: var(--amarelo); }
-        .btn-del { background: rgba(231,76,60,0.2); color: var(--vermelho); }
-
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .modal-overlay.active { display: flex; }
-        .modal { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 24px; max-width: 600px; width: 94%; max-height: 90vh; overflow-y: auto; }
-        .modal h3 { font-size: 18px; margin-bottom: 16px; }
-        .form-input, .form-select { width: 100%; padding: 10px 12px; background: var(--bg-dark); border: 1px solid var(--borda); border-radius: 8px; color: var(--branco); font-size: 12px; margin-bottom: 8px; }
-        .form-input:focus, .form-select:focus { outline: none; border-color: var(--azul); }
-        .form-input.estado-detectado { border-color: var(--verde) !important; background: rgba(46,204,113,0.08) !important; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .form-label { font-size: 10px; color: var(--cinza-claro); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; display: block; }
-        .ddd-info { font-size: 10px; color: var(--verde); margin-top: -4px; margin-bottom: 6px; display: none; font-weight: 600; }
-        .ddd-info.show { display: block; }
-        .saldo-restante { font-size: 11px; color: var(--laranja); margin-top: -4px; margin-bottom: 6px; font-weight: 600; }
-        .modal-actions { display: flex; gap: 8px; margin-top: 12px; }
-        .footer { text-align: center; padding: 16px; color: var(--cinza); font-size: 11px; border-top: 1px solid var(--borda); margin-top: 20px; }
-
-        @media (max-width: 1400px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } .dashboard-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 900px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } .balance-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .metrics-grid { grid-template-columns: 1fr; } .header { flex-direction: column; text-align: center; } }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg-dark);color:var(--branco);min-height:100vh;line-height:1.5}
+        .top-bar{background:var(--bg-header);border-bottom:1px solid var(--borda);padding:14px 30px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
+        .top-bar .logo-area{display:flex;align-items:center;gap:12px}
+        .top-bar .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--azul),var(--azul-claro));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+        .top-bar .company-name{font-weight:700;font-size:15px}
+        .top-bar .company-sub{font-size:11px;color:var(--cinza)}
+        .top-bar .quick-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+        .top-bar .quick-link{background:rgba(255,255,255,0.05);border:1px solid var(--borda);color:var(--cinza-claro);padding:8px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;transition:all 0.3s;cursor:pointer}
+        .top-bar .quick-link:hover{background:rgba(74,144,226,0.15);border-color:var(--azul);color:var(--azul-claro)}
+        .sync-status{font-size:10px;padding:4px 10px;border-radius:12px;font-weight:600}
+        .sync-on{background:rgba(46,204,113,0.2);color:var(--verde)}
+        .sync-off{background:rgba(231,76,60,0.2);color:var(--vermelho)}
+        .sync-loading{background:rgba(243,156,18,0.2);color:var(--laranja);animation:pulse 1s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+        .container{max-width:1600px;margin:0 auto;padding:20px}
+        .header{background:linear-gradient(135deg,#1A2535,#1E2A40,#1A2535);border:1px solid var(--borda);border-radius:var(--radius);padding:24px 30px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+        .header h1{font-size:26px;font-weight:800;background:linear-gradient(135deg,var(--branco),var(--azul-claro));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header .subtitle{color:var(--cinza);font-size:12px}
+        .date-display{text-align:right}
+        .date-display .day-number{font-size:44px;font-weight:900;line-height:1;background:linear-gradient(135deg,var(--amarelo),var(--amarelo-claro));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .date-display .month-text{font-size:13px;color:var(--cinza-claro)}
+        .btn{padding:10px 20px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:12px;letter-spacing:0.3px;transition:all 0.3s;text-transform:uppercase}
+        .btn-gold{background:linear-gradient(135deg,var(--amarelo),#F1C40F);color:#1A1F2E}
+        .btn-outline{background:transparent;border:2px solid var(--borda);color:var(--cinza-claro)}
+        .btn-azul{background:var(--azul);color:var(--branco)}
+        .btn-sync{background:var(--verde);color:var(--branco);font-size:11px;padding:8px 14px}
+        .btn-import{background:var(--roxo);color:var(--branco);font-size:11px;padding:8px 14px}
+        .btn-import:hover,.btn-sync:hover{transform:translateY(-2px);opacity:0.9}
+        .metrics-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
+        .metric-card{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:18px;transition:all 0.3s;position:relative;overflow:hidden;cursor:pointer}
+        .metric-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+        .metric-card:nth-child(1)::before{background:var(--azul)}
+        .metric-card:nth-child(2)::before{background:var(--amarelo)}
+        .metric-card:nth-child(3)::before{background:var(--verde)}
+        .metric-card:nth-child(4)::before{background:var(--laranja)}
+        .metric-card:nth-child(5)::before{background:var(--roxo)}
+        .metric-card:nth-child(6)::before{background:var(--vermelho)}
+        .metric-card:hover{border-color:var(--azul);transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.4)}
+        .metric-icon{font-size:24px;margin-bottom:8px}
+        .metric-value{font-size:26px;font-weight:800}
+        .metric-label{font-size:9px;color:var(--cinza);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-top:4px}
+        .dashboard-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+        .panel{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:20px}
+        .panel-full{grid-column:1/-1}
+        .panel-title{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .states-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
+        .state-item{padding:10px 6px;border-radius:8px;text-align:center;cursor:pointer;transition:all 0.3s;font-weight:600;font-size:12px}
+        .state-item.high{background:rgba(74,144,226,0.3);border:1px solid rgba(74,144,226,0.5);color:var(--azul-claro)}
+        .state-item.medium{background:rgba(244,208,63,0.2);border:1px solid rgba(244,208,63,0.4);color:var(--amarelo-claro)}
+        .state-item.low{background:rgba(255,255,255,0.03);border:1px solid var(--borda);color:var(--cinza-claro)}
+        .state-item:hover{transform:scale(1.1);z-index:10}
+        .ranking-item{display:flex;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--borda);border-radius:10px;margin-bottom:6px;transition:all 0.3s;cursor:pointer}
+        .ranking-item:hover{background:rgba(74,144,226,0.05);border-color:var(--azul);transform:translateX(4px)}
+        .ranking-pos{font-size:16px;font-weight:800;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:10px}
+        .pos-1{background:var(--amarelo);color:#1A1F2E}.pos-2{background:#8899A6;color:#1A1F2E}.pos-3{background:#8D6E63;color:var(--branco)}.pos-4{background:rgba(255,255,255,0.06);color:var(--cinza-claro)}
+        .ranking-info{flex:1}.ranking-name{font-weight:700;font-size:13px}.ranking-detail{font-size:10px;color:var(--cinza)}.ranking-value{text-align:right;font-weight:700;font-size:13px;color:var(--verde)}
+        .balance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+        .balance-item{background:rgba(255,255,255,0.03);border:1px solid var(--borda);border-radius:10px;padding:14px;text-align:center}
+        .balance-item .b-value{font-size:22px;font-weight:800}
+        .balance-item .b-label{font-size:9px;color:var(--cinza);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+        .balance-item .b-sub{font-size:10px;margin-top:2px}
+        .progress-bar{height:6px;background:rgba(255,255,255,0.05);border-radius:10px;margin-top:8px;overflow:hidden}
+        .progress-fill{height:100%;border-radius:10px;transition:width 1s ease}
+        .table-section{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+        .table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+        .filter-select{background:var(--bg-dark);border:1px solid var(--borda);color:var(--cinza-claro);padding:8px 12px;border-radius:8px;font-size:12px;cursor:pointer}
+        .table-wrapper{overflow-x:auto;border-radius:10px}
+        table{width:100%;border-collapse:collapse;min-width:1400px}
+        th{background:rgba(74,144,226,0.1);color:var(--azul-claro);padding:10px 8px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--borda);white-space:nowrap}
+        td{padding:8px;border-bottom:1px solid var(--borda);font-size:11px;color:var(--cinza-claro);white-space:nowrap}
+        tr:hover td{background:rgba(74,144,226,0.03)}
+        .badge{padding:4px 8px;border-radius:12px;font-size:9px;font-weight:700;text-transform:uppercase}
+        .badge-success{background:rgba(46,204,113,0.15);color:var(--verde)}
+        .badge-warning{background:rgba(244,208,63,0.15);color:var(--amarelo)}
+        .badge-error{background:rgba(231,76,60,0.15);color:var(--vermelho)}
+        .btn-sm{padding:4px 8px;font-size:9px;border-radius:5px;border:none;cursor:pointer;font-weight:600}
+        .btn-edit{background:rgba(244,208,63,0.2);color:var(--amarelo)}
+        .btn-del{background:rgba(231,76,60,0.2);color:var(--vermelho)}
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+        .modal-overlay.active{display:flex}
+        .modal{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:24px;max-width:700px;width:94%;max-height:90vh;overflow-y:auto}
+        .modal h3{font-size:18px;margin-bottom:16px}
+        .modal-large{max-width:900px}
+        .form-input,.form-select{width:100%;padding:10px 12px;background:var(--bg-dark);border:1px solid var(--borda);border-radius:8px;color:var(--branco);font-size:12px;margin-bottom:8px}
+        .form-input:focus,.form-select:focus{outline:none;border-color:var(--azul)}
+        .form-input.estado-detectado{border-color:var(--verde)!important;background:rgba(46,204,113,0.08)!important}
+        .form-input.error{border-color:var(--vermelho)!important;background:rgba(231,76,60,0.08)!important}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+        .form-label{font-size:10px;color:var(--cinza-claro);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;display:block}
+        .ddd-info{font-size:10px;color:var(--verde);margin-top:-4px;margin-bottom:6px;display:none;font-weight:600}
+        .ddd-info.show{display:block}
+        .saldo-restante{font-size:11px;color:var(--laranja);margin-top:-4px;margin-bottom:6px;font-weight:600}
+        .modal-actions{display:flex;gap:8px;margin-top:12px}
+        .import-preview{max-height:300px;overflow-y:auto;margin:12px 0;border:1px solid var(--borda);border-radius:8px}
+        .import-preview table{min-width:100%}
+        .import-preview td{font-size:10px;padding:6px 8px}
+        .validation-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+        .validation-item{padding:12px;border-radius:8px;text-align:center;font-size:12px;font-weight:600}
+        .validation-ok{background:rgba(46,204,113,0.1);border:1px solid var(--verde);color:var(--verde)}
+        .validation-warn{background:rgba(243,156,18,0.1);border:1px solid var(--laranja);color:var(--laranja)}
+        .validation-error{background:rgba(231,76,60,0.1);border:1px solid var(--vermelho);color:var(--vermelho)}
+        .footer{text-align:center;padding:16px;color:var(--cinza);font-size:11px;border-top:1px solid var(--borda);margin-top:20px}
+        @media(max-width:1400px){.metrics-grid{grid-template-columns:repeat(3,1fr)}.dashboard-grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:900px){.metrics-grid{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr}.balance-grid{grid-template-columns:repeat(2,1fr)}.validation-summary{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:600px){.metrics-grid{grid-template-columns:1fr}.header{flex-direction:column;text-align:center}.top-bar .quick-links{width:100%;justify-content:center}}
     </style>
 </head>
 <body>
@@ -136,6 +127,7 @@
         <div class="quick-links">
             <span class="sync-status sync-on" id="syncStatus">🟢 Google Sheets Conectado</span>
             <span class="quick-link" onclick="sincronizarSheets()">🔄 Sincronizar</span>
+            <span class="quick-link" onclick="abrirImportacao()">📥 Importar Planilha</span>
             <span class="quick-link" onclick="exportData()">💾 Backup</span>
         </div>
     </div>
@@ -144,74 +136,43 @@
         <div class="header">
             <div><h1>📊 Dashboard de Balanceamento</h1><p class="subtitle">Análise completa de desempenho empresarial</p></div>
             <div class="date-display"><div class="day-number" id="currentDay">08</div><div class="month-text" id="currentMonth">Maio 2026</div></div>
-            <div style="display:flex;gap:8px;">
-                <button class="btn btn-sync" id="btnSync" onclick="sincronizarSheets()">🔄 Sincronizar Google Sheets</button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-sync" id="btnSync" onclick="sincronizarSheets()">🔄 Sincronizar</button>
+                <button class="btn btn-import" onclick="abrirImportacao()">📥 Importar Planilha</button>
                 <button class="btn btn-gold" onclick="openModal()">➕ Novo Cliente</button>
             </div>
         </div>
 
-        <!-- 6 MÉTRICAS PRINCIPAIS -->
         <div class="metrics-grid">
             <div class="metric-card"><div class="metric-icon">💼</div><div class="metric-value" id="mTotal">0</div><div class="metric-label">Total Clientes</div></div>
-            <div class="metric-card"><div class="metric-icon">✅</div><div class="metric-value" id="mFechados">0</div><div class="metric-label">Fechados</div><div class="metric-change change-up" id="mTaxaConversao">Taxa: 0%</div></div>
-            <div class="metric-card"><div class="metric-icon">💰</div><div class="metric-value" id="mValorTotal">R$ 0</div><div class="metric-label">Valor Total Contratos</div></div>
-            <div class="metric-card"><div class="metric-icon">💵</div><div class="metric-value" id="mEntradas">R$ 0</div><div class="metric-label">Total Entradas</div></div>
+            <div class="metric-card"><div class="metric-icon">✅</div><div class="metric-value" id="mFechados">0</div><div class="metric-label">Fechados</div></div>
+            <div class="metric-card"><div class="metric-icon">💰</div><div class="metric-value" id="mValorTotal">R$ 0</div><div class="metric-label">Valor Total</div></div>
+            <div class="metric-card"><div class="metric-icon">💵</div><div class="metric-value" id="mEntradas">R$ 0</div><div class="metric-label">Entradas</div></div>
             <div class="metric-card"><div class="metric-icon">📊</div><div class="metric-value" id="mTicketMedio">R$ 0</div><div class="metric-label">Ticket Médio</div></div>
-            <div class="metric-card"><div class="metric-icon">🎯</div><div class="metric-value" id="mPrevisao">R$ 0</div><div class="metric-label">Faturamento Previsto</div></div>
+            <div class="metric-card"><div class="metric-icon">🎯</div><div class="metric-value" id="mPrevisao">R$ 0</div><div class="metric-label">Previsto</div></div>
         </div>
 
-        <!-- BALANCEAMENTO EMPRESARIAL -->
         <div class="panel panel-full" style="margin-bottom:20px;">
             <div class="panel-title">📈 Balanceamento do Desenvolvimento da Empresa</div>
             <div class="balance-grid">
-                <div class="balance-item">
-                    <div class="b-value" id="bTaxaConversao" style="color:var(--verde);">0%</div>
-                    <div class="b-label">Taxa de Conversão</div>
-                    <div class="b-sub" style="color:var(--cinza);">Fechados / Total</div>
-                    <div class="progress-bar"><div class="progress-fill" id="pConversao" style="width:0%;background:var(--verde);"></div></div>
-                </div>
-                <div class="balance-item">
-                    <div class="b-value" id="bPercentualEntrada" style="color:var(--azul-claro);">0%</div>
-                    <div class="b-label">% de Entrada</div>
-                    <div class="b-sub" style="color:var(--cinza);">Entrada / Valor Total</div>
-                    <div class="progress-bar"><div class="progress-fill" id="pEntrada" style="width:0%;background:var(--azul);"></div></div>
-                </div>
-                <div class="balance-item">
-                    <div class="b-value" id="bSaldoReceber" style="color:var(--laranja);">R$ 0</div>
-                    <div class="b-label">Saldo a Receber</div>
-                    <div class="b-sub" style="color:var(--cinza);">Total - Entradas</div>
-                    <div class="progress-bar"><div class="progress-fill" id="pSaldo" style="width:0%;background:var(--laranja);"></div></div>
-                </div>
-                <div class="balance-item">
-                    <div class="b-value" id="bMelhorVendedora" style="color:var(--amarelo);">-</div>
-                    <div class="b-label">Melhor Vendedora</div>
-                    <div class="b-sub" style="color:var(--cinza);" id="bMelhorValor">-</div>
-                </div>
+                <div class="balance-item"><div class="b-value" id="bTaxaConversao" style="color:var(--verde);">0%</div><div class="b-label">Taxa de Conversão</div><div class="progress-bar"><div class="progress-fill" id="pConversao" style="width:0%;background:var(--verde);"></div></div></div>
+                <div class="balance-item"><div class="b-value" id="bPercentualEntrada" style="color:var(--azul-claro);">0%</div><div class="b-label">% de Entrada</div><div class="progress-bar"><div class="progress-fill" id="pEntrada" style="width:0%;background:var(--azul);"></div></div></div>
+                <div class="balance-item"><div class="b-value" id="bSaldoReceber" style="color:var(--laranja);">R$ 0</div><div class="b-label">Saldo a Receber</div></div>
+                <div class="balance-item"><div class="b-value" id="bMelhorVendedora" style="color:var(--amarelo);">-</div><div class="b-label">Melhor Vendedora</div><div class="b-sub" id="bMelhorValor">-</div></div>
             </div>
         </div>
 
-        <!-- GRID PRINCIPAL -->
         <div class="dashboard-grid">
-            <div class="panel">
-                <div class="panel-title">🗺️ Clientes por Estado</div>
-                <div class="states-grid" id="statesGrid"></div>
-            </div>
-            <div class="panel">
-                <div class="panel-title">👑 Ranking Vendedoras</div>
-                <div id="rankingList"></div>
-            </div>
-            <div class="panel">
-                <div class="panel-title">🏆 Performance Detalhada</div>
-                <div id="performanceDetalhada"></div>
-            </div>
+            <div class="panel"><div class="panel-title">🗺️ Estados</div><div class="states-grid" id="statesGrid"></div></div>
+            <div class="panel"><div class="panel-title">👑 Ranking</div><div id="rankingList"></div></div>
+            <div class="panel"><div class="panel-title">🏆 Performance</div><div id="performanceDetalhada"></div></div>
         </div>
 
-        <!-- TABELA -->
         <div class="table-section">
             <div class="table-header">
                 <div class="panel-title">📋 Base de Clientes</div>
-                <div style="display:flex;gap:8px;">
-                    <select class="filter-select" id="filterVendedora" onchange="renderTable()"><option value="all">Todas</option><option value="Patricia">Patricia</option><option value="Julya">Julya</option><option value="Nataly">Nataly</option><option value="Evellyn">Evellyn</option></select>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <select class="filter-select" id="filterVendedora" onchange="renderTable()"><option value="all">Todas</option><option>Patricia</option><option>Julya</option><option>Nataly</option><option>Evellyn</option></select>
                     <select class="filter-select" id="filterStatus" onchange="renderTable()"><option value="all">Todos</option><option value="closed">Fechados</option><option value="pending">Pendentes</option></select>
                     <input type="text" class="filter-select" id="filterSearch" placeholder="🔍 Buscar..." oninput="renderTable()" style="width:150px;">
                 </div>
@@ -226,7 +187,7 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL CADASTRO -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h3>➕ Cadastrar Cliente</h3>
@@ -254,80 +215,393 @@
                 </div>
                 <div class="saldo-restante" id="saldoRestante">💰 Saldo Restante: R$ 0,00</div>
                 <div class="form-row"><div><label class="form-label">Status</label><select class="form-select" id="formStatus" required><option value="pending">⏳ Pendente</option><option value="closed">✅ Fechado</option></select></div></div>
-                <div class="modal-actions">
-                    <button type="submit" class="btn btn-azul" style="flex:1;">💾 Salvar</button>
-                    <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeModal()">Cancelar</button>
-                </div>
+                <div class="modal-actions"><button type="submit" class="btn btn-azul" style="flex:1;">💾 Salvar</button><button type="button" class="btn btn-outline" style="flex:1;" onclick="closeModal()">Cancelar</button></div>
             </form>
         </div>
     </div>
 
-    <div class="footer">
-        © 2026 Gestão de Marcas e Patentes • BI Executivo • Google Sheets Conectado
+    <!-- MODAL IMPORTAÇÃO -->
+    <div class="modal-overlay" id="importModal">
+        <div class="modal modal-large">
+            <h3>📥 Importar Planilha (Excel/CSV)</h3>
+            <p style="font-size:12px;color:var(--cinza);margin-bottom:12px;">Cole os dados da planilha (copie e cole do Excel) ou faça upload de arquivo CSV</p>
+            
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <input type="file" id="fileUpload" accept=".csv,.txt" onchange="handleFileUpload(event)" style="display:none;">
+                <button class="btn btn-outline" onclick="document.getElementById('fileUpload').click()" style="flex:1;">📁 Selecionar Arquivo</button>
+                <button class="btn btn-outline" onclick="limparImportacao()" style="flex:1;">🗑️ Limpar</button>
+            </div>
+            
+            <label class="form-label">Ou cole os dados aqui (separado por TAB ou vírgula)</label>
+            <textarea class="form-input" id="importData" rows="6" placeholder="Cole aqui os dados da planilha...&#10;Exemplo:&#10;Nome	Email	Telefone	CPF	CNPJ	Marca	Vendedora	Estado	Valor Total	Entrada	Data	Status" oninput="previewImportacao()"></textarea>
+            
+            <div id="validationSummary" class="validation-summary"></div>
+            
+            <div class="import-preview" id="importPreview"></div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-azul" onclick="executarImportacao()" style="flex:1;">✅ Importar Dados Validados</button>
+                <button class="btn btn-outline" onclick="closeImportModal()" style="flex:1;">Cancelar</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // ========== GOOGLE SHEETS CONFIGURADO ==========
-        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxhXD_J_YXwVt2cSd-BQbnVFmGgmVNOHahOeZaafHvw0NodLWTiEOzfy2S7LrLhoM7e/exec';
-        // ========== DADOS ==========
-        const dddEstados = {'11':'SP','12':'SP','13':'SP','14':'SP','15':'SP','16':'SP','17':'SP','18':'SP','19':'SP','21':'RJ','22':'RJ','24':'RJ','31':'MG','32':'MG','33':'MG','34':'MG','35':'MG','37':'MG','38':'MG','51':'RS','53':'RS','54':'RS','55':'RS','41':'PR','42':'PR','43':'PR','44':'PR','45':'PR','46':'PR','47':'SC','48':'SC','49':'SC','71':'BA','73':'BA','74':'BA','75':'BA','77':'BA','81':'PE','87':'PE','85':'CE','88':'CE','61':'DF','62':'GO','64':'GO','27':'ES','28':'ES','92':'AM','97':'AM','91':'PA','93':'PA','94':'PA','65':'MT','66':'MT','67':'MS','82':'AL','79':'SE','83':'PB','84':'RN','86':'PI','98':'MA','95':'RR','96':'AP','63':'TO','68':'AC','69':'RO'};
-        const estadosNomes = {'SP':'São Paulo','RJ':'Rio de Janeiro','MG':'Minas Gerais','RS':'Rio Grande do Sul','PR':'Paraná','SC':'Santa Catarina','BA':'Bahia','PE':'Pernambuco','CE':'Ceará','DF':'Distrito Federal'};
-        let clientes = [];
-        const vendedorasNomes = ['Patricia', 'Julya', 'Nataly', 'Evellyn'];
+    <div class="footer">© 2026 Gestão de Marcas e Patentes • BI Executivo • Google Sheets Conectado</div>
 
-        // ========== GOOGLE SHEETS - SINCRONIZAÇÃO ==========
+    <script>
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxhXD_J_YXwVt2cSd-BQbnVFmGgmVNOHahOeZaafHvw0NodLWTiEOzfy2S7LrLhoM7e/exec';
+        const dddEstados = {'11':'SP','12':'SP','13':'SP','14':'SP','15':'SP','16':'SP','17':'SP','18':'SP','19':'SP','21':'RJ','22':'RJ','24':'RJ','31':'MG','32':'MG','33':'MG','34':'MG','35':'MG','37':'MG','38':'MG','51':'RS','53':'RS','54':'RS','55':'RS','41':'PR','42':'PR','43':'PR','44':'PR','45':'PR','46':'PR','47':'SC','48':'SC','49':'SC','71':'BA','73':'BA','74':'BA','75':'BA','77':'BA','81':'PE','87':'PE','85':'CE','88':'CE','61':'DF','62':'GO','64':'GO','27':'ES','28':'ES','92':'AM','97':'AM','91':'PA','93':'PA','94':'PA','65':'MT','66':'MT','67':'MS','82':'AL','79':'SE','83':'PB','84':'RN','86':'PI','98':'MA','95':'RR','96':'AP','63':'TO','68':'AC','69':'RO'};
+        const estadosValidos = ['SP','RJ','MG','RS','PR','SC','BA','PE','CE','DF','GO','ES','AM','PA','MT','MS','AL','SE','PB','RN','PI','MA','RR','AP','TO','AC','RO'];
+        const vendedorasValidas = ['Patricia','Julya','Nataly','Evellyn'];
+        const statusValidos = ['closed','pending','fechado','pendente','Fechado','Pendente','✅ Fechado','⏳ Pendente'];
+        let clientes = [];
+        let dadosImportados = [];
+        let errosValidacao = [];
+
+        // ========== GOOGLE SHEETS ==========
         async function sincronizarSheets() {
             const statusEl = document.getElementById('syncStatus');
             const btn = document.getElementById('btnSync');
-            
             statusEl.textContent = '⏳ Sincronizando...';
             statusEl.className = 'sync-status sync-loading';
-            btn.textContent = '⏳ Sincronizando...';
             btn.disabled = true;
-
             try {
                 const response = await fetch(GOOGLE_SHEETS_URL + '?t=' + Date.now());
                 const dadosSheets = await response.json();
-                
                 if (dadosSheets && dadosSheets.length > 0) {
                     clientes = dadosSheets;
                     localStorage.setItem('clientes', JSON.stringify(clientes));
-                    statusEl.textContent = '🟢 Sincronizado ' + new Date().toLocaleTimeString();
-                    statusEl.className = 'sync-status sync-on';
-                    console.log('✅ ' + clientes.length + ' clientes carregados do Google Sheets');
+                    statusEl.textContent = '🟢 ' + clientes.length + ' clientes carregados';
                 } else {
-                    // Se não tem dados no Sheets, usa os locais
                     clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-                    statusEl.textContent = '🟢 Conectado (planilha vazia)';
-                    statusEl.className = 'sync-status sync-on';
+                    statusEl.textContent = '🟢 Conectado';
                 }
+                statusEl.className = 'sync-status sync-on';
             } catch(e) {
-                console.log('Erro ao carregar do Sheets, usando dados locais:', e);
                 clientes = JSON.parse(localStorage.getItem('clientes')) || [];
                 statusEl.textContent = '⚠️ Offline - Dados locais';
                 statusEl.className = 'sync-status sync-loading';
             }
-            
-            btn.textContent = '🔄 Sincronizar Google Sheets';
             btn.disabled = false;
             renderAll();
         }
 
         async function enviarParaSheets(cliente) {
             try {
-                await fetch(GOOGLE_SHEETS_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(cliente)
+                await fetch(GOOGLE_SHEETS_URL, { method: 'POST', body: JSON.stringify(cliente) });
+            } catch(e) { console.log('Sheets offline, salvo localmente'); }
+        }
+
+        // ========== IMPORTAÇÃO DE PLANILHA ==========
+        function abrirImportacao() {
+            document.getElementById('importModal').classList.add('active');
+            document.getElementById('importData').value = '';
+            document.getElementById('importPreview').innerHTML = '';
+            document.getElementById('validationSummary').innerHTML = '';
+            dadosImportados = [];
+            errosValidacao = [];
+        }
+
+        function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
+        function limparImportacao() {
+            document.getElementById('importData').value = '';
+            document.getElementById('importPreview').innerHTML = '';
+            document.getElementById('validationSummary').innerHTML = '';
+            dadosImportados = [];
+            errosValidacao = [];
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('importData').value = e.target.result;
+                previewImportacao();
+            };
+            reader.readAsText(file);
+        }
+
+        function validarLinha(dados, linha) {
+            const erros = [];
+            
+            // Nome - obrigatório
+            if (!dados.nome || dados.nome.trim() === '') {
+                erros.push('Nome é obrigatório');
+            }
+            
+            // Email - validação básica
+            if (dados.email && !dados.email.includes('@')) {
+                erros.push('Email inválido: ' + dados.email);
+            }
+            
+            // Telefone - extrair DDD e validar
+            if (dados.telefone) {
+                const numeros = dados.telefone.replace(/\D/g, '');
+                if (numeros.length < 10) {
+                    erros.push('Telefone muito curto: ' + dados.telefone);
+                }
+            }
+            
+            // CPF - validação básica
+            if (dados.cpf) {
+                const cpfLimpo = dados.cpf.replace(/\D/g, '');
+                if (cpfLimpo.length > 0 && cpfLimpo.length !== 11) {
+                    erros.push('CPF deve ter 11 dígitos: ' + dados.cpf);
+                }
+            }
+            
+            // CNPJ - validação básica
+            if (dados.cnpj) {
+                const cnpjLimpo = dados.cnpj.replace(/\D/g, '');
+                if (cnpjLimpo.length > 0 && cnpjLimpo.length !== 14) {
+                    erros.push('CNPJ deve ter 14 dígitos: ' + dados.cnpj);
+                }
+            }
+            
+            // CPF ou CNPJ - pelo menos um
+            if (!dados.cpf && !dados.cnpj) {
+                erros.push('CPF ou CNPJ é obrigatório');
+            }
+            
+            // Marca - obrigatório
+            if (!dados.marca || dados.marca.trim() === '') {
+                erros.push('Marca/Patente é obrigatória');
+            }
+            
+            // Vendedora - validar nome
+            if (dados.vendedora) {
+                const vendedoraEncontrada = vendedorasValidas.find(v => 
+                    v.toLowerCase() === dados.vendedora.toLowerCase().trim()
+                );
+                if (!vendedoraEncontrada) {
+                    erros.push('Vendedora inválida: ' + dados.vendedora + ' (válidas: ' + vendedorasValidas.join(', ') + ')');
+                } else {
+                    dados.vendedora = vendedoraEncontrada; // Corrige capitalização
+                }
+            } else {
+                erros.push('Vendedora é obrigatória');
+            }
+            
+            // Estado - validar UF
+            if (dados.estado) {
+                const uf = dados.estado.toUpperCase().trim();
+                if (!estadosValidos.includes(uf)) {
+                    erros.push('Estado inválido: ' + dados.estado);
+                } else {
+                    dados.estado = uf; // Corrige para maiúsculo
+                }
+            }
+            
+            // Valor Total - validar número
+            if (dados.valorTotal !== undefined && dados.valorTotal !== '') {
+                const valor = parseFloat(String(dados.valorTotal).replace(',', '.'));
+                if (isNaN(valor) || valor < 0) {
+                    erros.push('Valor Total inválido: ' + dados.valorTotal);
+                } else {
+                    dados.valorTotal = valor;
+                }
+            } else {
+                erros.push('Valor Total é obrigatório');
+            }
+            
+            // Entrada - validar número
+            if (dados.valorEntrada !== undefined && dados.valorEntrada !== '') {
+                const entrada = parseFloat(String(dados.valorEntrada).replace(',', '.'));
+                if (isNaN(entrada) || entrada < 0) {
+                    erros.push('Valor de Entrada inválido: ' + dados.valorEntrada);
+                } else {
+                    dados.valorEntrada = entrada;
+                }
+            } else {
+                dados.valorEntrada = 0;
+            }
+            
+            // Entrada não pode ser maior que o valor total
+            if (dados.valorEntrada > dados.valorTotal) {
+                erros.push('Entrada (R$ ' + dados.valorEntrada + ') maior que Valor Total (R$ ' + dados.valorTotal + ')');
+            }
+            
+            // Status - normalizar
+            if (dados.status) {
+                const s = dados.status.toLowerCase().trim();
+                if (['closed','fechado','✅ fechado'].includes(s)) {
+                    dados.status = 'closed';
+                } else if (['pending','pendente','⏳ pendente'].includes(s)) {
+                    dados.status = 'pending';
+                } else {
+                    erros.push('Status inválido: ' + dados.status + ' (use: Fechado ou Pendente)');
+                }
+            } else {
+                dados.status = 'pending';
+            }
+            
+            // Data - validar formato
+            if (dados.data) {
+                const dataStr = String(dados.data);
+                // Aceita vários formatos: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY
+                let dataObj = null;
+                if (dataStr.includes('/')) {
+                    const partes = dataStr.split('/');
+                    if (partes.length === 3) dataObj = new Date(partes[2], partes[1]-1, partes[0]);
+                } else if (dataStr.includes('-')) {
+                    const partes = dataStr.split('-');
+                    if (partes.length === 3) {
+                        if (partes[0].length === 4) dataObj = new Date(partes[0], partes[1]-1, partes[2]);
+                        else dataObj = new Date(partes[2], partes[1]-1, partes[0]);
+                    }
+                }
+                if (dataObj && !isNaN(dataObj.getTime())) {
+                    dados.data = dataObj.toISOString().split('T')[0];
+                } else {
+                    erros.push('Data inválida: ' + dados.data + ' (use DD/MM/AAAA ou AAAA-MM-DD)');
+                }
+            }
+            
+            return erros;
+        }
+
+        function previewImportacao() {
+            const rawData = document.getElementById('importData').value.trim();
+            if (!rawData) {
+                document.getElementById('importPreview').innerHTML = '';
+                document.getElementById('validationSummary').innerHTML = '';
+                dadosImportados = [];
+                return;
+            }
+            
+            const linhas = rawData.split('\n').filter(l => l.trim() !== '');
+            dadosImportados = [];
+            errosValidacao = [];
+            
+            // Detectar separador (TAB ou vírgula)
+            const separador = linhas[0].includes('\t') ? '\t' : ',';
+            
+            // Pular cabeçalho se detectar
+            const primeiraLinha = linhas[0].toLowerCase();
+            const pularCabecalho = primeiraLinha.includes('nome') || primeiraLinha.includes('cliente') || primeiraLinha.includes('email');
+            const inicio = pularCabecalho ? 1 : 0;
+            
+            let totalLinhas = 0;
+            let linhasOK = 0;
+            let linhasErro = 0;
+            let linhasAviso = 0;
+            
+            for (let i = inicio; i < linhas.length; i++) {
+                const colunas = linhas[i].split(separador);
+                if (colunas.length < 3) continue; // Pula linhas vazias
+                
+                totalLinhas++;
+                const dados = {
+                    nome: (colunas[0] || '').trim(),
+                    email: (colunas[1] || '').trim(),
+                    telefone: (colunas[2] || '').trim(),
+                    cpf: (colunas[3] || '').trim(),
+                    cnpj: (colunas[4] || '').trim(),
+                    marca: (colunas[5] || '').trim(),
+                    vendedora: (colunas[6] || '').trim(),
+                    estado: (colunas[7] || '').trim(),
+                    valorTotal: (colunas[8] || '').trim(),
+                    valorEntrada: (colunas[9] || '').trim(),
+                    data: (colunas[10] || '').trim(),
+                    status: (colunas[11] || 'pending').trim()
+                };
+                
+                const erros = validarLinha(dados, i + 1);
+                
+                if (erros.length === 0) {
+                    linhasOK++;
+                    dados._status = 'ok';
+                } else if (erros.length <= 2 && !erros.some(e => e.includes('obrigatório'))) {
+                    linhasAviso++;
+                    dados._status = 'warn';
+                } else {
+                    linhasErro++;
+                    dados._status = 'error';
+                }
+                
+                dados._erros = erros;
+                dadosImportados.push(dados);
+            }
+            
+            // Resumo da validação
+            document.getElementById('validationSummary').innerHTML = `
+                <div class="validation-item validation-ok">✅ ${linhasOK} Linhas OK</div>
+                <div class="validation-item validation-warn">⚠️ ${linhasAviso} Avisos</div>
+                <div class="validation-item validation-error">❌ ${linhasErro} Erros</div>
+                <div class="validation-item" style="background:rgba(74,144,226,0.1);border:1px solid var(--azul);color:var(--azul-claro);">📊 ${totalLinhas} Total</div>
+            `;
+            
+            // Preview
+            if (dadosImportados.length > 0) {
+                let html = '<table><thead><tr><th>Status</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Marca</th><th>Vendedora</th><th>Estado</th><th>Valor Total</th><th>Entrada</th><th>Problemas</th></tr></thead><tbody>';
+                dadosImportados.forEach(d => {
+                    const cor = d._status === 'ok' ? 'var(--verde)' : d._status === 'warn' ? 'var(--laranja)' : 'var(--vermelho)';
+                    const icone = d._status === 'ok' ? '✅' : d._status === 'warn' ? '⚠️' : '❌';
+                    html += `<tr>
+                        <td style="color:${cor}">${icone}</td>
+                        <td>${d.nome||'-'}</td>
+                        <td>${d.email||'-'}</td>
+                        <td>${d.telefone||'-'}</td>
+                        <td>${d.marca||'-'}</td>
+                        <td>${d.vendedora||'-'}</td>
+                        <td>${d.estado||'-'}</td>
+                        <td>${d.valorTotal||0}</td>
+                        <td>${d.valorEntrada||0}</td>
+                        <td style="color:${cor};font-size:9px;">${d._erros.join('; ')||'OK'}</td>
+                    </tr>`;
                 });
-                console.log('✅ Cliente enviado para Google Sheets');
-                document.getElementById('syncStatus').textContent = '🟢 Enviado ' + new Date().toLocaleTimeString();
-            } catch(e) { 
-                console.log('Erro ao enviar para Sheets:', e);
-                document.getElementById('syncStatus').textContent = '⚠️ Salvo localmente';
+                html += '</tbody></table>';
+                document.getElementById('importPreview').innerHTML = html;
             }
         }
 
-        // ========== FUNÇÕES ==========
+        async function executarImportacao() {
+            const dadosOK = dadosImportados.filter(d => d._status === 'ok' || d._status === 'warn');
+            
+            if (dadosOK.length === 0) {
+                alert('⚠️ Nenhum dado válido para importar. Corrija os erros primeiro.');
+                return;
+            }
+            
+            const dadosErro = dadosImportados.filter(d => d._status === 'error');
+            let msg = `Importar ${dadosOK.length} clientes?`;
+            if (dadosErro.length > 0) {
+                msg += `\n\n⚠️ ${dadosErro.length} linhas com erros serão ignoradas.`;
+            }
+            
+            if (!confirm(msg)) return;
+            
+            let importados = 0;
+            for (const d of dadosOK) {
+                const cliente = {
+                    id: Date.now().toString() + '_' + importados,
+                    data: d.data || new Date().toISOString().split('T')[0],
+                    nome: d.nome,
+                    email: d.email || '',
+                    telefone: d.telefone || '',
+                    cpf: d.cpf || '',
+                    cnpj: d.cnpj || '',
+                    marca: d.marca,
+                    vendedora: d.vendedora,
+                    estado: d.estado || '',
+                    valorTotal: parseFloat(d.valorTotal) || 0,
+                    valorEntrada: parseFloat(d.valorEntrada) || 0,
+                    status: d.status || 'pending'
+                };
+                
+                clientes.unshift(cliente);
+                await enviarParaSheets(cliente);
+                importados++;
+            }
+            
+            localStorage.setItem('clientes', JSON.stringify(clientes));
+            closeImportModal();
+            renderAll();
+            alert('✅ ' + importados + ' clientes importados com sucesso!');
+        }
+
+        // ========== FUNÇÕES EXISTENTES ==========
         function detectarEstadoPorDDD() {
             const tel = document.getElementById('formTelefone');
             const estado = document.getElementById('formEstado');
@@ -338,7 +612,7 @@
             if(ddd.length===2 && dddEstados[ddd]){
                 estado.value = dddEstados[ddd];
                 estado.classList.add('estado-detectado'); tel.classList.add('estado-detectado');
-                info.textContent = '✅ DDD '+ddd+' → '+estadosNomes[dddEstados[ddd]]+' ('+dddEstados[ddd]+')';
+                info.textContent = '✅ DDD '+ddd+' → '+dddEstados[ddd];
                 info.classList.add('show'); info.style.color='var(--verde)';
             }else if(ddd.length===2){
                 estado.value=''; info.textContent='⚠️ DDD não reconhecido'; info.classList.add('show'); info.style.color='var(--laranja)';
@@ -356,7 +630,7 @@
 
         function init() {
             updateDate();
-            sincronizarSheets(); // Carrega dados do Google Sheets ao iniciar
+            sincronizarSheets();
             setInterval(updateDate, 60000);
         }
 
@@ -381,7 +655,6 @@
 
             document.getElementById('mTotal').textContent = t;
             document.getElementById('mFechados').textContent = f;
-            document.getElementById('mTaxaConversao').textContent = 'Taxa: ' + tx + '%';
             document.getElementById('mValorTotal').textContent = 'R$ ' + vt.toLocaleString('pt-BR');
             document.getElementById('mEntradas').textContent = 'R$ ' + ve.toLocaleString('pt-BR');
             document.getElementById('mTicketMedio').textContent = 'R$ ' + tm.toLocaleString('pt-BR');
@@ -395,17 +668,13 @@
             const ve = clientes.reduce((s,c) => s + (parseFloat(c.valorEntrada) || 0), 0);
             const tx = t > 0 ? Math.round((f/t)*100) : 0;
             const pe = vt > 0 ? Math.round((ve/vt)*100) : 0;
-            const saldo = vt - ve;
-
             document.getElementById('bTaxaConversao').textContent = tx + '%';
             document.getElementById('pConversao').style.width = tx + '%';
             document.getElementById('bPercentualEntrada').textContent = pe + '%';
             document.getElementById('pEntrada').style.width = pe + '%';
-            document.getElementById('bSaldoReceber').textContent = 'R$ ' + saldo.toLocaleString('pt-BR');
-            document.getElementById('pSaldo').style.width = Math.min(pe, 100) + '%';
-
+            document.getElementById('bSaldoReceber').textContent = 'R$ ' + (vt - ve).toLocaleString('pt-BR');
             let melhor = { nome: '-', valor: 0 };
-            vendedorasNomes.forEach(n => {
+            vendedorasValidas.forEach(n => {
                 const v = clientes.filter(c => c.vendedora === n && c.status === 'closed').reduce((s,c) => s + (parseFloat(c.valorTotal)||0), 0);
                 if (v > melhor.valor) melhor = { nome: n, valor: v };
             });
@@ -428,22 +697,18 @@
             const list = document.getElementById('rankingList');
             if (clientes.length === 0) { list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>'; return; }
             const stats = {};
-            vendedorasNomes.forEach(n => {
+            vendedorasValidas.forEach(n => {
                 const v = clientes.filter(c => c.vendedora === n);
                 stats[n] = { total: v.length, fechados: v.filter(c => c.status==='closed').length, valor: v.reduce((s,c) => s + (parseFloat(c.valorTotal)||0), 0) };
             });
             list.innerHTML = Object.entries(stats).sort(([,a],[,b]) => b.valor-a.valor).map(([n,s],i) => `
-                <div class="ranking-item">
-                    <div class="ranking-pos pos-${i+1}">${['👑','🥈','🥉','⭐'][i]}</div>
-                    <div class="ranking-info"><div class="ranking-name">${n}</div><div class="ranking-detail">${s.total} clientes</div></div>
-                    <div class="ranking-value">R$ ${s.valor.toLocaleString('pt-BR')}</div>
-                </div>`).join('');
+                <div class="ranking-item"><div class="ranking-pos pos-${i+1}">${['👑','🥈','🥉','⭐'][i]}</div><div class="ranking-info"><div class="ranking-name">${n}</div><div class="ranking-detail">${s.total} clientes</div></div><div class="ranking-value">R$ ${s.valor.toLocaleString('pt-BR')}</div></div>`).join('');
         }
 
         function renderPerformance() {
             const div = document.getElementById('performanceDetalhada');
             if (clientes.length === 0) { div.innerHTML = '<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>'; return; }
-            div.innerHTML = vendedorasNomes.map(n => {
+            div.innerHTML = vendedorasValidas.map(n => {
                 const v = clientes.filter(c => c.vendedora === n);
                 const vf = v.filter(c => c.status === 'closed').length;
                 const txV = v.length > 0 ? Math.round((vf/v.length)*100) : 0;
@@ -451,15 +716,9 @@
                 const meta = 50000;
                 const pctMeta = Math.round((valV/meta)*100);
                 return `<div style="margin-bottom:10px;">
-                    <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
-                        <strong>${n}</strong>
-                        <span>${v.length} clientes | ${txV}% fechamento | R$ ${valV.toLocaleString('pt-BR')}</span>
-                    </div>
-                    <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:4px;">
-                        <div style="height:100%;width:${Math.min(pctMeta,100)}%;background:${pctMeta>=100?'var(--verde)':pctMeta>=50?'var(--amarelo)':'var(--laranja)'};border-radius:4px;"></div>
-                    </div>
-                    <div style="font-size:9px;color:var(--cinza);text-align:right;">Meta: ${pctMeta}%</div>
-                </div>`;
+                    <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><strong>${n}</strong><span>${v.length} clientes | ${txV}% | R$ ${valV.toLocaleString('pt-BR')}</span></div>
+                    <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:4px;"><div style="height:100%;width:${Math.min(pctMeta,100)}%;background:${pctMeta>=100?'var(--verde)':pctMeta>=50?'var(--amarelo)':'var(--laranja)'};border-radius:4px;"></div></div>
+                    <div style="font-size:9px;color:var(--cinza);text-align:right;">Meta: ${pctMeta}%</div></div>`;
             }).join('');
         }
 
@@ -497,9 +756,6 @@
             ['formNome','formEmail','formTelefone','formCPF','formCNPJ','formMarca','formVendedora','formEstado','formValorTotal','formValorEntrada'].forEach(id => document.getElementById(id).value='');
             document.getElementById('formStatus').value = 'pending';
             document.getElementById('saldoRestante').textContent = '💰 Saldo Restante: R$ 0,00';
-            document.getElementById('formEstado').classList.remove('estado-detectado');
-            document.getElementById('formTelefone').classList.remove('estado-detectado');
-            document.getElementById('dddInfo').classList.remove('show');
         }
         function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
 
@@ -560,7 +816,8 @@
         }
 
         document.getElementById('modalOverlay').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
-        document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeModal(); });
+        document.getElementById('importModal').addEventListener('click', function(e) { if(e.target===this) closeImportModal(); });
+        document.addEventListener('keydown', function(e) { if(e.key==='Escape') { closeModal(); closeImportModal(); } });
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
