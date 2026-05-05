@@ -18,13 +18,12 @@
             --cinza-claro: #AAB8C2;
             --verde: #2ECC71;
             --vermelho: #E74C3C;
+            --laranja: #F39C12;
             --borda: #2A3344;
             --sombra: 0 4px 20px rgba(0,0,0,0.3);
             --radius: 16px;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-dark);
@@ -33,218 +32,110 @@
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
-
         .top-bar {
-            background: var(--bg-header);
-            border-bottom: 1px solid var(--borda);
-            padding: 14px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
+            background: var(--bg-header); border-bottom: 1px solid var(--borda);
+            padding: 14px 30px; display: flex; justify-content: space-between;
+            align-items: center; position: sticky; top: 0; z-index: 100;
         }
-
         .top-bar .logo-area { display: flex; align-items: center; gap: 12px; }
         .top-bar .logo-icon {
             width: 40px; height: 40px;
             background: linear-gradient(135deg, var(--azul), var(--azul-claro));
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; font-size: 20px;
         }
-        .top-bar .company-name { font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+        .top-bar .company-name { font-weight: 700; font-size: 15px; }
         .top-bar .company-sub { font-size: 11px; color: var(--cinza); }
-
         .top-bar .quick-links { display: flex; gap: 8px; }
         .top-bar .quick-link {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--borda);
-            color: var(--cinza-claro);
-            padding: 8px 16px; border-radius: 8px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--borda);
+            color: var(--cinza-claro); padding: 8px 16px; border-radius: 8px;
             text-decoration: none; font-size: 13px; font-weight: 500;
             transition: all 0.3s; cursor: pointer;
         }
-        .top-bar .quick-link:hover {
-            background: rgba(74,144,226,0.15);
-            border-color: var(--azul);
-            color: var(--azul-claro);
-        }
-
+        .top-bar .quick-link:hover { background: rgba(74,144,226,0.15); border-color: var(--azul); color: var(--azul-claro); }
         .container { max-width: 1500px; margin: 0 auto; padding: 24px; }
-
         .header {
             background: linear-gradient(135deg, #1A2535 0%, #1E2A40 50%, #1A2535 100%);
-            border: 1px solid var(--borda);
-            border-radius: var(--radius);
-            padding: 32px 36px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid var(--borda); border-radius: var(--radius);
+            padding: 32px 36px; margin-bottom: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: relative; overflow: hidden;
         }
-
         .header::before {
-            content: '';
-            position: absolute;
-            top: -50%; right: -10%;
+            content: ''; position: absolute; top: -50%; right: -10%;
             width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(74,144,226,0.08) 0%, transparent 70%);
             border-radius: 50%;
         }
-
         .header-content { position: relative; z-index: 1; }
         .header h1 {
-            font-size: 30px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px;
+            font-size: 30px; font-weight: 800; margin-bottom: 4px;
             background: linear-gradient(135deg, var(--branco), var(--azul-claro));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .header .subtitle { color: var(--cinza); font-size: 13px; font-weight: 500; }
-
+        .header .subtitle { color: var(--cinza); font-size: 13px; }
         .header-right { display: flex; align-items: center; gap: 20px; position: relative; z-index: 1; }
         .date-display { text-align: right; }
         .date-display .day-number {
-            font-size: 52px; font-weight: 900; letter-spacing: -2px; line-height: 1;
+            font-size: 52px; font-weight: 900; line-height: 1;
             background: linear-gradient(135deg, var(--amarelo), var(--amarelo-claro));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .date-display .month-text { font-size: 14px; color: var(--cinza-claro); font-weight: 500; }
-        .date-display .weekday-text {
-            font-size: 11px; color: var(--azul-claro); text-transform: uppercase;
-            letter-spacing: 2px; font-weight: 600;
-        }
-
+        .date-display .month-text { font-size: 14px; color: var(--cinza-claro); }
+        .date-display .weekday-text { font-size: 11px; color: var(--azul-claro); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
         .btn {
             padding: 11px 22px; border: none; border-radius: 10px;
             font-weight: 600; cursor: pointer; font-size: 13px;
             letter-spacing: 0.3px; transition: all 0.3s ease; text-transform: uppercase;
         }
-        .btn-gold {
-            background: linear-gradient(135deg, var(--amarelo), #F1C40F);
-            color: #1A1F2E;
-            box-shadow: 0 4px 15px rgba(244,208,63,0.25);
-        }
+        .btn-gold { background: linear-gradient(135deg, var(--amarelo), #F1C40F); color: #1A1F2E; box-shadow: 0 4px 15px rgba(244,208,63,0.25); }
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(244,208,63,0.4); }
-        .btn-outline {
-            background: transparent; border: 2px solid var(--borda); color: var(--cinza-claro);
-        }
-        .btn-outline:hover {
-            border-color: var(--azul); color: var(--azul-claro); background: rgba(74,144,226,0.08);
-        }
-        .btn-azul {
-            background: linear-gradient(135deg, var(--azul), #357ABD);
-            color: var(--branco);
-            box-shadow: 0 4px 15px rgba(74,144,226,0.25);
-        }
+        .btn-outline { background: transparent; border: 2px solid var(--borda); color: var(--cinza-claro); }
+        .btn-outline:hover { border-color: var(--azul); color: var(--azul-claro); background: rgba(74,144,226,0.08); }
+        .btn-azul { background: linear-gradient(135deg, var(--azul), #357ABD); color: var(--branco); box-shadow: 0 4px 15px rgba(74,144,226,0.25); }
         .btn-azul:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74,144,226,0.4); }
-        .btn-verde {
-            background: linear-gradient(135deg, var(--verde), #58D68D);
-            color: var(--branco);
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
+        .metrics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
         .metric-card {
-            background: var(--bg-card);
-            border: 1px solid var(--borda);
-            border-radius: var(--radius);
-            padding: 24px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            background: var(--bg-card); border: 1px solid var(--borda);
+            border-radius: var(--radius); padding: 24px; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
         }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 3px;
-        }
-
+        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
         .metric-card:nth-child(1)::before { background: linear-gradient(to right, var(--azul), var(--azul-claro)); }
         .metric-card:nth-child(2)::before { background: linear-gradient(to right, var(--amarelo), var(--amarelo-claro)); }
         .metric-card:nth-child(3)::before { background: linear-gradient(to right, var(--verde), #58D68D); }
-        .metric-card:nth-child(4)::before { background: linear-gradient(to right, #7C3AED, #A78BFA); }
-
-        .metric-card:hover {
-            border-color: var(--azul);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-
+        .metric-card:nth-child(4)::before { background: linear-gradient(to right, var(--laranja), #F5B041); }
+        .metric-card:nth-child(5)::before { background: linear-gradient(to right, #7C3AED, #A78BFA); }
+        .metric-card:hover { border-color: var(--azul); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
         .metric-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-        .metric-icon { font-size: 32px; opacity: 0.8; }
-        .metric-change {
-            font-size: 11px; font-weight: 600; padding: 4px 10px;
-            border-radius: 20px; background: rgba(46,204,113,0.15); color: var(--verde);
-        }
-        .metric-value { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
-        .metric-label {
-            font-size: 11px; color: var(--cinza); text-transform: uppercase;
-            letter-spacing: 1.5px; font-weight: 600;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .panel {
-            background: var(--bg-card);
-            border: 1px solid var(--borda);
-            border-radius: var(--radius);
-            padding: 24px;
-        }
-
+        .metric-icon { font-size: 32px; }
+        .metric-change { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: rgba(46,204,113,0.15); color: var(--verde); }
+        .metric-value { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+        .metric-label { font-size: 10px; color: var(--cinza); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .panel { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 24px; }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .panel-title { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+        .panel-title { font-size: 16px; font-weight: 700; }
         .panel-subtitle { font-size: 11px; color: var(--cinza); margin-top: 2px; }
-
         .states-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
         .state-item {
             padding: 14px 8px; border-radius: 10px; text-align: center;
-            cursor: pointer; transition: all 0.3s ease;
-            border: 1px solid transparent; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; border: 1px solid transparent; font-weight: 600;
         }
-        .state-item.high {
-            background: linear-gradient(135deg, rgba(74,144,226,0.3), rgba(74,144,226,0.1));
-            border-color: rgba(74,144,226,0.4); color: var(--azul-claro);
-        }
-        .state-item.medium {
-            background: linear-gradient(135deg, rgba(244,208,63,0.2), rgba(244,208,63,0.05));
-            border-color: rgba(244,208,63,0.3); color: var(--amarelo-claro);
-        }
-        .state-item.low {
-            background: rgba(255,255,255,0.03); border-color: var(--borda); color: var(--cinza-claro);
-        }
+        .state-item.high { background: linear-gradient(135deg, rgba(74,144,226,0.3), rgba(74,144,226,0.1)); border-color: rgba(74,144,226,0.4); color: var(--azul-claro); }
+        .state-item.medium { background: linear-gradient(135deg, rgba(244,208,63,0.2), rgba(244,208,63,0.05)); border-color: rgba(244,208,63,0.3); color: var(--amarelo-claro); }
+        .state-item.low { background: rgba(255,255,255,0.03); border-color: var(--borda); color: var(--cinza-claro); }
         .state-item:hover { transform: scale(1.08); box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 10; }
         .state-abbr { font-size: 18px; font-weight: 700; }
         .state-count { font-size: 10px; opacity: 0.7; margin-top: 2px; }
-
         .ranking-item {
             display: flex; align-items: center; padding: 14px 16px;
             background: rgba(255,255,255,0.02); border: 1px solid var(--borda);
             border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.3s ease;
         }
-        .ranking-item:hover {
-            background: rgba(74,144,226,0.05); border-color: var(--azul); transform: translateX(6px);
-        }
-        .ranking-pos {
-            font-size: 20px; font-weight: 800; width: 42px; height: 42px;
-            border-radius: 10px; display: flex; align-items: center; justify-content: center;
-            margin-right: 14px; flex-shrink: 0;
-        }
+        .ranking-item:hover { background: rgba(74,144,226,0.05); border-color: var(--azul); transform: translateX(6px); }
+        .ranking-pos { font-size: 20px; font-weight: 800; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 14px; }
         .pos-1 { background: linear-gradient(135deg, var(--amarelo), #F1C40F); color: #1A1F2E; }
         .pos-2 { background: linear-gradient(135deg, #8899A6, #AAB8C2); color: #1A1F2E; }
         .pos-3 { background: linear-gradient(135deg, #8D6E63, #A1887F); color: var(--branco); }
@@ -255,150 +146,50 @@
         .ranking-value { text-align: right; }
         .ranking-amount { font-weight: 700; font-size: 16px; color: var(--verde); }
         .ranking-pct { font-size: 10px; color: var(--cinza); }
-
-        .table-section {
-            background: var(--bg-card);
-            border: 1px solid var(--borda);
-            border-radius: var(--radius);
-            padding: 24px;
-        }
-
+        .table-section { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 24px; }
         .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
-        .filter-select {
-            background: var(--bg-dark);
-            border: 1px solid var(--borda);
-            color: var(--cinza-claro);
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+        .filter-select { background: var(--bg-dark); border: 1px solid var(--borda); color: var(--cinza-claro); padding: 10px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; }
         .filter-select:focus { outline: none; border-color: var(--azul); }
         .table-wrapper { overflow-x: auto; border-radius: 10px; }
-        table { width: 100%; border-collapse: collapse; min-width: 1100px; }
-        th {
-            background: rgba(74,144,226,0.1);
-            color: var(--azul-claro);
-            padding: 12px 10px;
-            text-align: left;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            border-bottom: 1px solid var(--borda);
-            white-space: nowrap;
-        }
-        td {
-            padding: 10px;
-            border-bottom: 1px solid var(--borda);
-            font-size: 12px;
-            color: var(--cinza-claro);
-            white-space: nowrap;
-        }
+        table { width: 100%; border-collapse: collapse; min-width: 1300px; }
+        th { background: rgba(74,144,226,0.1); color: var(--azul-claro); padding: 12px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; border-bottom: 1px solid var(--borda); white-space: nowrap; }
+        td { padding: 10px; border-bottom: 1px solid var(--borda); font-size: 12px; color: var(--cinza-claro); white-space: nowrap; }
         tr:hover td { background: rgba(74,144,226,0.03); }
-        .badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         .badge-success { background: rgba(46,204,113,0.15); color: var(--verde); }
         .badge-warning { background: rgba(244,208,63,0.15); color: var(--amarelo); }
-        .btn-sm {
-            padding: 5px 10px; font-size: 10px; border-radius: 6px;
-            border: none; cursor: pointer; font-weight: 600; transition: all 0.2s;
-        }
+        .btn-sm { padding: 5px 10px; font-size: 10px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
         .btn-edit { background: rgba(244,208,63,0.2); color: var(--amarelo); }
         .btn-edit:hover { background: rgba(244,208,63,0.35); }
         .btn-del { background: rgba(231,76,60,0.2); color: var(--vermelho); }
         .btn-del:hover { background: rgba(231,76,60,0.35); }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-        }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
         .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--borda);
-            border-radius: var(--radius);
-            padding: 28px;
-            max-width: 580px;
-            width: 94%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
+        .modal { background: var(--bg-card); border: 1px solid var(--borda); border-radius: var(--radius); padding: 28px; max-width: 620px; width: 94%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .modal h3 { font-size: 20px; margin-bottom: 20px; color: var(--branco); }
-        .form-input, .form-select {
-            width: 100%;
-            padding: 11px 14px;
-            background: var(--bg-dark);
-            border: 1px solid var(--borda);
-            border-radius: 8px;
-            color: var(--branco);
-            font-size: 13px;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-        }
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--azul);
-            box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
-        }
+        .form-input, .form-select { width: 100%; padding: 11px 14px; background: var(--bg-dark); border: 1px solid var(--borda); border-radius: 8px; color: var(--branco); font-size: 13px; transition: all 0.3s; margin-bottom: 10px; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 3px rgba(74,144,226,0.1); }
+        .form-input.estado-detectado { border-color: var(--verde) !important; background: rgba(46,204,113,0.08) !important; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
         .form-input::placeholder { color: var(--cinza); }
-        .form-label {
-            font-size: 11px;
-            color: var(--cinza-claro);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-            display: block;
-        }
+        .form-label { font-size: 11px; color: var(--cinza-claro); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
+        .ddd-info { font-size: 11px; color: var(--verde); margin-top: -6px; margin-bottom: 8px; display: none; font-weight: 600; }
+        .ddd-info.show { display: block; }
+        .saldo-restante { font-size: 12px; color: var(--laranja); margin-top: -6px; margin-bottom: 8px; font-weight: 600; }
         .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
         .empty-state { text-align: center; padding: 40px; color: var(--cinza); }
         .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
-        .footer {
-            text-align: center; padding: 20px; color: var(--cinza);
-            font-size: 12px; border-top: 1px solid var(--borda); margin-top: 24px;
-        }
-
-        @media (max-width: 1024px) {
-            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .header { flex-direction: column; text-align: center; gap: 16px; }
-            .header-right { flex-direction: column; }
-            .date-display { text-align: center; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            .form-row, .form-row-3 { grid-template-columns: 1fr; }
-            .top-bar .quick-links { display: none; }
-        }
+        .footer { text-align: center; padding: 20px; color: var(--cinza); font-size: 12px; border-top: 1px solid var(--borda); margin-top: 24px; }
+        @media (max-width: 1200px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 1024px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .header { flex-direction: column; text-align: center; gap: 16px; } .header-right { flex-direction: column; } .date-display { text-align: center; } .metrics-grid { grid-template-columns: 1fr; } .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr; } .top-bar .quick-links { display: none; } }
     </style>
 </head>
 <body>
-    <!-- Barra Superior -->
     <div class="top-bar">
-        <div class="logo-area">
-            <div class="logo-icon">⚖️</div>
-            <div>
-                <div class="company-name">Gestão de Marcas e Patentes</div>
-                <div class="company-sub">Sistema Executivo</div>
-            </div>
-        </div>
+        <div class="logo-area"><div class="logo-icon">⚖️</div><div><div class="company-name">Gestão de Marcas e Patentes</div><div class="company-sub">Sistema Executivo</div></div></div>
         <div class="quick-links">
             <a href="planilhas/fechamentos.html" class="quick-link">📊 Planilhas</a>
             <span class="quick-link" onclick="window.print()">🖨️ Imprimir</span>
@@ -407,148 +198,60 @@
     </div>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
-            <div class="header-content">
-                <h1>Dashboard Executivo</h1>
-                <p class="subtitle">Monitoramento inteligente de vendas e performance</p>
-            </div>
+            <div class="header-content"><h1>Dashboard Executivo</h1><p class="subtitle">Monitoramento inteligente de vendas e performance</p></div>
             <div class="header-right">
-                <div class="date-display">
-                    <div class="day-number" id="currentDay">07</div>
-                    <div class="month-text" id="currentMonth">Maio 2026</div>
-                    <div class="weekday-text" id="currentWeekday">QUARTA-FEIRA</div>
-                </div>
-                <div style="display:flex;gap:8px;">
-                    <button class="btn btn-gold" onclick="openModal()">➕ Novo Cliente</button>
-                    <button class="btn btn-outline" onclick="exportData()">📥 Exportar</button>
-                </div>
+                <div class="date-display"><div class="day-number" id="currentDay">08</div><div class="month-text" id="currentMonth">Maio 2026</div><div class="weekday-text" id="currentWeekday">QUINTA-FEIRA</div></div>
+                <div style="display:flex;gap:8px;"><button class="btn btn-gold" onclick="openModal()">➕ Novo Cliente</button><button class="btn btn-outline" onclick="exportData()">📥 Exportar</button></div>
             </div>
         </div>
 
-        <!-- Métricas -->
+        <!-- 5 Métricas -->
         <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon">💼</div>
-                    <div class="metric-change">Total</div>
-                </div>
-                <div class="metric-value" id="totalSales">0</div>
-                <div class="metric-label">Clientes Cadastrados</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon">✅</div>
-                    <div class="metric-change">Ativos</div>
-                </div>
-                <div class="metric-value" id="totalClosed">0</div>
-                <div class="metric-label">Marcas Fechadas</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon">⏳</div>
-                    <div class="metric-change">Pendentes</div>
-                </div>
-                <div class="metric-value" id="totalPending">0</div>
-                <div class="metric-label">Em Andamento</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-top">
-                    <div class="metric-icon">💰</div>
-                    <div class="metric-change">Faturamento</div>
-                </div>
-                <div class="metric-value" id="monthlyRevenue">R$ 0</div>
-                <div class="metric-label">Valor Total Fechado</div>
-            </div>
+            <div class="metric-card"><div class="metric-top"><div class="metric-icon">💼</div><div class="metric-change">Total</div></div><div class="metric-value" id="totalSales">0</div><div class="metric-label">Clientes Cadastrados</div></div>
+            <div class="metric-card"><div class="metric-top"><div class="metric-icon">✅</div><div class="metric-change">Fechados</div></div><div class="metric-value" id="totalClosed">0</div><div class="metric-label">Marcas Fechadas</div></div>
+            <div class="metric-card"><div class="metric-top"><div class="metric-icon">⏳</div><div class="metric-change">Pendentes</div></div><div class="metric-value" id="totalPending">0</div><div class="metric-label">Em Andamento</div></div>
+            <div class="metric-card"><div class="metric-top"><div class="metric-icon">💰</div><div class="metric-change">Total</div></div><div class="metric-value" id="valorTotalContratos">R$ 0</div><div class="metric-label">Valor Total Contratos</div></div>
+            <div class="metric-card"><div class="metric-top"><div class="metric-icon">💵</div><div class="metric-change">Entradas</div></div><div class="metric-value" id="valorEntradas">R$ 0</div><div class="metric-label">Total de Entradas</div></div>
         </div>
 
-        <!-- Dashboard Grid -->
         <div class="dashboard-grid">
-            <!-- Estados -->
             <div class="panel">
-                <div class="panel-header">
-                    <div>
-                        <div class="panel-title">🗺️ Clientes por Estado</div>
-                        <div class="panel-subtitle">Distribuição geográfica</div>
-                    </div>
-                </div>
-                <div class="states-grid" id="statesGrid">
-                    <div class="empty-state">
-                        <div class="empty-icon">🗺️</div>
-                        <p>Adicione clientes para visualizar o mapa</p>
-                    </div>
-                </div>
+                <div class="panel-header"><div><div class="panel-title">🗺️ Clientes por Estado</div><div class="panel-subtitle">Detectado automaticamente pelo DDD</div></div></div>
+                <div class="states-grid" id="statesGrid"><div class="empty-state"><div class="empty-icon">🗺️</div><p>Adicione clientes para ver o mapa</p></div></div>
             </div>
-
-            <!-- Ranking -->
             <div class="panel">
-                <div class="panel-header">
-                    <div>
-                        <div class="panel-title">👑 Top Vendedoras</div>
-                        <div class="panel-subtitle">Ranking de performance</div>
-                    </div>
-                </div>
-                <div id="rankingList">
-                    <div class="empty-state">
-                        <div class="empty-icon">👑</div>
-                        <p>Adicione clientes para gerar o ranking</p>
-                    </div>
-                </div>
+                <div class="panel-header"><div><div class="panel-title">👑 Top Vendedoras</div><div class="panel-subtitle">Ranking de performance</div></div></div>
+                <div id="rankingList"><div class="empty-state"><div class="empty-icon">👑</div><p>Adicione clientes para gerar o ranking</p></div></div>
             </div>
         </div>
 
-        <!-- Tabela de Clientes -->
         <div class="table-section">
             <div class="table-header">
-                <div>
-                    <div class="panel-title">📋 Base de Clientes</div>
-                    <div class="panel-subtitle">Use "Novo Cliente" para cadastrar</div>
-                </div>
+                <div><div class="panel-title">📋 Base de Clientes</div><div class="panel-subtitle">DDD detecta estado automaticamente</div></div>
                 <div style="display:flex;gap:8px;">
-                    <select class="filter-select" id="filterVendedora" onchange="renderTable()">
-                        <option value="all">Todas Vendedoras</option>
-                        <option value="Patricia">Patricia</option>
-                        <option value="Julya">Julya</option>
-                        <option value="Nataly">Nataly</option>
-                        <option value="Evellyn">Evellyn</option>
-                    </select>
-                    <select class="filter-select" id="filterStatus" onchange="renderTable()">
-                        <option value="all">Todos Status</option>
-                        <option value="closed">Fechados</option>
-                        <option value="pending">Pendentes</option>
-                    </select>
-                    <input type="text" class="filter-select" id="filterSearch" placeholder="🔍 Buscar cliente..." oninput="renderTable()" style="width:180px;">
+                    <select class="filter-select" id="filterVendedora" onchange="renderTable()"><option value="all">Todas</option><option value="Patricia">Patricia</option><option value="Julya">Julya</option><option value="Nataly">Nataly</option><option value="Evellyn">Evellyn</option></select>
+                    <select class="filter-select" id="filterStatus" onchange="renderTable()"><option value="all">Todos</option><option value="closed">Fechados</option><option value="pending">Pendentes</option></select>
+                    <input type="text" class="filter-select" id="filterSearch" placeholder="🔍 Buscar..." oninput="renderTable()" style="width:160px;">
                 </div>
             </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Data Fech.</th>
-                            <th>Cliente</th>
-                            <th>Email</th>
-                            <th>CPF/CNPJ</th>
-                            <th>Telefone</th>
-                            <th>Marca</th>
-                            <th>Vendedora</th>
-                            <th>Estado</th>
-                            <th>Valor</th>
-                            <th>Status</th>
-                            <th>Ações</th>
+                            <th>Data</th><th>Cliente</th><th>Email</th><th>CPF/CNPJ</th><th>Telefone</th>
+                            <th>Marca</th><th>Vendedora</th><th>Estado</th>
+                            <th>Valor Total</th><th>Entrada</th><th>Saldo</th><th>Status</th><th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
-                <div id="emptyTable" class="empty-state">
-                    <div class="empty-icon">📋</div>
-                    <p><strong>Nenhum cliente cadastrado</strong></p>
-                    <p style="font-size:12px;margin-top:4px;">Clique em "Novo Cliente" para começar</p>
-                </div>
+                <div id="emptyTable" class="empty-state"><div class="empty-icon">📋</div><p><strong>Nenhum cliente cadastrado</strong></p><p style="font-size:12px;margin-top:4px;">Clique em "Novo Cliente" para começar</p></div>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Cadastro -->
+    <!-- Modal -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h3>➕ Cadastrar Cliente</h3>
@@ -557,69 +260,43 @@
                 <input type="text" class="form-input" id="formNome" placeholder="Nome completo do cliente" required>
 
                 <div class="form-row">
+                    <div><label class="form-label">Email</label><input type="email" class="form-input" id="formEmail" placeholder="cliente@email.com" required></div>
                     <div>
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" id="formEmail" placeholder="cliente@email.com" required>
-                    </div>
-                    <div>
-                        <label class="form-label">Telefone</label>
-                        <input type="tel" class="form-input" id="formTelefone" placeholder="(00) 00000-0000" required>
+                        <label class="form-label">Telefone (com DDD)</label>
+                        <input type="tel" class="form-input" id="formTelefone" placeholder="(11) 99999-9999" required oninput="detectarEstadoPorDDD()">
+                        <div class="ddd-info" id="dddInfo"></div>
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <div>
-                        <label class="form-label">CPF</label>
-                        <input type="text" class="form-input" id="formCPF" placeholder="000.000.000-00">
-                    </div>
-                    <div>
-                        <label class="form-label">CNPJ</label>
-                        <input type="text" class="form-input" id="formCNPJ" placeholder="00.000.000/0000-00">
-                    </div>
+                    <div><label class="form-label">CPF</label><input type="text" class="form-input" id="formCPF" placeholder="000.000.000-00"></div>
+                    <div><label class="form-label">CNPJ</label><input type="text" class="form-input" id="formCNPJ" placeholder="00.000.000/0000-00"></div>
                 </div>
 
                 <label class="form-label">Marca / Patente</label>
                 <input type="text" class="form-input" id="formMarca" placeholder="Nome da marca ou patente" required>
 
                 <div class="form-row-3">
-                    <div>
-                        <label class="form-label">Vendedora</label>
-                        <select class="form-select" id="formVendedora" required>
-                            <option value="">Selecione</option>
-                            <option value="Patricia">Patricia</option>
-                            <option value="Julya">Julya</option>
-                            <option value="Nataly">Nataly</option>
-                            <option value="Evellyn">Evellyn</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="form-label">Estado (UF)</label>
-                        <select class="form-select" id="formEstado" required>
-                            <option value="">UF</option>
-                            <option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option>
-                            <option value="RS">RS</option><option value="PR">PR</option><option value="SC">SC</option>
-                            <option value="BA">BA</option><option value="PE">PE</option><option value="CE">CE</option>
-                            <option value="DF">DF</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="form-label">Valor (R$)</label>
-                        <input type="number" class="form-input" id="formValor" placeholder="0,00" step="0.01" required>
-                    </div>
+                    <div><label class="form-label">Vendedora</label><select class="form-select" id="formVendedora" required><option value="">Selecione</option><option value="Patricia">Patricia</option><option value="Julya">Julya</option><option value="Nataly">Nataly</option><option value="Evellyn">Evellyn</option></select></div>
+                    <div><label class="form-label">Estado 🎯 Auto</label><select class="form-select" id="formEstado" required><option value="">Detectado pelo DDD</option><option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option><option value="RS">RS</option><option value="PR">PR</option><option value="SC">SC</option><option value="BA">BA</option><option value="PE">PE</option><option value="CE">CE</option><option value="DF">DF</option></select></div>
+                    <div><label class="form-label">Data Fechamento</label><input type="date" class="form-input" id="formData" required></div>
                 </div>
 
+                <!-- VALOR TOTAL E ENTRADA -->
                 <div class="form-row">
                     <div>
-                        <label class="form-label">Data de Fechamento</label>
-                        <input type="date" class="form-input" id="formData" required>
+                        <label class="form-label">💰 Valor Total do Contrato (R$)</label>
+                        <input type="number" class="form-input" id="formValorTotal" placeholder="15.000,00" step="0.01" required oninput="calcularSaldo()">
                     </div>
                     <div>
-                        <label class="form-label">Status</label>
-                        <select class="form-select" id="formStatus" required>
-                            <option value="pending">⏳ Pendente</option>
-                            <option value="closed">✅ Fechado</option>
-                        </select>
+                        <label class="form-label">💵 Valor de Entrada (R$)</label>
+                        <input type="number" class="form-input" id="formValorEntrada" placeholder="5.000,00" step="0.01" required oninput="calcularSaldo()">
                     </div>
+                </div>
+                <div class="saldo-restante" id="saldoRestante">💰 Saldo Restante: R$ 0,00</div>
+
+                <div class="form-row">
+                    <div><label class="form-label">Status</label><select class="form-select" id="formStatus" required><option value="pending">⏳ Pendente</option><option value="closed">✅ Fechado</option></select></div>
                 </div>
 
                 <div class="modal-actions">
@@ -630,235 +307,215 @@
         </div>
     </div>
 
-    <div class="footer">
-        © 2026 Gestão de Marcas e Patentes • Sistema Executivo • Todos os direitos reservados
-    </div>
+    <div class="footer">© 2026 Gestão de Marcas e Patentes • Sistema Executivo • Todos os direitos reservados</div>
 
     <script>
-        // Dados dos clientes salvos no localStorage
+        // Mapa de DDD
+        const dddEstados = {
+            '11':'SP','12':'SP','13':'SP','14':'SP','15':'SP','16':'SP','17':'SP','18':'SP','19':'SP',
+            '21':'RJ','22':'RJ','24':'RJ',
+            '31':'MG','32':'MG','33':'MG','34':'MG','35':'MG','37':'MG','38':'MG',
+            '51':'RS','53':'RS','54':'RS','55':'RS',
+            '41':'PR','42':'PR','43':'PR','44':'PR','45':'PR','46':'PR',
+            '47':'SC','48':'SC','49':'SC',
+            '71':'BA','73':'BA','74':'BA','75':'BA','77':'BA',
+            '81':'PE','87':'PE','85':'CE','88':'CE','61':'DF','62':'GO','64':'GO',
+            '27':'ES','28':'ES','92':'AM','97':'AM','91':'PA','93':'PA','94':'PA',
+            '65':'MT','66':'MT','67':'MS','82':'AL','79':'SE','83':'PB','84':'RN',
+            '86':'PI','98':'MA','95':'RR','96':'AP','63':'TO','68':'AC','69':'RO'
+        };
+        const estadosNomes = {
+            'SP':'São Paulo','RJ':'Rio de Janeiro','MG':'Minas Gerais','RS':'Rio Grande do Sul',
+            'PR':'Paraná','SC':'Santa Catarina','BA':'Bahia','PE':'Pernambuco','CE':'Ceará',
+            'DF':'Distrito Federal','GO':'Goiás','ES':'Espírito Santo','AM':'Amazonas',
+            'PA':'Pará','MT':'Mato Grosso','MS':'Mato Grosso do Sul','AL':'Alagoas',
+            'SE':'Sergipe','PB':'Paraíba','RN':'Rio Grande do Norte','PI':'Piauí',
+            'MA':'Maranhão','RR':'Roraima','AP':'Amapá','TO':'Tocantins','AC':'Acre','RO':'Rondônia'
+        };
+
+        // DADOS
         let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-
         const vendedorasNomes = ['Patricia', 'Julya', 'Nataly', 'Evellyn'];
-        const estadosNomes = { 'SP': 'São Paulo', 'RJ': 'Rio de Janeiro', 'MG': 'Minas Gerais', 'RS': 'Rio Grande do Sul', 'PR': 'Paraná', 'SC': 'Santa Catarina', 'BA': 'Bahia', 'PE': 'Pernambuco', 'CE': 'Ceará', 'DF': 'Distrito Federal' };
 
-        function init() {
-            updateDate();
-            renderAll();
-            setInterval(updateDate, 60000);
+        // DETECTAR ESTADO POR DDD
+        function detectarEstadoPorDDD() {
+            const tel = document.getElementById('formTelefone');
+            const estado = document.getElementById('formEstado');
+            const info = document.getElementById('dddInfo');
+            let t = tel.value.replace(/\D/g, '');
+            if(t.length>0){ if(t.length<=2){tel.value='('+t;}else if(t.length<=7){tel.value='('+t.substring(0,2)+') '+t.substring(2);}else{tel.value='('+t.substring(0,2)+') '+t.substring(2,7)+'-'+t.substring(7,11);} }
+            const ddd = t.substring(0,2);
+            if(ddd.length===2 && dddEstados[ddd]){
+                estado.value = dddEstados[ddd];
+                estado.classList.add('estado-detectado'); tel.classList.add('estado-detectado');
+                info.textContent = '✅ DDD '+ddd+' → '+estadosNomes[dddEstados[ddd]]+' ('+dddEstados[ddd]+')';
+                info.classList.add('show'); info.style.color='var(--verde)';
+            }else if(ddd.length===2){
+                estado.value=''; estado.classList.remove('estado-detectado'); tel.classList.remove('estado-detectado');
+                info.textContent='⚠️ DDD não reconhecido'; info.classList.add('show'); info.style.color='var(--laranja)';
+            }else{ estado.value=''; estado.classList.remove('estado-detectado'); tel.classList.remove('estado-detectado'); info.classList.remove('show'); info.style.color='var(--verde)'; }
         }
 
-        function updateDate() {
-            const d = new Date();
-            document.getElementById('currentDay').textContent = String(d.getDate()).padStart(2,'0');
-            const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-            document.getElementById('currentMonth').textContent = meses[d.getMonth()] + ' ' + d.getFullYear();
-            const dias = ['DOMINGO','SEGUNDA-FEIRA','TERÇA-FEIRA','QUARTA-FEIRA','QUINTA-FEIRA','SEXTA-FEIRA','SÁBADO'];
-            document.getElementById('currentWeekday').textContent = dias[d.getDay()];
-        }
-
-        function renderAll() {
-            renderTable();
-            updateMetrics();
-            renderStates();
-            renderRanking();
-        }
-
-        function updateMetrics() {
-            const totalClientes = clientes.length;
-            const totalFechados = clientes.filter(c => c.status === 'closed').length;
-            const totalPendentes = clientes.filter(c => c.status === 'pending').length;
-            const faturamento = clientes.filter(c => c.status === 'closed').reduce((sum, c) => sum + (parseFloat(c.valor) || 0), 0);
-
-            document.getElementById('totalSales').textContent = totalClientes;
-            document.getElementById('totalClosed').textContent = totalFechados;
-            document.getElementById('totalPending').textContent = totalPendentes;
-            document.getElementById('monthlyRevenue').textContent = 'R$ ' + faturamento.toLocaleString('pt-BR');
-        }
-
-        function renderStates() {
-            const grid = document.getElementById('statesGrid');
-            if (clientes.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🗺️</div><p>Adicione clientes para ver o mapa</p></div>';
-                return;
+        // CALCULAR SALDO RESTANTE
+        function calcularSaldo() {
+            const total = parseFloat(document.getElementById('formValorTotal').value) || 0;
+            const entrada = parseFloat(document.getElementById('formValorEntrada').value) || 0;
+            const saldo = total - entrada;
+            const saldoEl = document.getElementById('saldoRestante');
+            if(total > 0) {
+                saldoEl.textContent = '💰 Saldo Restante: R$ ' + saldo.toLocaleString('pt-BR', {minimumFractionDigits:2});
+                saldoEl.style.color = saldo <= 0 ? 'var(--verde)' : 'var(--laranja)';
+            } else {
+                saldoEl.textContent = '💰 Saldo Restante: R$ 0,00';
+                saldoEl.style.color = 'var(--laranja)';
             }
+        }
 
-            const estadoCount = {};
-            clientes.forEach(c => {
-                if (c.estado) estadoCount[c.estado] = (estadoCount[c.estado] || 0) + 1;
-            });
+        // INICIALIZAÇÃO
+        function init(){ updateDate(); renderAll(); setInterval(updateDate,60000); }
+        function updateDate(){
+            const d=new Date();
+            document.getElementById('currentDay').textContent=String(d.getDate()).padStart(2,'0');
+            const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            document.getElementById('currentMonth').textContent=meses[d.getMonth()]+' '+d.getFullYear();
+            const dias=['DOMINGO','SEGUNDA-FEIRA','TERÇA-FEIRA','QUARTA-FEIRA','QUINTA-FEIRA','SEXTA-FEIRA','SÁBADO'];
+            document.getElementById('currentWeekday').textContent=dias[d.getDay()];
+        }
+        function renderAll(){ renderTable(); updateMetrics(); renderStates(); renderRanking(); }
 
-            const max = Math.max(...Object.values(estadoCount));
-            grid.innerHTML = '';
-            Object.entries(estadoCount).sort(([,a],[,b]) => b-a).forEach(([uf, count]) => {
-                const cls = count > max*0.6 ? 'high' : count > max*0.3 ? 'medium' : 'low';
-                grid.innerHTML += `<div class="state-item ${cls}"><div class="state-abbr">${uf}</div><div class="state-count">${count} clientes</div></div>`;
+        function updateMetrics(){
+            document.getElementById('totalSales').textContent=clientes.length;
+            document.getElementById('totalClosed').textContent=clientes.filter(c=>c.status==='closed').length;
+            document.getElementById('totalPending').textContent=clientes.filter(c=>c.status==='pending').length;
+            const totalContratos=clientes.reduce((s,c)=>s+(parseFloat(c.valorTotal)||0),0);
+            const totalEntradas=clientes.reduce((s,c)=>s+(parseFloat(c.valorEntrada)||0),0);
+            document.getElementById('valorTotalContratos').textContent='R$ '+totalContratos.toLocaleString('pt-BR');
+            document.getElementById('valorEntradas').textContent='R$ '+totalEntradas.toLocaleString('pt-BR');
+        }
+
+        function renderStates(){
+            const grid=document.getElementById('statesGrid');
+            if(clientes.length===0){ grid.innerHTML='<div class="empty-state"><div class="empty-icon">🗺️</div><p>Adicione clientes</p></div>'; return; }
+            const ec={}; clientes.forEach(c=>{if(c.estado)ec[c.estado]=(ec[c.estado]||0)+1;});
+            const max=Math.max(...Object.values(ec)); grid.innerHTML='';
+            Object.entries(ec).sort(([,a],[,b])=>b-a).forEach(([uf,count])=>{
+                const cls=count>max*0.6?'high':count>max*0.3?'medium':'low';
+                grid.innerHTML+=`<div class="state-item ${cls}"><div class="state-abbr">${uf}</div><div class="state-count">${count}</div></div>`;
             });
         }
 
-        function renderRanking() {
-            const list = document.getElementById('rankingList');
-            if (clientes.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="empty-icon">👑</div><p>Adicione clientes para gerar o ranking</p></div>';
-                return;
-            }
-
-            const vendedorStats = {};
-            vendedorasNomes.forEach(nome => {
-                const vendas = clientes.filter(c => c.vendedora === nome);
-                vendedorStats[nome] = {
-                    total: vendas.length,
-                    fechados: vendas.filter(c => c.status === 'closed').length,
-                    valor: vendas.filter(c => c.status === 'closed').reduce((s,c) => s + (parseFloat(c.valor)||0), 0)
-                };
+        function renderRanking(){
+            const list=document.getElementById('rankingList');
+            if(clientes.length===0){ list.innerHTML='<div class="empty-state"><div class="empty-icon">👑</div><p>Adicione clientes</p></div>'; return; }
+            const stats={}; vendedorasNomes.forEach(n=>{
+                const v=clientes.filter(c=>c.vendedora===n);
+                stats[n]={total:v.length,fechados:v.filter(c=>c.status==='closed').length,valor:v.reduce((s,c)=>s+(parseFloat(c.valorTotal)||0),0)};
             });
-
-            const totalValor = Object.values(vendedorStats).reduce((s, v) => s + v.valor, 0);
-            const sorted = Object.entries(vendedorStats).sort(([,a],[,b]) => b.valor - a.valor);
-            const emojis = ['👑','🥈','🥉','⭐'];
-
-            list.innerHTML = sorted.map(([nome, stats], i) => `
-                <div class="ranking-item">
-                    <div class="ranking-pos pos-${i+1}">${emojis[i]}</div>
-                    <div class="ranking-info">
-                        <div class="ranking-name">${nome}</div>
-                        <div class="ranking-detail">${stats.total} clientes • ${stats.fechados} fechados</div>
-                    </div>
-                    <div class="ranking-value">
-                        <div class="ranking-amount">R$ ${stats.valor.toLocaleString('pt-BR')}</div>
-                        <div class="ranking-pct">${totalValor > 0 ? Math.round(stats.valor/totalValor*100) : 0}%</div>
-                    </div>
-                </div>
-            `).join('');
+            const tv=Object.values(stats).reduce((s,v)=>s+v.valor,0);
+            const sorted=Object.entries(stats).sort(([,a],[,b])=>b.valor-a.valor);
+            const emojis=['👑','🥈','🥉','⭐'];
+            list.innerHTML=sorted.map(([n,s],i)=>`<div class="ranking-item"><div class="ranking-pos pos-${i+1}">${emojis[i]}</div><div class="ranking-info"><div class="ranking-name">${n}</div><div class="ranking-detail">${s.total} clientes • ${s.fechados} fechados</div></div><div class="ranking-value"><div class="ranking-amount">R$ ${s.valor.toLocaleString('pt-BR')}</div><div class="ranking-pct">${tv>0?Math.round(s.valor/tv*100):0}%</div></div></div>`).join('');
         }
 
-        function renderTable() {
-            const fv = document.getElementById('filterVendedora').value;
-            const fs = document.getElementById('filterStatus').value;
-            const search = document.getElementById('filterSearch').value.toLowerCase();
-            const tbody = document.getElementById('tableBody');
-            const empty = document.getElementById('emptyTable');
-
-            let lista = [...clientes];
-            if (fv !== 'all') lista = lista.filter(c => c.vendedora === fv);
-            if (fs !== 'all') lista = lista.filter(c => c.status === fs);
-            if (search) lista = lista.filter(c => c.nome.toLowerCase().includes(search) || c.marca.toLowerCase().includes(search) || c.email.toLowerCase().includes(search));
-            lista.sort((a,b) => new Date(b.data) - new Date(a.data));
-
-            if (lista.length === 0) {
-                tbody.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-
-            empty.style.display = 'none';
-            tbody.innerHTML = lista.map(c => {
-                const dataF = c.data ? new Date(c.data + 'T00:00:00').toLocaleDateString('pt-BR') : '-';
-                const valorF = (parseFloat(c.valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                const doc = c.cnpj || c.cpf || '-';
+        function renderTable(){
+            const fv=document.getElementById('filterVendedora').value;
+            const fs=document.getElementById('filterStatus').value;
+            const search=document.getElementById('filterSearch').value.toLowerCase();
+            const tbody=document.getElementById('tableBody');
+            const empty=document.getElementById('emptyTable');
+            let lista=[...clientes];
+            if(fv!=='all') lista=lista.filter(c=>c.vendedora===fv);
+            if(fs!=='all') lista=lista.filter(c=>c.status===fs);
+            if(search) lista=lista.filter(c=>c.nome.toLowerCase().includes(search)||c.marca.toLowerCase().includes(search)||c.email.toLowerCase().includes(search));
+            lista.sort((a,b)=>new Date(b.data)-new Date(a.data));
+            if(lista.length===0){ tbody.innerHTML=''; empty.style.display='block'; return; }
+            empty.style.display='none';
+            tbody.innerHTML=lista.map(c=>{
+                const dataF=c.data?new Date(c.data+'T00:00:00').toLocaleDateString('pt-BR'):'-';
+                const vTotal=(parseFloat(c.valorTotal)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                const vEntrada=(parseFloat(c.valorEntrada)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                const saldo=(parseFloat(c.valorTotal)||0)-(parseFloat(c.valorEntrada)||0);
+                const vSaldo=saldo.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                const doc=c.cnpj||c.cpf||'-';
                 return `<tr>
-                    <td>${dataF}</td>
-                    <td><strong>${c.nome}</strong></td>
-                    <td>${c.email || '-'}</td>
-                    <td>${doc}</td>
-                    <td>${c.telefone || '-'}</td>
-                    <td><strong>${c.marca}</strong></td>
-                    <td>${c.vendedora}</td>
-                    <td>${c.estado}</td>
-                    <td><strong>${valorF}</strong></td>
+                    <td>${dataF}</td><td><strong>${c.nome}</strong></td><td>${c.email||'-'}</td><td>${doc}</td>
+                    <td>${c.telefone||'-'}</td><td><strong>${c.marca}</strong></td><td>${c.vendedora}</td>
+                    <td>${c.estado}</td><td><strong>${vTotal}</strong></td><td>${vEntrada}</td>
+                    <td style="color:${saldo<=0?'var(--verde)':'var(--laranja)'};font-weight:600;">${vSaldo}</td>
                     <td><span class="badge ${c.status==='closed'?'badge-success':'badge-warning'}">${c.status==='closed'?'✅ Fechado':'⏳ Pendente'}</span></td>
-                    <td>
-                        <button class="btn-sm btn-edit" onclick="editCliente('${c.id}')">✏️</button>
-                        <button class="btn-sm btn-del" onclick="deleteCliente('${c.id}')">🗑️</button>
-                    </td>
-                </tr>`;
+                    <td><button class="btn-sm btn-edit" onclick="editCliente('${c.id}')">✏️</button><button class="btn-sm btn-del" onclick="deleteCliente('${c.id}')">🗑️</button></td></tr>`;
             }).join('');
         }
 
-        function openModal(editId = null) {
+        function openModal(){
             document.getElementById('modalOverlay').classList.add('active');
-            document.getElementById('formData').value = new Date().toISOString().split('T')[0];
-            if (!editId) {
-                document.getElementById('formNome').value = '';
-                document.getElementById('formEmail').value = '';
-                document.getElementById('formTelefone').value = '';
-                document.getElementById('formCPF').value = '';
-                document.getElementById('formCNPJ').value = '';
-                document.getElementById('formMarca').value = '';
-                document.getElementById('formVendedora').value = '';
-                document.getElementById('formEstado').value = '';
-                document.getElementById('formValor').value = '';
-                document.getElementById('formStatus').value = 'pending';
-            }
+            document.getElementById('formData').value=new Date().toISOString().split('T')[0];
+            ['formNome','formEmail','formTelefone','formCPF','formCNPJ','formMarca','formVendedora','formEstado','formValorTotal','formValorEntrada'].forEach(id=>{document.getElementById(id).value='';});
+            document.getElementById('formStatus').value='pending';
+            document.getElementById('formEstado').classList.remove('estado-detectado');
+            document.getElementById('formTelefone').classList.remove('estado-detectado');
+            document.getElementById('dddInfo').classList.remove('show');
+            document.getElementById('saldoRestante').textContent='💰 Saldo Restante: R$ 0,00';
         }
+        function closeModal(){ document.getElementById('modalOverlay').classList.remove('active'); }
 
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
-
-        function saveCliente(e) {
+        function saveCliente(e){
             e.preventDefault();
-            const cliente = {
-                id: Date.now().toString(),
-                nome: document.getElementById('formNome').value,
-                email: document.getElementById('formEmail').value,
-                telefone: document.getElementById('formTelefone').value,
-                cpf: document.getElementById('formCPF').value,
-                cnpj: document.getElementById('formCNPJ').value,
-                marca: document.getElementById('formMarca').value,
-                vendedora: document.getElementById('formVendedora').value,
-                estado: document.getElementById('formEstado').value,
-                valor: parseFloat(document.getElementById('formValor').value),
-                data: document.getElementById('formData').value,
-                status: document.getElementById('formStatus').value
-            };
-            clientes.unshift(cliente);
-            localStorage.setItem('clientes', JSON.stringify(clientes));
-            closeModal();
-            renderAll();
+            clientes.unshift({
+                id:Date.now().toString(),
+                nome:document.getElementById('formNome').value,
+                email:document.getElementById('formEmail').value,
+                telefone:document.getElementById('formTelefone').value,
+                cpf:document.getElementById('formCPF').value,
+                cnpj:document.getElementById('formCNPJ').value,
+                marca:document.getElementById('formMarca').value,
+                vendedora:document.getElementById('formVendedora').value,
+                estado:document.getElementById('formEstado').value,
+                valorTotal:parseFloat(document.getElementById('formValorTotal').value),
+                valorEntrada:parseFloat(document.getElementById('formValorEntrada').value),
+                data:document.getElementById('formData').value,
+                status:document.getElementById('formStatus').value
+            });
+            localStorage.setItem('clientes',JSON.stringify(clientes));
+            closeModal(); renderAll();
         }
 
-        function editCliente(id) {
-            const c = clientes.find(x => x.id === id);
-            if (!c) return;
-            document.getElementById('formNome').value = c.nome;
-            document.getElementById('formEmail').value = c.email || '';
-            document.getElementById('formTelefone').value = c.telefone || '';
-            document.getElementById('formCPF').value = c.cpf || '';
-            document.getElementById('formCNPJ').value = c.cnpj || '';
-            document.getElementById('formMarca').value = c.marca;
-            document.getElementById('formVendedora').value = c.vendedora;
-            document.getElementById('formEstado').value = c.estado;
-            document.getElementById('formValor').value = c.valor;
-            document.getElementById('formData').value = c.data;
-            document.getElementById('formStatus').value = c.status;
+        function editCliente(id){
+            const c=clientes.find(x=>x.id===id);
+            if(!c)return;
+            document.getElementById('formNome').value=c.nome;
+            document.getElementById('formEmail').value=c.email||'';
+            document.getElementById('formTelefone').value=c.telefone||'';
+            document.getElementById('formCPF').value=c.cpf||'';
+            document.getElementById('formCNPJ').value=c.cnpj||'';
+            document.getElementById('formMarca').value=c.marca;
+            document.getElementById('formVendedora').value=c.vendedora;
+            document.getElementById('formEstado').value=c.estado;
+            document.getElementById('formValorTotal').value=c.valorTotal||0;
+            document.getElementById('formValorEntrada').value=c.valorEntrada||0;
+            document.getElementById('formData').value=c.data;
+            document.getElementById('formStatus').value=c.status;
+            detectarEstadoPorDDD(); calcularSaldo();
             document.getElementById('modalOverlay').classList.add('active');
         }
 
-        function deleteCliente(id) {
-            if (!confirm('Excluir este cliente?')) return;
-            clientes = clientes.filter(x => x.id !== id);
-            localStorage.setItem('clientes', JSON.stringify(clientes));
+        function deleteCliente(id){
+            if(!confirm('Excluir cliente?'))return;
+            clientes=clientes.filter(x=>x.id!==id);
+            localStorage.setItem('clientes',JSON.stringify(clientes));
             renderAll();
         }
 
-        function exportData() {
-            const data = { exportadoEm: new Date().toISOString(), totalClientes: clientes.length, clientes: clientes };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'backup_clientes_' + new Date().toISOString().split('T')[0] + '.json';
-            a.click();
-            alert('✅ Backup exportado com sucesso!');
+        function exportData(){
+            const data={exportadoEm:new Date().toISOString(),totalClientes:clientes.length,clientes:clientes};
+            const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+            const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+            a.download='backup_'+new Date().toISOString().split('T')[0]+'.json'; a.click();
         }
 
-        document.getElementById('modalOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        document.addEventListener('DOMContentLoaded', init);
+        document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+        document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+        document.addEventListener('DOMContentLoaded',init);
     </script>
 </body>
 </html>
