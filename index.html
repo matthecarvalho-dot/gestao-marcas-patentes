@@ -40,7 +40,8 @@
         .btn-azul{background:var(--azul);color:var(--branco)}
         .btn-sync{background:var(--verde);color:var(--branco);font-size:11px;padding:8px 14px}
         .btn-import{background:var(--roxo);color:var(--branco);font-size:11px;padding:8px 14px}
-        .btn-import:hover,.btn-sync:hover{transform:translateY(-2px);opacity:0.9}
+        .btn-restore{background:var(--laranja);color:var(--branco);font-size:11px;padding:8px 14px}
+        .btn-import:hover,.btn-sync:hover,.btn-restore:hover{transform:translateY(-2px);opacity:0.9}
         .metrics-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
         .metric-card{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:18px;transition:all 0.3s;position:relative;overflow:hidden;cursor:pointer}
         .metric-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
@@ -129,6 +130,8 @@
             <span class="quick-link" onclick="sincronizarSheets()">🔄 Sincronizar</span>
             <span class="quick-link" onclick="abrirImportacao()">📥 Importar Planilha</span>
             <span class="quick-link" onclick="exportData()">💾 Backup</span>
+            <span class="quick-link" onclick="restaurarBackup()">📤 Restaurar Backup</span>
+            <input type="file" id="restoreFile" accept=".json" onchange="handleRestoreFile(event)" style="display:none;">
         </div>
     </div>
 
@@ -138,7 +141,8 @@
             <div class="date-display"><div class="day-number" id="currentDay">08</div><div class="month-text" id="currentMonth">Maio 2026</div></div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 <button class="btn btn-sync" id="btnSync" onclick="sincronizarSheets()">🔄 Sincronizar</button>
-                <button class="btn btn-import" onclick="abrirImportacao()">📥 Importar Planilha</button>
+                <button class="btn btn-import" onclick="abrirImportacao()">📥 Importar</button>
+                <button class="btn btn-restore" onclick="restaurarBackup()">📤 Restaurar</button>
                 <button class="btn btn-gold" onclick="openModal()">➕ Novo Cliente</button>
             </div>
         </div>
@@ -223,8 +227,8 @@
     <!-- MODAL IMPORTAÇÃO -->
     <div class="modal-overlay" id="importModal">
         <div class="modal modal-large">
-            <h3>📥 Importar Planilha (Excel/CSV)</h3>
-            <p style="font-size:12px;color:var(--cinza);margin-bottom:12px;">Cole os dados da planilha (copie e cole do Excel) ou faça upload de arquivo CSV</p>
+            <h3>📥 Importar Planilha (CSV)</h3>
+            <p style="font-size:12px;color:var(--cinza);margin-bottom:12px;">Cole os dados da planilha ou faça upload de arquivo CSV</p>
             
             <div style="display:flex;gap:8px;margin-bottom:12px;">
                 <input type="file" id="fileUpload" accept=".csv,.txt" onchange="handleFileUpload(event)" style="display:none;">
@@ -232,11 +236,10 @@
                 <button class="btn btn-outline" onclick="limparImportacao()" style="flex:1;">🗑️ Limpar</button>
             </div>
             
-            <label class="form-label">Ou cole os dados aqui (separado por TAB ou vírgula)</label>
-            <textarea class="form-input" id="importData" rows="6" placeholder="Cole aqui os dados da planilha...&#10;Exemplo:&#10;Nome	Email	Telefone	CPF	CNPJ	Marca	Vendedora	Estado	Valor Total	Entrada	Data	Status" oninput="previewImportacao()"></textarea>
+            <label class="form-label">Ou cole os dados aqui</label>
+            <textarea class="form-input" id="importData" rows="6" placeholder="Cole aqui os dados...&#10;Nome,Email,Telefone,CPF,CNPJ,Marca,Vendedora,Estado,Valor Total,Entrada,Data,Status" oninput="previewImportacao()"></textarea>
             
             <div id="validationSummary" class="validation-summary"></div>
-            
             <div class="import-preview" id="importPreview"></div>
             
             <div class="modal-actions">
@@ -253,7 +256,6 @@
         const dddEstados = {'11':'SP','12':'SP','13':'SP','14':'SP','15':'SP','16':'SP','17':'SP','18':'SP','19':'SP','21':'RJ','22':'RJ','24':'RJ','31':'MG','32':'MG','33':'MG','34':'MG','35':'MG','37':'MG','38':'MG','51':'RS','53':'RS','54':'RS','55':'RS','41':'PR','42':'PR','43':'PR','44':'PR','45':'PR','46':'PR','47':'SC','48':'SC','49':'SC','71':'BA','73':'BA','74':'BA','75':'BA','77':'BA','81':'PE','87':'PE','85':'CE','88':'CE','61':'DF','62':'GO','64':'GO','27':'ES','28':'ES','92':'AM','97':'AM','91':'PA','93':'PA','94':'PA','65':'MT','66':'MT','67':'MS','82':'AL','79':'SE','83':'PB','84':'RN','86':'PI','98':'MA','95':'RR','96':'AP','63':'TO','68':'AC','69':'RO'};
         const estadosValidos = ['SP','RJ','MG','RS','PR','SC','BA','PE','CE','DF','GO','ES','AM','PA','MT','MS','AL','SE','PB','RN','PI','MA','RR','AP','TO','AC','RO'];
         const vendedorasValidas = ['Patricia','Julya','Nataly','Evellyn'];
-        const statusValidos = ['closed','pending','fechado','pendente','Fechado','Pendente','✅ Fechado','⏳ Pendente'];
         let clientes = [];
         let dadosImportados = [];
         let errosValidacao = [];
@@ -287,538 +289,174 @@
         }
 
         async function enviarParaSheets(cliente) {
-            try {
-                await fetch(GOOGLE_SHEETS_URL, { method: 'POST', body: JSON.stringify(cliente) });
-            } catch(e) { console.log('Sheets offline, salvo localmente'); }
+            try { await fetch(GOOGLE_SHEETS_URL, { method: 'POST', body: JSON.stringify(cliente) }); }
+            catch(e) { console.log('Sheets offline'); }
         }
 
-        // ========== IMPORTAÇÃO DE PLANILHA ==========
+        // ========== RESTAURAR BACKUP ==========
+        function restaurarBackup() { document.getElementById('restoreFile').click(); }
+
+        async function handleRestoreFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.clientes && Array.isArray(data.clientes)) {
+                        if (confirm('Restaurar ' + data.clientes.length + ' clientes do backup?\n\n⚠️ Isso substituirá os dados atuais!')) {
+                            clientes = data.clientes;
+                            localStorage.setItem('clientes', JSON.stringify(clientes));
+                            for (const c of data.clientes) { await enviarParaSheets(c); }
+                            renderAll();
+                            alert('✅ ' + data.clientes.length + ' clientes restaurados!');
+                        }
+                    } else { alert('❌ Arquivo de backup inválido!'); }
+                } catch(err) { alert('❌ Erro: ' + err.message); }
+            };
+            reader.readAsText(file);
+        }
+
+        // ========== IMPORTAÇÃO ==========
         function abrirImportacao() {
             document.getElementById('importModal').classList.add('active');
             document.getElementById('importData').value = '';
             document.getElementById('importPreview').innerHTML = '';
             document.getElementById('validationSummary').innerHTML = '';
-            dadosImportados = [];
-            errosValidacao = [];
+            dadosImportados = []; errosValidacao = [];
         }
-
         function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
         function limparImportacao() {
             document.getElementById('importData').value = '';
             document.getElementById('importPreview').innerHTML = '';
             document.getElementById('validationSummary').innerHTML = '';
-            dadosImportados = [];
-            errosValidacao = [];
+            dadosImportados = []; errosValidacao = [];
         }
-
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('importData').value = e.target.result;
-                previewImportacao();
-            };
+            reader.onload = function(e) { document.getElementById('importData').value = e.target.result; previewImportacao(); };
             reader.readAsText(file);
         }
 
         function validarLinha(dados, linha) {
             const erros = [];
-            
-            // Nome - obrigatório
-            if (!dados.nome || dados.nome.trim() === '') {
-                erros.push('Nome é obrigatório');
-            }
-            
-            // Email - validação básica
-            if (dados.email && !dados.email.includes('@')) {
-                erros.push('Email inválido: ' + dados.email);
-            }
-            
-            // Telefone - extrair DDD e validar
-            if (dados.telefone) {
-                const numeros = dados.telefone.replace(/\D/g, '');
-                if (numeros.length < 10) {
-                    erros.push('Telefone muito curto: ' + dados.telefone);
-                }
-            }
-            
-            // CPF - validação básica
-            if (dados.cpf) {
-                const cpfLimpo = dados.cpf.replace(/\D/g, '');
-                if (cpfLimpo.length > 0 && cpfLimpo.length !== 11) {
-                    erros.push('CPF deve ter 11 dígitos: ' + dados.cpf);
-                }
-            }
-            
-            // CNPJ - validação básica
-            if (dados.cnpj) {
-                const cnpjLimpo = dados.cnpj.replace(/\D/g, '');
-                if (cnpjLimpo.length > 0 && cnpjLimpo.length !== 14) {
-                    erros.push('CNPJ deve ter 14 dígitos: ' + dados.cnpj);
-                }
-            }
-            
-            // CPF ou CNPJ - pelo menos um
-            if (!dados.cpf && !dados.cnpj) {
-                erros.push('CPF ou CNPJ é obrigatório');
-            }
-            
-            // Marca - obrigatório
-            if (!dados.marca || dados.marca.trim() === '') {
-                erros.push('Marca/Patente é obrigatória');
-            }
-            
-            // Vendedora - validar nome
+            if (!dados.nome || dados.nome.trim() === '') erros.push('Nome obrigatório');
+            if (dados.email && !dados.email.includes('@')) erros.push('Email inválido');
+            if (dados.telefone && dados.telefone.replace(/\D/g,'').length < 10) erros.push('Telefone curto');
+            if (dados.cpf && dados.cpf.replace(/\D/g,'').length !== 11) erros.push('CPF inválido');
+            if (dados.cnpj && dados.cnpj.replace(/\D/g,'').length !== 14) erros.push('CNPJ inválido');
+            if (!dados.cpf && !dados.cnpj) erros.push('CPF ou CNPJ obrigatório');
+            if (!dados.marca || dados.marca.trim() === '') erros.push('Marca obrigatória');
             if (dados.vendedora) {
-                const vendedoraEncontrada = vendedorasValidas.find(v => 
-                    v.toLowerCase() === dados.vendedora.toLowerCase().trim()
-                );
-                if (!vendedoraEncontrada) {
-                    erros.push('Vendedora inválida: ' + dados.vendedora + ' (válidas: ' + vendedorasValidas.join(', ') + ')');
-                } else {
-                    dados.vendedora = vendedoraEncontrada; // Corrige capitalização
-                }
-            } else {
-                erros.push('Vendedora é obrigatória');
-            }
-            
-            // Estado - validar UF
+                const v = vendedorasValidas.find(x => x.toLowerCase() === dados.vendedora.toLowerCase().trim());
+                if (!v) erros.push('Vendedora inválida: ' + dados.vendedora);
+                else dados.vendedora = v;
+            } else erros.push('Vendedora obrigatória');
             if (dados.estado) {
                 const uf = dados.estado.toUpperCase().trim();
-                if (!estadosValidos.includes(uf)) {
-                    erros.push('Estado inválido: ' + dados.estado);
-                } else {
-                    dados.estado = uf; // Corrige para maiúsculo
-                }
+                if (!estadosValidos.includes(uf)) erros.push('Estado inválido');
+                else dados.estado = uf;
             }
-            
-            // Valor Total - validar número
             if (dados.valorTotal !== undefined && dados.valorTotal !== '') {
-                const valor = parseFloat(String(dados.valorTotal).replace(',', '.'));
-                if (isNaN(valor) || valor < 0) {
-                    erros.push('Valor Total inválido: ' + dados.valorTotal);
-                } else {
-                    dados.valorTotal = valor;
-                }
-            } else {
-                erros.push('Valor Total é obrigatório');
-            }
-            
-            // Entrada - validar número
+                const val = parseFloat(String(dados.valorTotal).replace(',','.'));
+                if (isNaN(val) || val < 0) erros.push('Valor Total inválido');
+                else dados.valorTotal = val;
+            } else erros.push('Valor Total obrigatório');
             if (dados.valorEntrada !== undefined && dados.valorEntrada !== '') {
-                const entrada = parseFloat(String(dados.valorEntrada).replace(',', '.'));
-                if (isNaN(entrada) || entrada < 0) {
-                    erros.push('Valor de Entrada inválido: ' + dados.valorEntrada);
-                } else {
-                    dados.valorEntrada = entrada;
-                }
-            } else {
-                dados.valorEntrada = 0;
-            }
-            
-            // Entrada não pode ser maior que o valor total
-            if (dados.valorEntrada > dados.valorTotal) {
-                erros.push('Entrada (R$ ' + dados.valorEntrada + ') maior que Valor Total (R$ ' + dados.valorTotal + ')');
-            }
-            
-            // Status - normalizar
+                const ent = parseFloat(String(dados.valorEntrada).replace(',','.'));
+                if (isNaN(ent) || ent < 0) erros.push('Entrada inválida');
+                else dados.valorEntrada = ent;
+            } else dados.valorEntrada = 0;
+            if (dados.valorEntrada > dados.valorTotal) erros.push('Entrada maior que Total');
             if (dados.status) {
                 const s = dados.status.toLowerCase().trim();
-                if (['closed','fechado','✅ fechado'].includes(s)) {
-                    dados.status = 'closed';
-                } else if (['pending','pendente','⏳ pendente'].includes(s)) {
-                    dados.status = 'pending';
-                } else {
-                    erros.push('Status inválido: ' + dados.status + ' (use: Fechado ou Pendente)');
-                }
-            } else {
-                dados.status = 'pending';
-            }
-            
-            // Data - validar formato
+                if (['closed','fechado','✅ fechado'].includes(s)) dados.status = 'closed';
+                else if (['pending','pendente','⏳ pendente'].includes(s)) dados.status = 'pending';
+                else erros.push('Status inválido');
+            } else dados.status = 'pending';
             if (dados.data) {
-                const dataStr = String(dados.data);
-                // Aceita vários formatos: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY
-                let dataObj = null;
-                if (dataStr.includes('/')) {
-                    const partes = dataStr.split('/');
-                    if (partes.length === 3) dataObj = new Date(partes[2], partes[1]-1, partes[0]);
-                } else if (dataStr.includes('-')) {
-                    const partes = dataStr.split('-');
-                    if (partes.length === 3) {
-                        if (partes[0].length === 4) dataObj = new Date(partes[0], partes[1]-1, partes[2]);
-                        else dataObj = new Date(partes[2], partes[1]-1, partes[0]);
-                    }
-                }
-                if (dataObj && !isNaN(dataObj.getTime())) {
-                    dados.data = dataObj.toISOString().split('T')[0];
-                } else {
-                    erros.push('Data inválida: ' + dados.data + ' (use DD/MM/AAAA ou AAAA-MM-DD)');
-                }
+                const ds = String(dados.data);
+                let dObj = null;
+                if (ds.includes('/')) { const p = ds.split('/'); if(p.length===3) dObj = new Date(p[2],p[1]-1,p[0]); }
+                else if (ds.includes('-')) { const p = ds.split('-'); if(p.length===3) dObj = p[0].length===4 ? new Date(p[0],p[1]-1,p[2]) : new Date(p[2],p[1]-1,p[0]); }
+                if (dObj && !isNaN(dObj.getTime())) dados.data = dObj.toISOString().split('T')[0];
+                else erros.push('Data inválida');
             }
-            
             return erros;
         }
 
         function previewImportacao() {
-            const rawData = document.getElementById('importData').value.trim();
-            if (!rawData) {
-                document.getElementById('importPreview').innerHTML = '';
-                document.getElementById('validationSummary').innerHTML = '';
-                dadosImportados = [];
-                return;
+            const raw = document.getElementById('importData').value.trim();
+            if (!raw) { document.getElementById('importPreview').innerHTML=''; document.getElementById('validationSummary').innerHTML=''; dadosImportados=[]; return; }
+            const linhas = raw.split('\n').filter(l=>l.trim()!=='');
+            dadosImportados=[]; errosValidacao=[];
+            const sep = linhas[0].includes('\t') ? '\t' : ',';
+            const pular = linhas[0].toLowerCase().includes('nome');
+            const inicio = pular ? 1 : 0;
+            let total=0, ok=0, err=0, warn=0;
+            for(let i=inicio;i<linhas.length;i++){
+                const cols=linhas[i].split(sep);
+                if(cols.length<3) continue;
+                total++;
+                const d={nome:(cols[0]||'').trim(),email:(cols[1]||'').trim(),telefone:(cols[2]||'').trim(),cpf:(cols[3]||'').trim(),cnpj:(cols[4]||'').trim(),marca:(cols[5]||'').trim(),vendedora:(cols[6]||'').trim(),estado:(cols[7]||'').trim(),valorTotal:(cols[8]||'').trim(),valorEntrada:(cols[9]||'').trim(),data:(cols[10]||'').trim(),status:(cols[11]||'pending').trim()};
+                const erros=validarLinha(d,i+1);
+                if(erros.length===0){ok++;d._status='ok';}else if(erros.length<=2&&!erros.some(e=>e.includes('obrigatório'))){warn++;d._status='warn';}else{err++;d._status='error';}
+                d._erros=erros; dadosImportados.push(d);
             }
-            
-            const linhas = rawData.split('\n').filter(l => l.trim() !== '');
-            dadosImportados = [];
-            errosValidacao = [];
-            
-            // Detectar separador (TAB ou vírgula)
-            const separador = linhas[0].includes('\t') ? '\t' : ',';
-            
-            // Pular cabeçalho se detectar
-            const primeiraLinha = linhas[0].toLowerCase();
-            const pularCabecalho = primeiraLinha.includes('nome') || primeiraLinha.includes('cliente') || primeiraLinha.includes('email');
-            const inicio = pularCabecalho ? 1 : 0;
-            
-            let totalLinhas = 0;
-            let linhasOK = 0;
-            let linhasErro = 0;
-            let linhasAviso = 0;
-            
-            for (let i = inicio; i < linhas.length; i++) {
-                const colunas = linhas[i].split(separador);
-                if (colunas.length < 3) continue; // Pula linhas vazias
-                
-                totalLinhas++;
-                const dados = {
-                    nome: (colunas[0] || '').trim(),
-                    email: (colunas[1] || '').trim(),
-                    telefone: (colunas[2] || '').trim(),
-                    cpf: (colunas[3] || '').trim(),
-                    cnpj: (colunas[4] || '').trim(),
-                    marca: (colunas[5] || '').trim(),
-                    vendedora: (colunas[6] || '').trim(),
-                    estado: (colunas[7] || '').trim(),
-                    valorTotal: (colunas[8] || '').trim(),
-                    valorEntrada: (colunas[9] || '').trim(),
-                    data: (colunas[10] || '').trim(),
-                    status: (colunas[11] || 'pending').trim()
-                };
-                
-                const erros = validarLinha(dados, i + 1);
-                
-                if (erros.length === 0) {
-                    linhasOK++;
-                    dados._status = 'ok';
-                } else if (erros.length <= 2 && !erros.some(e => e.includes('obrigatório'))) {
-                    linhasAviso++;
-                    dados._status = 'warn';
-                } else {
-                    linhasErro++;
-                    dados._status = 'error';
-                }
-                
-                dados._erros = erros;
-                dadosImportados.push(dados);
-            }
-            
-            // Resumo da validação
-            document.getElementById('validationSummary').innerHTML = `
-                <div class="validation-item validation-ok">✅ ${linhasOK} Linhas OK</div>
-                <div class="validation-item validation-warn">⚠️ ${linhasAviso} Avisos</div>
-                <div class="validation-item validation-error">❌ ${linhasErro} Erros</div>
-                <div class="validation-item" style="background:rgba(74,144,226,0.1);border:1px solid var(--azul);color:var(--azul-claro);">📊 ${totalLinhas} Total</div>
-            `;
-            
-            // Preview
-            if (dadosImportados.length > 0) {
-                let html = '<table><thead><tr><th>Status</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Marca</th><th>Vendedora</th><th>Estado</th><th>Valor Total</th><th>Entrada</th><th>Problemas</th></tr></thead><tbody>';
-                dadosImportados.forEach(d => {
-                    const cor = d._status === 'ok' ? 'var(--verde)' : d._status === 'warn' ? 'var(--laranja)' : 'var(--vermelho)';
-                    const icone = d._status === 'ok' ? '✅' : d._status === 'warn' ? '⚠️' : '❌';
-                    html += `<tr>
-                        <td style="color:${cor}">${icone}</td>
-                        <td>${d.nome||'-'}</td>
-                        <td>${d.email||'-'}</td>
-                        <td>${d.telefone||'-'}</td>
-                        <td>${d.marca||'-'}</td>
-                        <td>${d.vendedora||'-'}</td>
-                        <td>${d.estado||'-'}</td>
-                        <td>${d.valorTotal||0}</td>
-                        <td>${d.valorEntrada||0}</td>
-                        <td style="color:${cor};font-size:9px;">${d._erros.join('; ')||'OK'}</td>
-                    </tr>`;
-                });
-                html += '</tbody></table>';
-                document.getElementById('importPreview').innerHTML = html;
+            document.getElementById('validationSummary').innerHTML=`<div class="validation-item validation-ok">✅ ${ok} OK</div><div class="validation-item validation-warn">⚠️ ${warn} Avisos</div><div class="validation-item validation-error">❌ ${err} Erros</div><div class="validation-item" style="background:rgba(74,144,226,0.1);border:1px solid var(--azul);color:var(--azul-claro);">📊 ${total} Total</div>`;
+            if(dadosImportados.length>0){
+                let h='<table><thead><tr><th>St</th><th>Nome</th><th>Email</th><th>Tel</th><th>Marca</th><th>Vend</th><th>UF</th><th>Total</th><th>Entrada</th><th>Problemas</th></tr></thead><tbody>';
+                dadosImportados.forEach(d=>{const c=d._status==='ok'?'var(--verde)':d._status==='warn'?'var(--laranja)':'var(--vermelho)';const ic=d._status==='ok'?'✅':d._status==='warn'?'⚠️':'❌';h+=`<tr><td style="color:${c}">${ic}</td><td>${d.nome||'-'}</td><td>${d.email||'-'}</td><td>${d.telefone||'-'}</td><td>${d.marca||'-'}</td><td>${d.vendedora||'-'}</td><td>${d.estado||'-'}</td><td>${d.valorTotal||0}</td><td>${d.valorEntrada||0}</td><td style="color:${c};font-size:9px;">${d._erros.join('; ')||'OK'}</td></tr>`;});
+                h+='</tbody></table>'; document.getElementById('importPreview').innerHTML=h;
             }
         }
 
         async function executarImportacao() {
             const dadosOK = dadosImportados.filter(d => d._status === 'ok' || d._status === 'warn');
-            
-            if (dadosOK.length === 0) {
-                alert('⚠️ Nenhum dado válido para importar. Corrija os erros primeiro.');
-                return;
-            }
-            
-            const dadosErro = dadosImportados.filter(d => d._status === 'error');
-            let msg = `Importar ${dadosOK.length} clientes?`;
-            if (dadosErro.length > 0) {
-                msg += `\n\n⚠️ ${dadosErro.length} linhas com erros serão ignoradas.`;
-            }
-            
-            if (!confirm(msg)) return;
-            
-            let importados = 0;
+            if (dadosOK.length === 0) { alert('⚠️ Nenhum dado válido!'); return; }
+            if (!confirm(`Importar ${dadosOK.length} clientes?`)) return;
+            let imp=0;
             for (const d of dadosOK) {
-                const cliente = {
-                    id: Date.now().toString() + '_' + importados,
-                    data: d.data || new Date().toISOString().split('T')[0],
-                    nome: d.nome,
-                    email: d.email || '',
-                    telefone: d.telefone || '',
-                    cpf: d.cpf || '',
-                    cnpj: d.cnpj || '',
-                    marca: d.marca,
-                    vendedora: d.vendedora,
-                    estado: d.estado || '',
-                    valorTotal: parseFloat(d.valorTotal) || 0,
-                    valorEntrada: parseFloat(d.valorEntrada) || 0,
-                    status: d.status || 'pending'
-                };
-                
-                clientes.unshift(cliente);
-                await enviarParaSheets(cliente);
-                importados++;
+                const cliente={id:Date.now().toString()+'_'+imp,data:d.data||new Date().toISOString().split('T')[0],nome:d.nome,email:d.email||'',telefone:d.telefone||'',cpf:d.cpf||'',cnpj:d.cnpj||'',marca:d.marca,vendedora:d.vendedora,estado:d.estado||'',valorTotal:parseFloat(d.valorTotal)||0,valorEntrada:parseFloat(d.valorEntrada)||0,status:d.status||'pending'};
+                clientes.unshift(cliente); await enviarParaSheets(cliente); imp++;
             }
-            
-            localStorage.setItem('clientes', JSON.stringify(clientes));
-            closeImportModal();
-            renderAll();
-            alert('✅ ' + importados + ' clientes importados com sucesso!');
+            localStorage.setItem('clientes',JSON.stringify(clientes));
+            closeImportModal(); renderAll();
+            alert('✅ '+imp+' clientes importados!');
         }
 
         // ========== FUNÇÕES EXISTENTES ==========
         function detectarEstadoPorDDD() {
-            const tel = document.getElementById('formTelefone');
-            const estado = document.getElementById('formEstado');
-            const info = document.getElementById('dddInfo');
-            let t = tel.value.replace(/\D/g, '');
+            const tel=document.getElementById('formTelefone'),estado=document.getElementById('formEstado'),info=document.getElementById('dddInfo');
+            let t=tel.value.replace(/\D/g,'');
             if(t.length>0){if(t.length<=2){tel.value='('+t;}else if(t.length<=7){tel.value='('+t.substring(0,2)+') '+t.substring(2);}else{tel.value='('+t.substring(0,2)+') '+t.substring(2,7)+'-'+t.substring(7,11);}}
-            const ddd = t.substring(0,2);
-            if(ddd.length===2 && dddEstados[ddd]){
-                estado.value = dddEstados[ddd];
-                estado.classList.add('estado-detectado'); tel.classList.add('estado-detectado');
-                info.textContent = '✅ DDD '+ddd+' → '+dddEstados[ddd];
-                info.classList.add('show'); info.style.color='var(--verde)';
-            }else if(ddd.length===2){
-                estado.value=''; info.textContent='⚠️ DDD não reconhecido'; info.classList.add('show'); info.style.color='var(--laranja)';
-            }else{info.classList.remove('show');}
+            const ddd=t.substring(0,2);
+            if(ddd.length===2&&dddEstados[ddd]){estado.value=dddEstados[ddd];estado.classList.add('estado-detectado');tel.classList.add('estado-detectado');info.textContent='✅ DDD '+ddd+' → '+dddEstados[ddd];info.classList.add('show');info.style.color='var(--verde)';}
+            else if(ddd.length===2){estado.value='';info.textContent='⚠️ DDD não reconhecido';info.classList.add('show');info.style.color='var(--laranja)';}
+            else{info.classList.remove('show');}
         }
-
-        function calcularSaldo() {
-            const total = parseFloat(document.getElementById('formValorTotal').value) || 0;
-            const entrada = parseFloat(document.getElementById('formValorEntrada').value) || 0;
-            const saldo = total - entrada;
-            const el = document.getElementById('saldoRestante');
-            el.textContent = '💰 Saldo Restante: R$ ' + saldo.toLocaleString('pt-BR', {minimumFractionDigits:2});
-            el.style.color = saldo <= 0 ? 'var(--verde)' : 'var(--laranja)';
-        }
-
-        function init() {
-            updateDate();
-            sincronizarSheets();
-            setInterval(updateDate, 60000);
-        }
-
-        function updateDate() {
-            const d = new Date();
-            document.getElementById('currentDay').textContent = String(d.getDate()).padStart(2,'0');
-            document.getElementById('currentMonth').textContent = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][d.getMonth()]+' '+d.getFullYear();
-        }
-
-        function renderAll() {
-            renderTable(); updateMetrics(); renderStates(); renderRanking(); renderPerformance(); renderBalance();
-        }
-
-        function updateMetrics() {
-            const t = clientes.length;
-            const f = clientes.filter(c => c.status === 'closed').length;
-            const vt = clientes.reduce((s,c) => s + (parseFloat(c.valorTotal) || 0), 0);
-            const ve = clientes.reduce((s,c) => s + (parseFloat(c.valorEntrada) || 0), 0);
-            const tm = t > 0 ? Math.round(vt / t) : 0;
-            const pv = clientes.filter(c => c.status === 'pending').reduce((s,c) => s + (parseFloat(c.valorTotal) || 0), 0);
-            const tx = t > 0 ? Math.round((f/t)*100) : 0;
-
-            document.getElementById('mTotal').textContent = t;
-            document.getElementById('mFechados').textContent = f;
-            document.getElementById('mValorTotal').textContent = 'R$ ' + vt.toLocaleString('pt-BR');
-            document.getElementById('mEntradas').textContent = 'R$ ' + ve.toLocaleString('pt-BR');
-            document.getElementById('mTicketMedio').textContent = 'R$ ' + tm.toLocaleString('pt-BR');
-            document.getElementById('mPrevisao').textContent = 'R$ ' + pv.toLocaleString('pt-BR');
-        }
-
-        function renderBalance() {
-            const t = clientes.length;
-            const f = clientes.filter(c => c.status === 'closed').length;
-            const vt = clientes.reduce((s,c) => s + (parseFloat(c.valorTotal) || 0), 0);
-            const ve = clientes.reduce((s,c) => s + (parseFloat(c.valorEntrada) || 0), 0);
-            const tx = t > 0 ? Math.round((f/t)*100) : 0;
-            const pe = vt > 0 ? Math.round((ve/vt)*100) : 0;
-            document.getElementById('bTaxaConversao').textContent = tx + '%';
-            document.getElementById('pConversao').style.width = tx + '%';
-            document.getElementById('bPercentualEntrada').textContent = pe + '%';
-            document.getElementById('pEntrada').style.width = pe + '%';
-            document.getElementById('bSaldoReceber').textContent = 'R$ ' + (vt - ve).toLocaleString('pt-BR');
-            let melhor = { nome: '-', valor: 0 };
-            vendedorasValidas.forEach(n => {
-                const v = clientes.filter(c => c.vendedora === n && c.status === 'closed').reduce((s,c) => s + (parseFloat(c.valorTotal)||0), 0);
-                if (v > melhor.valor) melhor = { nome: n, valor: v };
-            });
-            document.getElementById('bMelhorVendedora').textContent = melhor.nome;
-            document.getElementById('bMelhorValor').textContent = 'R$ ' + melhor.valor.toLocaleString('pt-BR');
-        }
-
-        function renderStates() {
-            const grid = document.getElementById('statesGrid');
-            if (clientes.length === 0) { grid.innerHTML = '<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>'; return; }
-            const ec = {}; clientes.forEach(c => { if(c.estado) ec[c.estado] = (ec[c.estado]||0)+1; });
-            const max = Math.max(...Object.values(ec));
-            grid.innerHTML = Object.entries(ec).sort(([,a],[,b])=>b-a).map(([uf,c]) => {
-                const cls = c > max*0.6 ? 'high' : c > max*0.3 ? 'medium' : 'low';
-                return `<div class="state-item ${cls}"><div>${uf}</div><small>${c}</small></div>`;
-            }).join('');
-        }
-
-        function renderRanking() {
-            const list = document.getElementById('rankingList');
-            if (clientes.length === 0) { list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>'; return; }
-            const stats = {};
-            vendedorasValidas.forEach(n => {
-                const v = clientes.filter(c => c.vendedora === n);
-                stats[n] = { total: v.length, fechados: v.filter(c => c.status==='closed').length, valor: v.reduce((s,c) => s + (parseFloat(c.valorTotal)||0), 0) };
-            });
-            list.innerHTML = Object.entries(stats).sort(([,a],[,b]) => b.valor-a.valor).map(([n,s],i) => `
-                <div class="ranking-item"><div class="ranking-pos pos-${i+1}">${['👑','🥈','🥉','⭐'][i]}</div><div class="ranking-info"><div class="ranking-name">${n}</div><div class="ranking-detail">${s.total} clientes</div></div><div class="ranking-value">R$ ${s.valor.toLocaleString('pt-BR')}</div></div>`).join('');
-        }
-
-        function renderPerformance() {
-            const div = document.getElementById('performanceDetalhada');
-            if (clientes.length === 0) { div.innerHTML = '<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>'; return; }
-            div.innerHTML = vendedorasValidas.map(n => {
-                const v = clientes.filter(c => c.vendedora === n);
-                const vf = v.filter(c => c.status === 'closed').length;
-                const txV = v.length > 0 ? Math.round((vf/v.length)*100) : 0;
-                const valV = v.reduce((s,c) => s + (parseFloat(c.valorTotal)||0), 0);
-                const meta = 50000;
-                const pctMeta = Math.round((valV/meta)*100);
-                return `<div style="margin-bottom:10px;">
-                    <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><strong>${n}</strong><span>${v.length} clientes | ${txV}% | R$ ${valV.toLocaleString('pt-BR')}</span></div>
-                    <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:4px;"><div style="height:100%;width:${Math.min(pctMeta,100)}%;background:${pctMeta>=100?'var(--verde)':pctMeta>=50?'var(--amarelo)':'var(--laranja)'};border-radius:4px;"></div></div>
-                    <div style="font-size:9px;color:var(--cinza);text-align:right;">Meta: ${pctMeta}%</div></div>`;
-            }).join('');
-        }
-
-        function renderTable() {
-            const fv = document.getElementById('filterVendedora').value;
-            const fs = document.getElementById('filterStatus').value;
-            const search = document.getElementById('filterSearch').value.toLowerCase();
-            const tbody = document.getElementById('tableBody');
-            const empty = document.getElementById('emptyTable');
-            let lista = [...clientes];
-            if(fv!=='all') lista = lista.filter(c => c.vendedora===fv);
-            if(fs!=='all') lista = lista.filter(c => c.status===fs);
-            if(search) lista = lista.filter(c => c.nome.toLowerCase().includes(search) || c.marca.toLowerCase().includes(search));
-            lista.sort((a,b) => new Date(b.data) - new Date(a.data));
-            if(lista.length===0) { tbody.innerHTML=''; empty.style.display='block'; return; }
-            empty.style.display='none';
-            tbody.innerHTML = lista.map(c => {
-                const vT = (parseFloat(c.valorTotal)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                const vE = (parseFloat(c.valorEntrada)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                const saldo = (parseFloat(c.valorTotal)||0) - (parseFloat(c.valorEntrada)||0);
-                return `<tr>
-                    <td>${c.data?new Date(c.data+'T00:00:00').toLocaleDateString('pt-BR'):'-'}</td>
-                    <td><strong>${c.nome}</strong></td><td>${c.email||'-'}</td><td>${c.cnpj||c.cpf||'-'}</td>
-                    <td>${c.telefone||'-'}</td><td><strong>${c.marca}</strong></td><td>${c.vendedora}</td>
-                    <td>${c.estado}</td><td><strong>${vT}</strong></td><td>${vE}</td>
-                    <td style="color:${saldo<=0?'var(--verde)':'var(--laranja)'};font-weight:600;">${saldo.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td>
-                    <td><span class="badge ${c.status==='closed'?'badge-success':'badge-warning'}">${c.status==='closed'?'✅ Fechado':'⏳ Pendente'}</span></td>
-                    <td><button class="btn-sm btn-edit" onclick="editCliente('${c.id}')">✏️</button><button class="btn-sm btn-del" onclick="deleteCliente('${c.id}')">🗑️</button></td></tr>`;
-            }).join('');
-        }
-
-        function openModal() {
-            document.getElementById('modalOverlay').classList.add('active');
-            document.getElementById('formData').value = new Date().toISOString().split('T')[0];
-            ['formNome','formEmail','formTelefone','formCPF','formCNPJ','formMarca','formVendedora','formEstado','formValorTotal','formValorEntrada'].forEach(id => document.getElementById(id).value='');
-            document.getElementById('formStatus').value = 'pending';
-            document.getElementById('saldoRestante').textContent = '💰 Saldo Restante: R$ 0,00';
-        }
-        function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
-
-        async function saveCliente(e) {
-            e.preventDefault();
-            const cliente = {
-                id: Date.now().toString(),
-                nome: document.getElementById('formNome').value,
-                email: document.getElementById('formEmail').value,
-                telefone: document.getElementById('formTelefone').value,
-                cpf: document.getElementById('formCPF').value,
-                cnpj: document.getElementById('formCNPJ').value,
-                marca: document.getElementById('formMarca').value,
-                vendedora: document.getElementById('formVendedora').value,
-                estado: document.getElementById('formEstado').value,
-                valorTotal: parseFloat(document.getElementById('formValorTotal').value),
-                valorEntrada: parseFloat(document.getElementById('formValorEntrada').value),
-                data: document.getElementById('formData').value,
-                status: document.getElementById('formStatus').value
-            };
-            clientes.unshift(cliente);
-            localStorage.setItem('clientes', JSON.stringify(clientes));
-            await enviarParaSheets(cliente);
-            closeModal(); renderAll();
-        }
-
-        function editCliente(id) {
-            const c = clientes.find(x => x.id === id);
-            if(!c) return;
-            document.getElementById('formNome').value = c.nome || '';
-            document.getElementById('formEmail').value = c.email || '';
-            document.getElementById('formTelefone').value = c.telefone || '';
-            document.getElementById('formCPF').value = c.cpf || '';
-            document.getElementById('formCNPJ').value = c.cnpj || '';
-            document.getElementById('formMarca').value = c.marca || '';
-            document.getElementById('formVendedora').value = c.vendedora || '';
-            document.getElementById('formEstado').value = c.estado || '';
-            document.getElementById('formValorTotal').value = c.valorTotal || 0;
-            document.getElementById('formValorEntrada').value = c.valorEntrada || 0;
-            document.getElementById('formData').value = c.data || '';
-            document.getElementById('formStatus').value = c.status || 'pending';
-            calcularSaldo(); detectarEstadoPorDDD();
-            document.getElementById('modalOverlay').classList.add('active');
-        }
-
-        function deleteCliente(id) {
-            if(!confirm('Excluir cliente?')) return;
-            clientes = clientes.filter(x => x.id !== id);
-            localStorage.setItem('clientes', JSON.stringify(clientes));
-            renderAll();
-        }
-
-        function exportData() {
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([JSON.stringify({data: new Date().toISOString(), clientes}, null, 2)], {type: 'application/json'}));
-            a.download = 'backup_' + new Date().toISOString().split('T')[0] + '.json';
-            a.click();
-        }
-
-        document.getElementById('modalOverlay').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
-        document.getElementById('importModal').addEventListener('click', function(e) { if(e.target===this) closeImportModal(); });
-        document.addEventListener('keydown', function(e) { if(e.key==='Escape') { closeModal(); closeImportModal(); } });
-        document.addEventListener('DOMContentLoaded', init);
+        function calcularSaldo(){const t=parseFloat(document.getElementById('formValorTotal').value)||0,e=parseFloat(document.getElementById('formValorEntrada').value)||0,s=t-e;const el=document.getElementById('saldoRestante');el.textContent='💰 Saldo Restante: R$ '+s.toLocaleString('pt-BR',{minimumFractionDigits:2});el.style.color=s<=0?'var(--verde)':'var(--laranja)';}
+        function init(){updateDate();sincronizarSheets();setInterval(updateDate,60000);}
+        function updateDate(){const d=new Date();document.getElementById('currentDay').textContent=String(d.getDate()).padStart(2,'0');document.getElementById('currentMonth').textContent=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][d.getMonth()]+' '+d.getFullYear();}
+        function renderAll(){renderTable();updateMetrics();renderStates();renderRanking();renderPerformance();renderBalance();}
+        function updateMetrics(){const t=clientes.length,f=clientes.filter(c=>c.status==='closed').length,vt=clientes.reduce((s,c)=>s+(parseFloat(c.valorTotal)||0),0),ve=clientes.reduce((s,c)=>s+(parseFloat(c.valorEntrada)||0),0),tm=t>0?Math.round(vt/t):0,pv=clientes.filter(c=>c.status==='pending').reduce((s,c)=>s+(parseFloat(c.valorTotal)||0),0);document.getElementById('mTotal').textContent=t;document.getElementById('mFechados').textContent=f;document.getElementById('mValorTotal').textContent='R$ '+vt.toLocaleString('pt-BR');document.getElementById('mEntradas').textContent='R$ '+ve.toLocaleString('pt-BR');document.getElementById('mTicketMedio').textContent='R$ '+tm.toLocaleString('pt-BR');document.getElementById('mPrevisao').textContent='R$ '+pv.toLocaleString('pt-BR');}
+        function renderBalance(){const t=clientes.length,f=clientes.filter(c=>c.status==='closed').length,vt=clientes.reduce((s,c)=>s+(parseFloat(c.valorTotal)||0),0),ve=clientes.reduce((s,c)=>s+(parseFloat(c.valorEntrada)||0),0),tx=t>0?Math.round((f/t)*100):0,pe=vt>0?Math.round((ve/vt)*100):0;document.getElementById('bTaxaConversao').textContent=tx+'%';document.getElementById('pConversao').style.width=tx+'%';document.getElementById('bPercentualEntrada').textContent=pe+'%';document.getElementById('pEntrada').style.width=pe+'%';document.getElementById('bSaldoReceber').textContent='R$ '+(vt-ve).toLocaleString('pt-BR');let m={nome:'-',valor:0};vendedorasValidas.forEach(n=>{const v=clientes.filter(c=>c.vendedora===n&&c.status==='closed').reduce((s,c)=>s+(parseFloat(c.valorTotal)||0),0);if(v>m.valor)m={nome:n,valor:v};});document.getElementById('bMelhorVendedora').textContent=m.nome;document.getElementById('bMelhorValor').textContent='R$ '+m.valor.toLocaleString('pt-BR');}
+        function renderStates(){const g=document.getElementById('statesGrid');if(clientes.length===0){g.innerHTML='<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>';return;}const ec={};clientes.forEach(c=>{if(c.estado)ec[c.estado]=(ec[c.estado]||0)+1;});const max=Math.max(...Object.values(ec));g.innerHTML=Object.entries(ec).sort(([,a],[,b])=>b-a).map(([uf,c])=>{const cls=c>max*0.6?'high':c>max*0.3?'medium':'low';return`<div class="state-item ${cls}"><div>${uf}</div><small>${c}</small></div>`;}).join('');}
+        function renderRanking(){const l=document.getElementById('rankingList');if(clientes.length===0){l.innerHTML='<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>';return;}const s={};vendedorasValidas.forEach(n=>{const v=clientes.filter(c=>c.vendedora===n);s[n]={total:v.length,fechados:v.filter(c=>c.status==='closed').length,valor:v.reduce((a,c)=>a+(parseFloat(c.valorTotal)||0),0)};});l.innerHTML=Object.entries(s).sort(([,a],[,b])=>b.valor-a.valor).map(([n,d],i)=>`<div class="ranking-item"><div class="ranking-pos pos-${i+1}">${['👑','🥈','🥉','⭐'][i]}</div><div class="ranking-info"><div class="ranking-name">${n}</div><div class="ranking-detail">${d.total} clientes</div></div><div class="ranking-value">R$ ${d.valor.toLocaleString('pt-BR')}</div></div>`).join('');}
+        function renderPerformance(){const d=document.getElementById('performanceDetalhada');if(clientes.length===0){d.innerHTML='<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>';return;}d.innerHTML=vendedorasValidas.map(n=>{const v=clientes.filter(c=>c.vendedora===n),vf=v.filter(c=>c.status==='closed').length,txV=v.length>0?Math.round((vf/v.length)*100):0,valV=v.reduce((a,c)=>a+(parseFloat(c.valorTotal)||0),0),meta=50000,pct=Math.round((valV/meta)*100);return`<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><strong>${n}</strong><span>${v.length} clientes | ${txV}% | R$ ${valV.toLocaleString('pt-BR')}</span></div><div style="height:4px;background:rgba(255,255,255,0.05);border-radius:4px;"><div style="height:100%;width:${Math.min(pct,100)}%;background:${pct>=100?'var(--verde)':pct>=50?'var(--amarelo)':'var(--laranja)'};border-radius:4px;"></div></div><div style="font-size:9px;color:var(--cinza);text-align:right;">Meta: ${pct}%</div></div>`;}).join('');}
+        function renderTable(){const fv=document.getElementById('filterVendedora').value,fs=document.getElementById('filterStatus').value,sr=document.getElementById('filterSearch').value.toLowerCase(),tb=document.getElementById('tableBody'),em=document.getElementById('emptyTable');let l=[...clientes];if(fv!=='all')l=l.filter(c=>c.vendedora===fv);if(fs!=='all')l=l.filter(c=>c.status===fs);if(sr)l=l.filter(c=>c.nome.toLowerCase().includes(sr)||c.marca.toLowerCase().includes(sr));l.sort((a,b)=>new Date(b.data)-new Date(a.data));if(l.length===0){tb.innerHTML='';em.style.display='block';return;}em.style.display='none';tb.innerHTML=l.map(c=>{const vT=(parseFloat(c.valorTotal)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),vE=(parseFloat(c.valorEntrada)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),sd=(parseFloat(c.valorTotal)||0)-(parseFloat(c.valorEntrada)||0);return`<tr><td>${c.data?new Date(c.data+'T00:00:00').toLocaleDateString('pt-BR'):'-'}</td><td><strong>${c.nome}</strong></td><td>${c.email||'-'}</td><td>${c.cnpj||c.cpf||'-'}</td><td>${c.telefone||'-'}</td><td><strong>${c.marca}</strong></td><td>${c.vendedora}</td><td>${c.estado}</td><td><strong>${vT}</strong></td><td>${vE}</td><td style="color:${sd<=0?'var(--verde)':'var(--laranja)'};font-weight:600;">${sd.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td><td><span class="badge ${c.status==='closed'?'badge-success':'badge-warning'}">${c.status==='closed'?'✅ Fechado':'⏳ Pendente'}</span></td><td><button class="btn-sm btn-edit" onclick="editCliente('${c.id}')">✏️</button><button class="btn-sm btn-del" onclick="deleteCliente('${c.id}')">🗑️</button></td></tr>`;}).join('');}
+        function openModal(){document.getElementById('modalOverlay').classList.add('active');document.getElementById('formData').value=new Date().toISOString().split('T')[0];['formNome','formEmail','formTelefone','formCPF','formCNPJ','formMarca','formVendedora','formEstado','formValorTotal','formValorEntrada'].forEach(id=>document.getElementById(id).value='');document.getElementById('formStatus').value='pending';document.getElementById('saldoRestante').textContent='💰 Saldo Restante: R$ 0,00';}
+        function closeModal(){document.getElementById('modalOverlay').classList.remove('active');}
+        async function saveCliente(e){e.preventDefault();const cliente={id:Date.now().toString(),nome:document.getElementById('formNome').value,email:document.getElementById('formEmail').value,telefone:document.getElementById('formTelefone').value,cpf:document.getElementById('formCPF').value,cnpj:document.getElementById('formCNPJ').value,marca:document.getElementById('formMarca').value,vendedora:document.getElementById('formVendedora').value,estado:document.getElementById('formEstado').value,valorTotal:parseFloat(document.getElementById('formValorTotal').value),valorEntrada:parseFloat(document.getElementById('formValorEntrada').value),data:document.getElementById('formData').value,status:document.getElementById('formStatus').value};clientes.unshift(cliente);localStorage.setItem('clientes',JSON.stringify(clientes));await enviarParaSheets(cliente);closeModal();renderAll();}
+        function editCliente(id){const c=clientes.find(x=>x.id===id);if(!c)return;document.getElementById('formNome').value=c.nome||'';document.getElementById('formEmail').value=c.email||'';document.getElementById('formTelefone').value=c.telefone||'';document.getElementById('formCPF').value=c.cpf||'';document.getElementById('formCNPJ').value=c.cnpj||'';document.getElementById('formMarca').value=c.marca||'';document.getElementById('formVendedora').value=c.vendedora||'';document.getElementById('formEstado').value=c.estado||'';document.getElementById('formValorTotal').value=c.valorTotal||0;document.getElementById('formValorEntrada').value=c.valorEntrada||0;document.getElementById('formData').value=c.data||'';document.getElementById('formStatus').value=c.status||'pending';calcularSaldo();detectarEstadoPorDDD();document.getElementById('modalOverlay').classList.add('active');}
+        function deleteCliente(id){if(!confirm('Excluir cliente?'))return;clientes=clientes.filter(x=>x.id!==id);localStorage.setItem('clientes',JSON.stringify(clientes));renderAll();}
+        function exportData(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({data:new Date().toISOString(),clientes},null,2)],{type:'application/json'}));a.download='backup_'+new Date().toISOString().split('T')[0]+'.json';a.click();}
+        document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+        document.getElementById('importModal').addEventListener('click',function(e){if(e.target===this)closeImportModal();});
+        document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeImportModal();}});
+        document.addEventListener('DOMContentLoaded',init);
     </script>
 </body>
 </html>
