@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Marcas e Patentes | BI Executivo</title>
-<link rel="icon" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234A90E2'/><text y='.75em' x='.15em' font-size='70'>⚖️</text></svg>">
+    <style>
         :root {
             --bg-dark: #0F1419; --bg-card: #1A1F2E; --bg-header: #1E2538;
             --azul: #4A90E2; --azul-claro: #7BB3F0; --amarelo: #F4D03F;
@@ -191,7 +192,6 @@
         </div>
     </div>
 
-    <!-- MODAL CADASTRO -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h3>➕ Cadastrar Cliente</h3>
@@ -224,24 +224,19 @@
         </div>
     </div>
 
-    <!-- MODAL IMPORTAÇÃO -->
     <div class="modal-overlay" id="importModal">
         <div class="modal modal-large">
             <h3>📥 Importar Planilha (CSV)</h3>
             <p style="font-size:12px;color:var(--cinza);margin-bottom:12px;">Cole os dados da planilha ou faça upload de arquivo CSV</p>
-            
             <div style="display:flex;gap:8px;margin-bottom:12px;">
                 <input type="file" id="fileUpload" accept=".csv,.txt" onchange="handleFileUpload(event)" style="display:none;">
                 <button class="btn btn-outline" onclick="document.getElementById('fileUpload').click()" style="flex:1;">📁 Selecionar Arquivo</button>
                 <button class="btn btn-outline" onclick="limparImportacao()" style="flex:1;">🗑️ Limpar</button>
             </div>
-            
             <label class="form-label">Ou cole os dados aqui</label>
             <textarea class="form-input" id="importData" rows="6" placeholder="Cole aqui os dados...&#10;Nome,Email,Telefone,CPF,CNPJ,Marca,Vendedora,Estado,Valor Total,Entrada,Data,Status" oninput="previewImportacao()"></textarea>
-            
             <div id="validationSummary" class="validation-summary"></div>
             <div class="import-preview" id="importPreview"></div>
-            
             <div class="modal-actions">
                 <button class="btn btn-azul" onclick="executarImportacao()" style="flex:1;">✅ Importar Dados Validados</button>
                 <button class="btn btn-outline" onclick="closeImportModal()" style="flex:1;">Cancelar</button>
@@ -258,9 +253,7 @@
         const vendedorasValidas = ['Patricia','Julya','Nataly','Evellyn'];
         let clientes = [];
         let dadosImportados = [];
-        let errosValidacao = [];
 
-        // ========== GOOGLE SHEETS ==========
         async function sincronizarSheets() {
             const statusEl = document.getElementById('syncStatus');
             const btn = document.getElementById('btnSync');
@@ -293,7 +286,6 @@
             catch(e) { console.log('Sheets offline'); }
         }
 
-        // ========== RESTAURAR BACKUP ==========
         function restaurarBackup() { document.getElementById('restoreFile').click(); }
 
         async function handleRestoreFile(event) {
@@ -317,20 +309,19 @@
             reader.readAsText(file);
         }
 
-        // ========== IMPORTAÇÃO ==========
         function abrirImportacao() {
             document.getElementById('importModal').classList.add('active');
             document.getElementById('importData').value = '';
             document.getElementById('importPreview').innerHTML = '';
             document.getElementById('validationSummary').innerHTML = '';
-            dadosImportados = []; errosValidacao = [];
+            dadosImportados = [];
         }
         function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
         function limparImportacao() {
             document.getElementById('importData').value = '';
             document.getElementById('importPreview').innerHTML = '';
             document.getElementById('validationSummary').innerHTML = '';
-            dadosImportados = []; errosValidacao = [];
+            dadosImportados = [];
         }
         function handleFileUpload(event) {
             const file = event.target.files[0];
@@ -340,7 +331,7 @@
             reader.readAsText(file);
         }
 
-        function validarLinha(dados, linha) {
+        function validarLinha(dados) {
             const erros = [];
             if (!dados.nome || dados.nome.trim() === '') erros.push('Nome obrigatório');
             if (dados.email && !dados.email.includes('@')) erros.push('Email inválido');
@@ -391,7 +382,7 @@
             const raw = document.getElementById('importData').value.trim();
             if (!raw) { document.getElementById('importPreview').innerHTML=''; document.getElementById('validationSummary').innerHTML=''; dadosImportados=[]; return; }
             const linhas = raw.split('\n').filter(l=>l.trim()!=='');
-            dadosImportados=[]; errosValidacao=[];
+            dadosImportados=[];
             const sep = linhas[0].includes('\t') ? '\t' : ',';
             const pular = linhas[0].toLowerCase().includes('nome');
             const inicio = pular ? 1 : 0;
@@ -401,7 +392,7 @@
                 if(cols.length<3) continue;
                 total++;
                 const d={nome:(cols[0]||'').trim(),email:(cols[1]||'').trim(),telefone:(cols[2]||'').trim(),cpf:(cols[3]||'').trim(),cnpj:(cols[4]||'').trim(),marca:(cols[5]||'').trim(),vendedora:(cols[6]||'').trim(),estado:(cols[7]||'').trim(),valorTotal:(cols[8]||'').trim(),valorEntrada:(cols[9]||'').trim(),data:(cols[10]||'').trim(),status:(cols[11]||'pending').trim()};
-                const erros=validarLinha(d,i+1);
+                const erros=validarLinha(d);
                 if(erros.length===0){ok++;d._status='ok';}else if(erros.length<=2&&!erros.some(e=>e.includes('obrigatório'))){warn++;d._status='warn';}else{err++;d._status='error';}
                 d._erros=erros; dadosImportados.push(d);
             }
@@ -427,7 +418,6 @@
             alert('✅ '+imp+' clientes importados!');
         }
 
-        // ========== FUNÇÕES EXISTENTES ==========
         function detectarEstadoPorDDD() {
             const tel=document.getElementById('formTelefone'),estado=document.getElementById('formEstado'),info=document.getElementById('dddInfo');
             let t=tel.value.replace(/\D/g,'');
