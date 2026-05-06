@@ -42,10 +42,9 @@
         .btn-sync{background:var(--verde);color:var(--branco);font-size:11px;padding:8px 14px}
         .btn-import{background:var(--roxo);color:var(--branco);font-size:11px;padding:8px 14px}
         .btn-restore{background:var(--laranja);color:var(--branco);font-size:11px;padding:8px 14px}
-        .btn-consultar{background:var(--azul);color:var(--branco);font-size:10px;padding:6px 12px;cursor:pointer;border:none;border-radius:6px;font-weight:600;transition:all 0.3s;white-space:nowrap}
-        .btn-consultar:hover{background:#357ABD;transform:translateY(-1px)}
-        .btn-consultar:disabled{opacity:0.5;cursor:not-allowed}
-        .btn-import:hover,.btn-sync:hover,.btn-restore:hover{transform:translateY(-2px);opacity:0.9}
+        .btn-toggle{background:rgba(255,255,255,0.05);border:1px solid var(--borda);color:var(--cinza-claro);font-size:11px;padding:8px 12px;cursor:pointer;border-radius:8px;transition:all 0.3s}
+        .btn-toggle.active{background:var(--azul);color:var(--branco);border-color:var(--azul)}
+        .btn-import:hover,.btn-sync:hover,.btn-restore:hover,.btn-toggle:hover{transform:translateY(-2px);opacity:0.9}
         .metrics-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
         .metric-card{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:18px;transition:all 0.3s;position:relative;overflow:hidden;cursor:pointer}
         .metric-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
@@ -62,7 +61,11 @@
         .dashboard-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
         .panel{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:20px}
         .panel-full{grid-column:1/-1}
-        .panel-title{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .panel-title{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+        .panel-title:hover{color:var(--azul-claro)}
+        .section-content{transition:all 0.3s}
+        .section-hidden{display:none}
+        .section-visible{display:block}
         .states-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
         .state-item{padding:10px 6px;border-radius:8px;text-align:center;cursor:pointer;transition:all 0.3s;font-weight:600;font-size:12px}
         .state-item.high{background:rgba(74,144,226,0.3);border:1px solid rgba(74,144,226,0.5);color:var(--azul-claro)}
@@ -93,6 +96,8 @@
         .badge-success{background:rgba(46,204,113,0.15);color:var(--verde)}
         .badge-warning{background:rgba(244,208,63,0.15);color:var(--amarelo)}
         .badge-error{background:rgba(231,76,60,0.15);color:var(--vermelho)}
+        .badge-info{background:rgba(74,144,226,0.15);color:var(--azul-claro)}
+        .badge-duplicate{background:rgba(155,89,182,0.15);color:#BB8FCE}
         .btn-sm{padding:4px 8px;font-size:9px;border-radius:5px;border:none;cursor:pointer;font-weight:600}
         .btn-edit{background:rgba(244,208,63,0.2);color:var(--amarelo)}
         .btn-del{background:rgba(231,76,60,0.2);color:var(--vermelho)}
@@ -100,34 +105,33 @@
         .modal-overlay.active{display:flex}
         .modal{background:var(--bg-card);border:1px solid var(--borda);border-radius:var(--radius);padding:24px;max-width:700px;width:94%;max-height:90vh;overflow-y:auto}
         .modal h3{font-size:18px;margin-bottom:16px}
-        .modal-large{max-width:900px}
+        .modal-large{max-width:950px}
         .form-input,.form-select{width:100%;padding:10px 12px;background:var(--bg-dark);border:1px solid var(--borda);border-radius:8px;color:var(--branco);font-size:12px;margin-bottom:8px}
         .form-input:focus,.form-select:focus{outline:none;border-color:var(--azul)}
         .form-input.estado-detectado{border-color:var(--verde)!important;background:rgba(46,204,113,0.08)!important}
-        .form-input.cnpj-encontrado{border-color:var(--verde)!important;background:rgba(46,204,113,0.08)!important}
         .form-input.error{border-color:var(--vermelho)!important;background:rgba(231,76,60,0.08)!important}
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
         .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
         .form-label{font-size:10px;color:var(--cinza-claro);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;display:block}
         .ddd-info{font-size:10px;color:var(--verde);margin-top:-4px;margin-bottom:6px;display:none;font-weight:600}
         .ddd-info.show{display:block}
-        .cnpj-info{font-size:10px;color:var(--azul-claro);margin-top:-4px;margin-bottom:6px;display:none;font-weight:600}
-        .cnpj-info.show{display:block}
-        .cnpj-info.loading{color:var(--laranja)}
         .saldo-restante{font-size:11px;color:var(--laranja);margin-top:-4px;margin-bottom:6px;font-weight:600}
-        .modal-actions{display:flex;gap:8px;margin-top:12px}
-        .import-preview{max-height:300px;overflow-y:auto;margin:12px 0;border:1px solid var(--borda);border-radius:8px}
+        .modal-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+        .import-preview{max-height:350px;overflow-y:auto;margin:12px 0;border:1px solid var(--borda);border-radius:8px}
         .import-preview table{min-width:100%}
         .import-preview td{font-size:10px;padding:6px 8px}
-        .validation-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+        .validation-summary{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
         .validation-item{padding:12px;border-radius:8px;text-align:center;font-size:12px;font-weight:600}
         .validation-ok{background:rgba(46,204,113,0.1);border:1px solid var(--verde);color:var(--verde)}
         .validation-warn{background:rgba(243,156,18,0.1);border:1px solid var(--laranja);color:var(--laranja)}
         .validation-error{background:rgba(231,76,60,0.1);border:1px solid var(--vermelho);color:var(--vermelho)}
+        .validation-dup{background:rgba(155,89,182,0.1);border:1px solid #BB8FCE;color:#BB8FCE}
+        .import-options{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+        .import-options label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cinza-claro);cursor:pointer}
         .footer{text-align:center;padding:16px;color:var(--cinza);font-size:11px;border-top:1px solid var(--borda);margin-top:20px}
         @media(max-width:1400px){.metrics-grid{grid-template-columns:repeat(3,1fr)}.dashboard-grid{grid-template-columns:1fr 1fr}}
         @media(max-width:900px){.metrics-grid{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr}.balance-grid{grid-template-columns:repeat(2,1fr)}.validation-summary{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:600px){.metrics-grid{grid-template-columns:1fr}.header{flex-direction:column;text-align:center}.top-bar .quick-links{width:100%;justify-content:center}}
+        @media(max-width:600px){.metrics-grid{grid-template-columns:1fr}.header{flex-direction:column;text-align:center}.import-options{flex-direction:column}}
     </style>
 </head>
 <body>
@@ -155,67 +159,75 @@
             </div>
         </div>
 
+        <!-- MÉTRICAS - CLICÁVEIS -->
         <div class="metrics-grid">
-            <div class="metric-card"><div class="metric-icon">💼</div><div class="metric-value" id="mTotal">0</div><div class="metric-label">Total Clientes</div></div>
-            <div class="metric-card"><div class="metric-icon">✅</div><div class="metric-value" id="mFechados">0</div><div class="metric-label">Fechados</div></div>
-            <div class="metric-card"><div class="metric-icon">💰</div><div class="metric-value" id="mValorTotal">R$ 0</div><div class="metric-label">Valor Total</div></div>
-            <div class="metric-card"><div class="metric-icon">💵</div><div class="metric-value" id="mEntradas">R$ 0</div><div class="metric-label">Entradas</div></div>
-            <div class="metric-card"><div class="metric-icon">📊</div><div class="metric-value" id="mTicketMedio">R$ 0</div><div class="metric-label">Ticket Médio</div></div>
-            <div class="metric-card"><div class="metric-icon">🎯</div><div class="metric-value" id="mPrevisao">R$ 0</div><div class="metric-label">Previsto</div></div>
+            <div class="metric-card" onclick="toggleSection('table-section')"><div class="metric-icon">💼</div><div class="metric-value" id="mTotal">0</div><div class="metric-label">Total Clientes</div></div>
+            <div class="metric-card" onclick="toggleSection('table-section')"><div class="metric-icon">✅</div><div class="metric-value" id="mFechados">0</div><div class="metric-label">Fechados</div></div>
+            <div class="metric-card" onclick="toggleSection('balance-panel')"><div class="metric-icon">💰</div><div class="metric-value" id="mValorTotal">R$ 0</div><div class="metric-label">Valor Total</div></div>
+            <div class="metric-card" onclick="toggleSection('balance-panel')"><div class="metric-icon">💵</div><div class="metric-value" id="mEntradas">R$ 0</div><div class="metric-label">Entradas</div></div>
+            <div class="metric-card" onclick="toggleSection('ranking-panel')"><div class="metric-icon">📊</div><div class="metric-value" id="mTicketMedio">R$ 0</div><div class="metric-label">Ticket Médio</div></div>
+            <div class="metric-card" onclick="toggleSection('states-panel')"><div class="metric-icon">🎯</div><div class="metric-value" id="mPrevisao">R$ 0</div><div class="metric-label">Previsto</div></div>
         </div>
 
-        <div class="panel panel-full" style="margin-bottom:20px;">
-            <div class="panel-title">📈 Balanceamento do Desenvolvimento da Empresa</div>
-            <div class="balance-grid">
-                <div class="balance-item"><div class="b-value" id="bTaxaConversao" style="color:var(--verde);">0%</div><div class="b-label">Taxa de Conversão</div><div class="progress-bar"><div class="progress-fill" id="pConversao" style="width:0%;background:var(--verde);"></div></div></div>
-                <div class="balance-item"><div class="b-value" id="bPercentualEntrada" style="color:var(--azul-claro);">0%</div><div class="b-label">% de Entrada</div><div class="progress-bar"><div class="progress-fill" id="pEntrada" style="width:0%;background:var(--azul);"></div></div></div>
-                <div class="balance-item"><div class="b-value" id="bSaldoReceber" style="color:var(--laranja);">R$ 0</div><div class="b-label">Saldo a Receber</div></div>
-                <div class="balance-item"><div class="b-value" id="bMelhorVendedora" style="color:var(--amarelo);">-</div><div class="b-label">Melhor Vendedora</div><div class="b-sub" id="bMelhorValor">-</div></div>
+        <!-- BALANCEAMENTO -->
+        <div class="panel panel-full section-visible" id="balance-panel" style="margin-bottom:20px;">
+            <div class="panel-title" onclick="toggleSectionContent('balance-content')">📈 Balanceamento do Desenvolvimento da Empresa <span style="font-size:10px;color:var(--cinza);">(clique para expandir)</span></div>
+            <div class="section-content section-visible" id="balance-content">
+                <div class="balance-grid">
+                    <div class="balance-item"><div class="b-value" id="bTaxaConversao" style="color:var(--verde);">0%</div><div class="b-label">Taxa de Conversão</div><div class="progress-bar"><div class="progress-fill" id="pConversao" style="width:0%;background:var(--verde);"></div></div></div>
+                    <div class="balance-item"><div class="b-value" id="bPercentualEntrada" style="color:var(--azul-claro);">0%</div><div class="b-label">% de Entrada</div><div class="progress-bar"><div class="progress-fill" id="pEntrada" style="width:0%;background:var(--azul);"></div></div></div>
+                    <div class="balance-item"><div class="b-value" id="bSaldoReceber" style="color:var(--laranja);">R$ 0</div><div class="b-label">Saldo a Receber</div></div>
+                    <div class="balance-item"><div class="b-value" id="bMelhorVendedora" style="color:var(--amarelo);">-</div><div class="b-label">Melhor Vendedora</div><div class="b-sub" id="bMelhorValor">-</div></div>
+                </div>
             </div>
         </div>
 
+        <!-- GRID PRINCIPAL -->
         <div class="dashboard-grid">
-            <div class="panel"><div class="panel-title">🗺️ Estados</div><div class="states-grid" id="statesGrid"></div></div>
-            <div class="panel"><div class="panel-title">👑 Ranking</div><div id="rankingList"></div></div>
-            <div class="panel"><div class="panel-title">🏆 Performance</div><div id="performanceDetalhada"></div></div>
+            <div class="panel" id="states-panel">
+                <div class="panel-title" onclick="toggleSectionContent('states-content')">🗺️ Estados <span style="font-size:10px;color:var(--cinza);">(clique)</span></div>
+                <div class="section-content section-visible" id="states-content"><div class="states-grid" id="statesGrid"></div></div>
+            </div>
+            <div class="panel" id="ranking-panel">
+                <div class="panel-title" onclick="toggleSectionContent('ranking-content')">👑 Ranking <span style="font-size:10px;color:var(--cinza);">(clique)</span></div>
+                <div class="section-content section-visible" id="ranking-content"><div id="rankingList"></div></div>
+            </div>
+            <div class="panel" id="performance-panel">
+                <div class="panel-title" onclick="toggleSectionContent('performance-content')">🏆 Performance <span style="font-size:10px;color:var(--cinza);">(clique)</span></div>
+                <div class="section-content section-visible" id="performance-content"><div id="performanceDetalhada"></div></div>
+            </div>
         </div>
 
-        <div class="table-section">
+        <!-- TABELA -->
+        <div class="table-section section-visible" id="table-section">
             <div class="table-header">
-                <div class="panel-title">📋 Base de Clientes</div>
+                <div class="panel-title" onclick="toggleSectionContent('table-content')">📋 Base de Clientes <span style="font-size:10px;color:var(--cinza);">(clique para expandir)</span></div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
                     <select class="filter-select" id="filterVendedora" onchange="renderTable()"><option value="all">Todas</option><option>Patricia</option><option>Julya</option><option>Nataly</option><option>Evellyn</option></select>
                     <select class="filter-select" id="filterStatus" onchange="renderTable()"><option value="all">Todos</option><option value="closed">Fechados</option><option value="pending">Pendentes</option></select>
                     <input type="text" class="filter-select" id="filterSearch" placeholder="🔍 Buscar..." oninput="renderTable()" style="width:150px;">
                 </div>
             </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead><tr><th>Data</th><th>Cliente</th><th>Email</th><th>CPF/CNPJ</th><th>Telefone</th><th>Marca</th><th>Vendedora</th><th>Estado</th><th>Valor Total</th><th>Entrada</th><th>Saldo</th><th>Status</th><th>Ações</th></tr></thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-                <div id="emptyTable" style="text-align:center;padding:40px;color:var(--cinza);"><div style="font-size:40px;">📋</div><p>Nenhum cliente cadastrado</p></div>
+            <div class="section-content section-visible" id="table-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>Data</th><th>Cliente</th><th>Email</th><th>CPF/CNPJ</th><th>Telefone</th><th>Marca</th><th>Vendedora</th><th>Estado</th><th>Valor Total</th><th>Entrada</th><th>Saldo</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                    <div id="emptyTable" style="text-align:center;padding:40px;color:var(--cinza);"><div style="font-size:40px;">📋</div><p>Nenhum cliente cadastrado</p></div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL CADASTRO -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h3>➕ Cadastrar Cliente</h3>
             <form onsubmit="saveCliente(event)">
                 <div class="form-row">
-                    <div>
-                        <label class="form-label">CNPJ</label>
-                        <div style="display:flex;gap:4px;">
-                            <input type="text" class="form-input" id="formCNPJ" placeholder="00.000.000/0000-00" oninput="formatarCNPJ()" style="flex:1;">
-                            <button type="button" class="btn-consultar" id="btnConsultarCNPJ" onclick="consultarCNPJ()">🔍 Buscar</button>
-                        </div>
-                        <div class="cnpj-info" id="cnpjInfo"></div>
-                    </div>
-                    <div>
-                        <label class="form-label">CPF</label>
-                        <input type="text" class="form-input" id="formCPF" placeholder="000.000.000-00">
-                    </div>
+                    <div><label class="form-label">CNPJ</label><input type="text" class="form-input" id="formCNPJ" placeholder="00.000.000/0000-00"></div>
+                    <div><label class="form-label">CPF</label><input type="text" class="form-input" id="formCPF" placeholder="000.000.000-00"></div>
                 </div>
                 <label class="form-label">Nome do Cliente / Razão Social</label>
                 <input type="text" class="form-input" id="formNome" placeholder="Nome completo ou Razão Social" required>
@@ -241,21 +253,34 @@
         </div>
     </div>
 
+    <!-- MODAL IMPORTAÇÃO -->
     <div class="modal-overlay" id="importModal">
         <div class="modal modal-large">
-            <h3>📥 Importar Planilha (CSV)</h3>
-            <p style="font-size:12px;color:var(--cinza);margin-bottom:12px;">Cole os dados ou faça upload de arquivo CSV</p>
+            <h3>📥 Importar Planilha</h3>
+            <p style="font-size:12px;color:var(--cinza);margin-bottom:8px;">📋 Copie os dados do Excel e cole abaixo, ou faça upload de arquivo CSV/TXT</p>
+            <p style="font-size:10px;color:var(--laranja);margin-bottom:12px;">⚠️ O sistema detecta automaticamente duplicatas por CPF/CNPJ</p>
+            
             <div style="display:flex;gap:8px;margin-bottom:12px;">
                 <input type="file" id="fileUpload" accept=".csv,.txt" onchange="handleFileUpload(event)" style="display:none;">
                 <button class="btn btn-outline" onclick="document.getElementById('fileUpload').click()" style="flex:1;">📁 Selecionar Arquivo</button>
                 <button class="btn btn-outline" onclick="limparImportacao()" style="flex:1;">🗑️ Limpar</button>
             </div>
-            <label class="form-label">Ou cole os dados aqui</label>
-            <textarea class="form-input" id="importData" rows="6" placeholder="Nome,Email,Telefone,CPF,CNPJ,Marca,Vendedora,Estado,Valor Total,Entrada,Data,Status" oninput="previewImportacao()"></textarea>
+            
+            <label class="form-label">Cole os dados aqui (copie diretamente do Excel e cole)</label>
+            <textarea class="form-input" id="importData" rows="5" placeholder="Cole aqui os dados do Excel...&#10;Exemplo: Nome | Email | Telefone | CPF | CNPJ | Marca | Vendedora | Estado | Valor Total | Entrada | Data | Status" oninput="previewImportacao()"></textarea>
+            
             <div id="validationSummary" class="validation-summary"></div>
+            
+            <div class="import-options" id="importOptions" style="display:none;">
+                <label><input type="checkbox" id="optPularDuplicados" checked> Pular duplicados</label>
+                <label><input type="checkbox" id="optAtualizarExistentes"> Atualizar existentes</label>
+                <label><input type="checkbox" id="optImportarNovos" checked> Importar novos</label>
+            </div>
+            
             <div class="import-preview" id="importPreview"></div>
+            
             <div class="modal-actions">
-                <button class="btn btn-azul" onclick="executarImportacao()" style="flex:1;">✅ Importar Dados Validados</button>
+                <button class="btn btn-azul" onclick="executarImportacao()" style="flex:1;">✅ Importar Dados</button>
                 <button class="btn btn-outline" onclick="closeImportModal()" style="flex:1;">Cancelar</button>
             </div>
         </div>
@@ -269,153 +294,34 @@
         // TODOS OS 67 DDDs DO BRASIL
         const dddEstados = {
             '11':'SP','12':'SP','13':'SP','14':'SP','15':'SP','16':'SP','17':'SP','18':'SP','19':'SP',
-            '21':'RJ','22':'RJ','24':'RJ',
-            '27':'ES','28':'ES',
+            '21':'RJ','22':'RJ','24':'RJ','27':'ES','28':'ES',
             '31':'MG','32':'MG','33':'MG','34':'MG','35':'MG','37':'MG','38':'MG',
             '41':'PR','42':'PR','43':'PR','44':'PR','45':'PR','46':'PR',
-            '47':'SC','48':'SC','49':'SC',
-            '51':'RS','53':'RS','54':'RS','55':'RS',
-            '61':'DF',
-            '62':'GO','64':'GO',
-            '63':'TO',
-            '65':'MT','66':'MT',
-            '67':'MS',
-            '68':'AC',
-            '69':'RO',
-            '71':'BA','73':'BA','74':'BA','75':'BA','77':'BA',
-            '79':'SE',
-            '81':'PE','87':'PE',
-            '82':'AL',
-            '83':'PB',
-            '84':'RN',
-            '85':'CE','88':'CE',
-            '86':'PI','89':'PI',
-            '91':'PA','93':'PA','94':'PA',
-            '92':'AM','97':'AM',
-            '95':'RR',
-            '96':'AP',
-            '98':'MA','99':'MA'
+            '47':'SC','48':'SC','49':'SC','51':'RS','53':'RS','54':'RS','55':'RS',
+            '61':'DF','62':'GO','64':'GO','63':'TO','65':'MT','66':'MT','67':'MS','68':'AC','69':'RO',
+            '71':'BA','73':'BA','74':'BA','75':'BA','77':'BA','79':'SE',
+            '81':'PE','87':'PE','82':'AL','83':'PB','84':'RN','85':'CE','88':'CE','86':'PI','89':'PI',
+            '91':'PA','93':'PA','94':'PA','92':'AM','97':'AM','95':'RR','96':'AP','98':'MA','99':'MA'
         };
-
         const estadosValidos = ['SP','RJ','MG','RS','PR','SC','BA','PE','CE','DF','GO','ES','AM','PA','MT','MS','AL','SE','PB','RN','PI','MA','RR','AP','TO','AC','RO'];
         const vendedorasValidas = ['Patricia','Julya','Nataly','Evellyn'];
         let clientes = [];
         let dadosImportados = [];
 
-        // ========== CONSULTA CNPJ (CORRIGIDA) ==========
-        function formatarCNPJ() {
-            let cnpj = document.getElementById('formCNPJ').value.replace(/\D/g, '');
-            if (cnpj.length > 14) cnpj = cnpj.substring(0, 14);
-            if (cnpj.length > 12) {
-                document.getElementById('formCNPJ').value = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-            } else if (cnpj.length > 8) {
-                document.getElementById('formCNPJ').value = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})/, '$1.$2.$3/$4');
-            } else if (cnpj.length > 5) {
-                document.getElementById('formCNPJ').value = cnpj.replace(/^(\d{2})(\d{3})(\d{3})/, '$1.$2.$3');
-            } else if (cnpj.length > 2) {
-                document.getElementById('formCNPJ').value = cnpj.replace(/^(\d{2})(\d{3})/, '$1.$2');
-            } else {
-                document.getElementById('formCNPJ').value = cnpj;
+        // ========== TOGGLE SEÇÕES ==========
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.toggle('section-hidden');
+                section.classList.toggle('section-visible');
             }
         }
-
-        async function consultarCNPJ() {
-            const cnpjInput = document.getElementById('formCNPJ');
-            const cnpj = cnpjInput.value.replace(/\D/g, '');
-            const info = document.getElementById('cnpjInfo');
-            const btn = document.getElementById('btnConsultarCNPJ');
-
-            if (cnpj.length !== 14) {
-                info.textContent = '⚠️ CNPJ deve ter 14 dígitos';
-                info.className = 'cnpj-info show';
-                info.style.color = 'var(--laranja)';
-                return;
+        function toggleSectionContent(contentId) {
+            const content = document.getElementById(contentId);
+            if (content) {
+                content.classList.toggle('section-hidden');
+                content.classList.toggle('section-visible');
             }
-
-            btn.disabled = true;
-            btn.textContent = '⏳ Buscando...';
-            info.textContent = '🔍 Consultando CNPJ...';
-            info.className = 'cnpj-info show loading';
-            info.style.color = 'var(--laranja)';
-
-            try {
-                // Tentar múltiplas APIs
-                let response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
-                
-                if (!response.ok) {
-                    response = await fetch(`https://minhareceita.org/${cnpj}`);
-                }
-                
-                if (!response.ok) {
-                    response = await fetch(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`);
-                }
-
-                if (!response.ok) throw new Error('CNPJ não encontrado');
-
-                const data = await response.json();
-                
-                if (data.status === 'ERROR' || (data.message && data.message.includes('error'))) {
-                    throw new Error('CNPJ inválido');
-                }
-
-                // Extrair dados
-                const razaoSocial = data.razao_social || data.nome || data.company?.name || '';
-                const nomeFantasia = data.nome_fantasia || data.fantasia || data.company?.fantasy_name || '';
-                const telefone = data.telefone || data.ddd_telefone_1 || '';
-                const ddd = data.ddd || data.ddd_telefone_1 || (telefone ? telefone.substring(0, 2) : '');
-                const email = data.email || '';
-
-                // Preencher Nome
-                document.getElementById('formNome').value = razaoSocial || nomeFantasia;
-                
-                // Preencher Email
-                if (email) {
-                    document.getElementById('formEmail').value = email;
-                } else if (razaoSocial) {
-                    const nomeEmail = razaoSocial.toLowerCase()
-                        .replace(/[^a-z0-9\s]/g, '')
-                        .replace(/\s+/g, '.')
-                        .substring(0, 30);
-                    document.getElementById('formEmail').value = `contato@${nomeEmail}.com.br`;
-                }
-                
-                // Preencher Telefone
-                if (telefone && telefone.length >= 8) {
-                    const dddTel = ddd || telefone.substring(0, 2);
-                    const numero = telefone.length > 8 ? telefone.substring(telefone.length - 9) : telefone;
-                    document.getElementById('formTelefone').value = `(${dddTel}) ${numero}`;
-                }
-                
-                // Detectar Estado pelo DDD
-                if (ddd && dddEstados[ddd]) {
-                    document.getElementById('formEstado').value = dddEstados[ddd];
-                    document.getElementById('formEstado').classList.add('estado-detectado');
-                } else if (data.uf) {
-                    document.getElementById('formEstado').value = data.uf;
-                    document.getElementById('formEstado').classList.add('estado-detectado');
-                }
-                
-                // Marcar campos
-                cnpjInput.classList.add('cnpj-encontrado');
-                if (document.getElementById('formTelefone').value) {
-                    document.getElementById('formTelefone').classList.add('estado-detectado');
-                }
-                
-                const nomeExibido = razaoSocial || nomeFantasia || 'CNPJ encontrado';
-                info.textContent = '✅ ' + nomeExibido.substring(0, 50);
-                info.className = 'cnpj-info show';
-                info.style.color = 'var(--verde)';
-
-            } catch (error) {
-                console.error('Erro:', error);
-                info.textContent = '⚠️ CNPJ não encontrado. Preencha manualmente.';
-                info.className = 'cnpj-info show';
-                info.style.color = 'var(--laranja)';
-                cnpjInput.classList.remove('cnpj-encontrado');
-            }
-
-            btn.disabled = false;
-            btn.textContent = '🔍 Buscar';
         }
 
         // ========== GOOGLE SHEETS ==========
@@ -474,11 +380,13 @@
             reader.readAsText(file);
         }
 
+        // ========== IMPORTAÇÃO COM ANTI-DUPLICAÇÃO ==========
         function abrirImportacao() {
             document.getElementById('importModal').classList.add('active');
             document.getElementById('importData').value = '';
             document.getElementById('importPreview').innerHTML = '';
             document.getElementById('validationSummary').innerHTML = '';
+            document.getElementById('importOptions').style.display = 'none';
             dadosImportados = [];
         }
         function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
@@ -486,6 +394,7 @@
             document.getElementById('importData').value = '';
             document.getElementById('importPreview').innerHTML = '';
             document.getElementById('validationSummary').innerHTML = '';
+            document.getElementById('importOptions').style.display = 'none';
             dadosImportados = [];
         }
         function handleFileUpload(event) {
@@ -496,13 +405,27 @@
             reader.readAsText(file);
         }
 
+        // Verificar duplicata por CPF/CNPJ
+        function encontrarDuplicata(dados) {
+            const cpf = (dados.cpf || '').replace(/\D/g, '');
+            const cnpj = (dados.cnpj || '').replace(/\D/g, '');
+            
+            if (cpf && cpf.length === 11) {
+                return clientes.find(c => c.cpf && c.cpf.replace(/\D/g, '') === cpf);
+            }
+            if (cnpj && cnpj.length === 14) {
+                return clientes.find(c => c.cnpj && c.cnpj.replace(/\D/g, '') === cnpj);
+            }
+            return null;
+        }
+
         function validarLinha(dados) {
             const erros = [];
             if (!dados.nome || dados.nome.trim() === '') erros.push('Nome obrigatório');
             if (dados.email && !dados.email.includes('@')) erros.push('Email inválido');
             if (dados.telefone && dados.telefone.replace(/\D/g,'').length < 10) erros.push('Telefone curto');
-            if (dados.cpf && dados.cpf.replace(/\D/g,'').length !== 11) erros.push('CPF inválido');
-            if (dados.cnpj && dados.cnpj.replace(/\D/g,'').length !== 14) erros.push('CNPJ inválido');
+            if (dados.cpf && dados.cpf.replace(/\D/g,'').length !== 11) erros.push('CPF deve ter 11 dígitos');
+            if (dados.cnpj && dados.cnpj.replace(/\D/g,'').length !== 14) erros.push('CNPJ deve ter 14 dígitos');
             if (!dados.cpf && !dados.cnpj) erros.push('CPF ou CNPJ obrigatório');
             if (!dados.marca || dados.marca.trim() === '') erros.push('Marca obrigatória');
             if (dados.vendedora) {
@@ -545,44 +468,152 @@
 
         function previewImportacao() {
             const raw = document.getElementById('importData').value.trim();
-            if (!raw) { document.getElementById('importPreview').innerHTML=''; document.getElementById('validationSummary').innerHTML=''; dadosImportados=[]; return; }
+            if (!raw) { 
+                document.getElementById('importPreview').innerHTML=''; 
+                document.getElementById('validationSummary').innerHTML=''; 
+                document.getElementById('importOptions').style.display='none';
+                dadosImportados=[]; 
+                return; 
+            }
+            
             const linhas = raw.split('\n').filter(l=>l.trim()!=='');
             dadosImportados=[];
-            const sep = linhas[0].includes('\t') ? '\t' : ',';
-            const pular = linhas[0].toLowerCase().includes('nome');
-            const inicio = pular ? 1 : 0;
-            let total=0, ok=0, err=0, warn=0;
-            for(let i=inicio;i<linhas.length;i++){
-                const cols=linhas[i].split(sep);
-                if(cols.length<3) continue;
-                total++;
-                const d={nome:(cols[0]||'').trim(),email:(cols[1]||'').trim(),telefone:(cols[2]||'').trim(),cpf:(cols[3]||'').trim(),cnpj:(cols[4]||'').trim(),marca:(cols[5]||'').trim(),vendedora:(cols[6]||'').trim(),estado:(cols[7]||'').trim(),valorTotal:(cols[8]||'').trim(),valorEntrada:(cols[9]||'').trim(),data:(cols[10]||'').trim(),status:(cols[11]||'pending').trim()};
-                const erros=validarLinha(d);
-                if(erros.length===0){ok++;d._status='ok';}else if(erros.length<=2&&!erros.some(e=>e.includes('obrigatório'))){warn++;d._status='warn';}else{err++;d._status='error';}
-                d._erros=erros; dadosImportados.push(d);
+            
+            // Detectar separador: TAB, vírgula ou pipe
+            let sep = ',';
+            if (linhas[0].includes('\t')) sep = '\t';
+            else if (linhas[0].includes('|')) sep = '|';
+            else if (linhas[0].includes(';')) sep = ';';
+            
+            const primeiraLinha = linhas[0].toLowerCase();
+            const pularCabecalho = primeiraLinha.includes('nome') || primeiraLinha.includes('cliente') || primeiraLinha.includes('email');
+            const inicio = pularCabecalho ? 1 : 0;
+            
+            let totalLinhas=0, linhasOK=0, linhasErro=0, linhasAviso=0, linhasDuplicadas=0;
+            
+            for(let i=inicio; i<linhas.length; i++) {
+                const cols = linhas[i].split(sep);
+                if(cols.length < 3) continue;
+                totalLinhas++;
+                
+                const d = {
+                    nome:(cols[0]||'').trim(),
+                    email:(cols[1]||'').trim(),
+                    telefone:(cols[2]||'').trim(),
+                    cpf:(cols[3]||'').trim(),
+                    cnpj:(cols[4]||'').trim(),
+                    marca:(cols[5]||'').trim(),
+                    vendedora:(cols[6]||'').trim(),
+                    estado:(cols[7]||'').trim(),
+                    valorTotal:(cols[8]||'').trim(),
+                    valorEntrada:(cols[9]||'').trim(),
+                    data:(cols[10]||'').trim(),
+                    status:(cols[11]||'pending').trim()
+                };
+                
+                // Verificar duplicata
+                const duplicata = encontrarDuplicata(d);
+                if (duplicata) {
+                    linhasDuplicadas++;
+                    d._status = 'duplicate';
+                    d._duplicata = duplicata;
+                } else {
+                    const erros = validarLinha(d);
+                    if(erros.length===0){linhasOK++;d._status='ok';}
+                    else if(erros.length<=2&&!erros.some(e=>e.includes('obrigatório'))){linhasAviso++;d._status='warn';}
+                    else{linhasErro++;d._status='error';}
+                    d._erros=erros;
+                }
+                dadosImportados.push(d);
             }
-            document.getElementById('validationSummary').innerHTML=`<div class="validation-item validation-ok">✅ ${ok} OK</div><div class="validation-item validation-warn">⚠️ ${warn} Avisos</div><div class="validation-item validation-error">❌ ${err} Erros</div><div class="validation-item" style="background:rgba(74,144,226,0.1);border:1px solid var(--azul);color:var(--azul-claro);">📊 ${total} Total</div>`;
+            
+            // Resumo
+            document.getElementById('validationSummary').innerHTML = `
+                <div class="validation-item validation-ok">✅ ${linhasOK} Novos</div>
+                <div class="validation-item validation-dup">📋 ${linhasDuplicadas} Duplicados</div>
+                <div class="validation-item validation-warn">⚠️ ${linhasAviso} Avisos</div>
+                <div class="validation-item validation-error">❌ ${linhasErro} Erros</div>
+                <div class="validation-item" style="background:rgba(74,144,226,0.1);border:1px solid var(--azul);color:var(--azul-claro);">📊 ${totalLinhas} Total</div>
+            `;
+            
+            document.getElementById('importOptions').style.display = 'flex';
+            
+            // Preview
             if(dadosImportados.length>0){
-                let h='<table><thead><tr><th>St</th><th>Nome</th><th>Email</th><th>Tel</th><th>Marca</th><th>Vend</th><th>UF</th><th>Total</th><th>Entrada</th><th>Problemas</th></tr></thead><tbody>';
-                dadosImportados.forEach(d=>{const c=d._status==='ok'?'var(--verde)':d._status==='warn'?'var(--laranja)':'var(--vermelho)';const ic=d._status==='ok'?'✅':d._status==='warn'?'⚠️':'❌';h+=`<tr><td style="color:${c}">${ic}</td><td>${d.nome||'-'}</td><td>${d.email||'-'}</td><td>${d.telefone||'-'}</td><td>${d.marca||'-'}</td><td>${d.vendedora||'-'}</td><td>${d.estado||'-'}</td><td>${d.valorTotal||0}</td><td>${d.valorEntrada||0}</td><td style="color:${c};font-size:9px;">${d._erros.join('; ')||'OK'}</td></tr>`;});
-                h+='</tbody></table>'; document.getElementById('importPreview').innerHTML=h;
+                let h='<table><thead><tr><th>St</th><th>Nome</th><th>Email</th><th>Tel</th><th>Marca</th><th>Vend</th><th>UF</th><th>Total</th><th>Entrada</th><th>Info</th></tr></thead><tbody>';
+                dadosImportados.forEach(d=>{
+                    let cor, ic, info;
+                    if(d._status==='duplicate'){cor='#BB8FCE';ic='📋';info='Duplicado: '+d._duplicata.nome;}
+                    else if(d._status==='ok'){cor='var(--verde)';ic='✅';info='OK';}
+                    else if(d._status==='warn'){cor='var(--laranja)';ic='⚠️';info=d._erros.join('; ');}
+                    else{cor='var(--vermelho)';ic='❌';info=d._erros.join('; ');}
+                    h+=`<tr><td style="color:${cor}">${ic}</td><td>${d.nome||'-'}</td><td>${d.email||'-'}</td><td>${d.telefone||'-'}</td><td>${d.marca||'-'}</td><td>${d.vendedora||'-'}</td><td>${d.estado||'-'}</td><td>${d.valorTotal||0}</td><td>${d.valorEntrada||0}</td><td style="color:${cor};font-size:9px;">${info}</td></tr>`;
+                });
+                h+='</tbody></table>';
+                document.getElementById('importPreview').innerHTML=h;
             }
         }
 
         async function executarImportacao() {
-            const dadosOK = dadosImportados.filter(d => d._status === 'ok' || d._status === 'warn');
-            if (dadosOK.length === 0) { alert('⚠️ Nenhum dado válido!'); return; }
-            if (!confirm(`Importar ${dadosOK.length} clientes?`)) return;
-            let imp=0;
-            for (const d of dadosOK) {
-                const cliente={id:Date.now().toString()+'_'+imp,data:d.data||new Date().toISOString().split('T')[0],nome:d.nome,email:d.email||'',telefone:d.telefone||'',cpf:d.cpf||'',cnpj:d.cnpj||'',marca:d.marca,vendedora:d.vendedora,estado:d.estado||'',valorTotal:parseFloat(d.valorTotal)||0,valorEntrada:parseFloat(d.valorEntrada)||0,status:d.status||'pending'};
-                clientes.unshift(cliente); await enviarParaSheets(cliente); imp++;
+            const pularDuplicados = document.getElementById('optPularDuplicados').checked;
+            const atualizarExistentes = document.getElementById('optAtualizarExistentes').checked;
+            const importarNovos = document.getElementById('optImportarNovos').checked;
+            
+            let novos=0, atualizados=0, pulados=0;
+            
+            for (const d of dadosImportados) {
+                if (d._status === 'duplicate') {
+                    if (atualizarExistentes && d._duplicata) {
+                        // Atualizar dados do cliente existente
+                        const idx = clientes.findIndex(c => c.id === d._duplicata.id);
+                        if (idx >= 0) {
+                            clientes[idx] = {...clientes[idx], 
+                                nome: d.nome || clientes[idx].nome,
+                                email: d.email || clientes[idx].email,
+                                telefone: d.telefone || clientes[idx].telefone,
+                                marca: d.marca || clientes[idx].marca,
+                                vendedora: d.vendedora || clientes[idx].vendedora,
+                                estado: d.estado || clientes[idx].estado,
+                                valorTotal: parseFloat(d.valorTotal) || clientes[idx].valorTotal,
+                                valorEntrada: parseFloat(d.valorEntrada) || clientes[idx].valorEntrada,
+                                data: d.data || clientes[idx].data,
+                                status: d.status || clientes[idx].status
+                            };
+                            await enviarParaSheets(clientes[idx]);
+                            atualizados++;
+                        }
+                    } else if (pularDuplicados) {
+                        pulados++;
+                    }
+                } else if ((d._status === 'ok' || d._status === 'warn') && importarNovos) {
+                    const cliente = {
+                        id: Date.now().toString()+'_'+novos,
+                        data: d.data || new Date().toISOString().split('T')[0],
+                        nome: d.nome, email: d.email||'', telefone: d.telefone||'',
+                        cpf: d.cpf||'', cnpj: d.cnpj||'', marca: d.marca,
+                        vendedora: d.vendedora, estado: d.estado||'',
+                        valorTotal: parseFloat(d.valorTotal)||0,
+                        valorEntrada: parseFloat(d.valorEntrada)||0,
+                        status: d.status||'pending'
+                    };
+                    clientes.unshift(cliente);
+                    await enviarParaSheets(cliente);
+                    novos++;
+                }
             }
-            localStorage.setItem('clientes',JSON.stringify(clientes));
-            closeImportModal(); renderAll();
-            alert('✅ '+imp+' clientes importados!');
+            
+            localStorage.setItem('clientes', JSON.stringify(clientes));
+            closeImportModal();
+            renderAll();
+            
+            let msg = '✅ Importação concluída!\n\n';
+            if(novos>0) msg += `• ${novos} novos clientes\n`;
+            if(atualizados>0) msg += `• ${atualizados} clientes atualizados\n`;
+            if(pulados>0) msg += `• ${pulados} duplicados pulados\n`;
+            alert(msg);
         }
 
+        // ========== FUNÇÕES ==========
         function detectarEstadoPorDDD() {
             const tel=document.getElementById('formTelefone'),estado=document.getElementById('formEstado'),info=document.getElementById('dddInfo');
             let t=tel.value.replace(/\D/g,'');
@@ -602,7 +633,7 @@
         function renderRanking(){const l=document.getElementById('rankingList');if(clientes.length===0){l.innerHTML='<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>';return;}const s={};vendedorasValidas.forEach(n=>{const v=clientes.filter(c=>c.vendedora===n);s[n]={total:v.length,fechados:v.filter(c=>c.status==='closed').length,valor:v.reduce((a,c)=>a+(parseFloat(c.valorTotal)||0),0)};});l.innerHTML=Object.entries(s).sort(([,a],[,b])=>b.valor-a.valor).map(([n,d],i)=>`<div class="ranking-item"><div class="ranking-pos pos-${i+1}">${['👑','🥈','🥉','⭐'][i]}</div><div class="ranking-info"><div class="ranking-name">${n}</div><div class="ranking-detail">${d.total} clientes</div></div><div class="ranking-value">R$ ${d.valor.toLocaleString('pt-BR')}</div></div>`).join('');}
         function renderPerformance(){const d=document.getElementById('performanceDetalhada');if(clientes.length===0){d.innerHTML='<div style="text-align:center;padding:20px;color:var(--cinza);">Sem dados</div>';return;}d.innerHTML=vendedorasValidas.map(n=>{const v=clientes.filter(c=>c.vendedora===n),vf=v.filter(c=>c.status==='closed').length,txV=v.length>0?Math.round((vf/v.length)*100):0,valV=v.reduce((a,c)=>a+(parseFloat(c.valorTotal)||0),0),meta=50000,pct=Math.round((valV/meta)*100);return`<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;"><strong>${n}</strong><span>${v.length} clientes | ${txV}% | R$ ${valV.toLocaleString('pt-BR')}</span></div><div style="height:4px;background:rgba(255,255,255,0.05);border-radius:4px;"><div style="height:100%;width:${Math.min(pct,100)}%;background:${pct>=100?'var(--verde)':pct>=50?'var(--amarelo)':'var(--laranja)'};border-radius:4px;"></div></div><div style="font-size:9px;color:var(--cinza);text-align:right;">Meta: ${pct}%</div></div>`;}).join('');}
         function renderTable(){const fv=document.getElementById('filterVendedora').value,fs=document.getElementById('filterStatus').value,sr=document.getElementById('filterSearch').value.toLowerCase(),tb=document.getElementById('tableBody'),em=document.getElementById('emptyTable');let l=[...clientes];if(fv!=='all')l=l.filter(c=>c.vendedora===fv);if(fs!=='all')l=l.filter(c=>c.status===fs);if(sr)l=l.filter(c=>c.nome.toLowerCase().includes(sr)||c.marca.toLowerCase().includes(sr));l.sort((a,b)=>new Date(b.data)-new Date(a.data));if(l.length===0){tb.innerHTML='';em.style.display='block';return;}em.style.display='none';tb.innerHTML=l.map(c=>{const vT=(parseFloat(c.valorTotal)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),vE=(parseFloat(c.valorEntrada)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),sd=(parseFloat(c.valorTotal)||0)-(parseFloat(c.valorEntrada)||0);return`<tr><td>${c.data?new Date(c.data+'T00:00:00').toLocaleDateString('pt-BR'):'-'}</td><td><strong>${c.nome}</strong></td><td>${c.email||'-'}</td><td>${c.cnpj||c.cpf||'-'}</td><td>${c.telefone||'-'}</td><td><strong>${c.marca}</strong></td><td>${c.vendedora}</td><td>${c.estado}</td><td><strong>${vT}</strong></td><td>${vE}</td><td style="color:${sd<=0?'var(--verde)':'var(--laranja)'};font-weight:600;">${sd.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td><td><span class="badge ${c.status==='closed'?'badge-success':'badge-warning'}">${c.status==='closed'?'✅ Fechado':'⏳ Pendente'}</span></td><td><button class="btn-sm btn-edit" onclick="editCliente('${c.id}')">✏️</button><button class="btn-sm btn-del" onclick="deleteCliente('${c.id}')">🗑️</button></td></tr>`;}).join('');}
-        function openModal(){document.getElementById('modalOverlay').classList.add('active');document.getElementById('formData').value=new Date().toISOString().split('T')[0];['formNome','formEmail','formTelefone','formCPF','formCNPJ','formMarca','formVendedora','formEstado','formValorTotal','formValorEntrada'].forEach(id=>document.getElementById(id).value='');document.getElementById('formStatus').value='pending';document.getElementById('saldoRestante').textContent='💰 Saldo Restante: R$ 0,00';document.getElementById('cnpjInfo').classList.remove('show');document.getElementById('formCNPJ').classList.remove('cnpj-encontrado');document.getElementById('formEstado').classList.remove('estado-detectado');document.getElementById('formTelefone').classList.remove('estado-detectado');document.getElementById('dddInfo').classList.remove('show');}
+        function openModal(){document.getElementById('modalOverlay').classList.add('active');document.getElementById('formData').value=new Date().toISOString().split('T')[0];['formNome','formEmail','formTelefone','formCPF','formCNPJ','formMarca','formVendedora','formEstado','formValorTotal','formValorEntrada'].forEach(id=>document.getElementById(id).value='');document.getElementById('formStatus').value='pending';document.getElementById('saldoRestante').textContent='💰 Saldo Restante: R$ 0,00';document.getElementById('formEstado').classList.remove('estado-detectado');document.getElementById('formTelefone').classList.remove('estado-detectado');document.getElementById('dddInfo').classList.remove('show');}
         function closeModal(){document.getElementById('modalOverlay').classList.remove('active');}
         async function saveCliente(e){e.preventDefault();const cliente={id:Date.now().toString(),nome:document.getElementById('formNome').value,email:document.getElementById('formEmail').value,telefone:document.getElementById('formTelefone').value,cpf:document.getElementById('formCPF').value,cnpj:document.getElementById('formCNPJ').value,marca:document.getElementById('formMarca').value,vendedora:document.getElementById('formVendedora').value,estado:document.getElementById('formEstado').value,valorTotal:parseFloat(document.getElementById('formValorTotal').value),valorEntrada:parseFloat(document.getElementById('formValorEntrada').value),data:document.getElementById('formData').value,status:document.getElementById('formStatus').value};clientes.unshift(cliente);localStorage.setItem('clientes',JSON.stringify(clientes));await enviarParaSheets(cliente);closeModal();renderAll();}
         function editCliente(id){const c=clientes.find(x=>x.id===id);if(!c)return;document.getElementById('formNome').value=c.nome||'';document.getElementById('formEmail').value=c.email||'';document.getElementById('formTelefone').value=c.telefone||'';document.getElementById('formCPF').value=c.cpf||'';document.getElementById('formCNPJ').value=c.cnpj||'';document.getElementById('formMarca').value=c.marca||'';document.getElementById('formVendedora').value=c.vendedora||'';document.getElementById('formEstado').value=c.estado||'';document.getElementById('formValorTotal').value=c.valorTotal||0;document.getElementById('formValorEntrada').value=c.valorEntrada||0;document.getElementById('formData').value=c.data||'';document.getElementById('formStatus').value=c.status||'pending';calcularSaldo();detectarEstadoPorDDD();document.getElementById('modalOverlay').classList.add('active');}
