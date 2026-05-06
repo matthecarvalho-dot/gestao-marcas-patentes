@@ -42,7 +42,7 @@
         .btn-sync{background:var(--verde);color:var(--branco);font-size:11px;padding:8px 14px}
         .btn-import{background:var(--roxo);color:var(--branco);font-size:11px;padding:8px 14px}
         .btn-restore{background:var(--laranja);color:var(--branco);font-size:11px;padding:8px 14px}
-        .btn-consultar{background:var(--azul);color:var(--branco);font-size:10px;padding:6px 12px;cursor:pointer;border:none;border-radius:6px;font-weight:600;transition:all 0.3s}
+        .btn-consultar{background:var(--azul);color:var(--branco);font-size:10px;padding:6px 12px;cursor:pointer;border:none;border-radius:6px;font-weight:600;transition:all 0.3s;white-space:nowrap}
         .btn-consultar:hover{background:#357ABD;transform:translateY(-1px)}
         .btn-consultar:disabled{opacity:0.5;cursor:not-allowed}
         .btn-import:hover,.btn-sync:hover,.btn-restore:hover{transform:translateY(-2px);opacity:0.9}
@@ -302,7 +302,7 @@
         let clientes = [];
         let dadosImportados = [];
 
-        // ========== CONSULTA CNPJ ==========
+        // ========== CONSULTA CNPJ (CORRIGIDA) ==========
         function formatarCNPJ() {
             let cnpj = document.getElementById('formCNPJ').value.replace(/\D/g, '');
             if (cnpj.length > 14) cnpj = cnpj.substring(0, 14);
@@ -339,54 +339,78 @@
             info.style.color = 'var(--laranja)';
 
             try {
-                // API pública BrasilAPI
-                const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
+                // Tentar múltiplas APIs
+                let response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
+                
+                if (!response.ok) {
+                    response = await fetch(`https://minhareceita.org/${cnpj}`);
+                }
+                
+                if (!response.ok) {
+                    response = await fetch(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`);
+                }
+
                 if (!response.ok) throw new Error('CNPJ não encontrado');
 
                 const data = await response.json();
-
-                // Preencher campos
-                document.getElementById('formNome').value = data.razao_social || data.nome_fantasia || '';
                 
-                // Email (primeiro do quadro de sócios ou contato)
-                let email = '';
-                if (data.cnae_fiscal_descricao) {
-                    // Usar o nome fantasia como referência para email
-                    const nome = (data.nome_fantasia || data.razao_social || '').toLowerCase().replace(/\s+/g, '.');
-                    email = nome ? `contato@${nome}.com.br` : '';
+                if (data.status === 'ERROR' || (data.message && data.message.includes('error'))) {
+                    throw new Error('CNPJ inválido');
                 }
-                document.getElementById('formEmail').value = email;
 
-                // Telefone
-                let telefone = '';
-                if (data.ddd_telefone_1 && data.telefone_1) {
-                    telefone = `(${data.ddd_telefone_1}) ${data.telefone_1}`;
-                } else if (data.ddd_fax && data.fax) {
-                    telefone = `(${data.ddd_fax}) ${data.fax}`;
+                // Extrair dados
+                const razaoSocial = data.razao_social || data.nome || data.company?.name || '';
+                const nomeFantasia = data.nome_fantasia || data.fantasia || data.company?.fantasy_name || '';
+                const telefone = data.telefone || data.ddd_telefone_1 || '';
+                const ddd = data.ddd || data.ddd_telefone_1 || (telefone ? telefone.substring(0, 2) : '');
+                const email = data.email || '';
+
+                // Preencher Nome
+                document.getElementById('formNome').value = razaoSocial || nomeFantasia;
+                
+                // Preencher Email
+                if (email) {
+                    document.getElementById('formEmail').value = email;
+                } else if (razaoSocial) {
+                    const nomeEmail = razaoSocial.toLowerCase()
+                        .replace(/[^a-z0-9\s]/g, '')
+                        .replace(/\s+/g, '.')
+                        .substring(0, 30);
+                    document.getElementById('formEmail').value = `contato@${nomeEmail}.com.br`;
                 }
-                document.getElementById('formTelefone').value = telefone;
-
-                // Detectar estado pelo DDD do telefone
-                if (telefone && data.ddd_telefone_1) {
-                    const uf = dddEstados[data.ddd_telefone_1];
-                    if (uf) {
-                        document.getElementById('formEstado').value = uf;
-                        document.getElementById('formEstado').classList.add('estado-detectado');
-                    }
+                
+                // Preencher Telefone
+                if (telefone && telefone.length >= 8) {
+                    const dddTel = ddd || telefone.substring(0, 2);
+                    const numero = telefone.length > 8 ? telefone.substring(telefone.length - 9) : telefone;
+                    document.getElementById('formTelefone').value = `(${dddTel}) ${numero}`;
+                }
+                
+                // Detectar Estado pelo DDD
+                if (ddd && dddEstados[ddd]) {
+                    document.getElementById('formEstado').value = dddEstados[ddd];
+                    document.getElementById('formEstado').classList.add('estado-detectado');
                 } else if (data.uf) {
                     document.getElementById('formEstado').value = data.uf;
                     document.getElementById('formEstado').classList.add('estado-detectado');
                 }
-
+                
+                // Marcar campos
                 cnpjInput.classList.add('cnpj-encontrado');
-                info.textContent = `✅ CNPJ encontrado: ${data.razao_social || data.nome_fantasia}`;
+                if (document.getElementById('formTelefone').value) {
+                    document.getElementById('formTelefone').classList.add('estado-detectado');
+                }
+                
+                const nomeExibido = razaoSocial || nomeFantasia || 'CNPJ encontrado';
+                info.textContent = '✅ ' + nomeExibido.substring(0, 50);
                 info.className = 'cnpj-info show';
                 info.style.color = 'var(--verde)';
 
             } catch (error) {
-                info.textContent = '❌ CNPJ não encontrado ou erro na consulta';
+                console.error('Erro:', error);
+                info.textContent = '⚠️ CNPJ não encontrado. Preencha manualmente.';
                 info.className = 'cnpj-info show';
-                info.style.color = 'var(--vermelho)';
+                info.style.color = 'var(--laranja)';
                 cnpjInput.classList.remove('cnpj-encontrado');
             }
 
@@ -450,7 +474,6 @@
             reader.readAsText(file);
         }
 
-        // ========== IMPORTAÇÃO ==========
         function abrirImportacao() {
             document.getElementById('importModal').classList.add('active');
             document.getElementById('importData').value = '';
@@ -560,7 +583,6 @@
             alert('✅ '+imp+' clientes importados!');
         }
 
-        // ========== FUNÇÕES ==========
         function detectarEstadoPorDDD() {
             const tel=document.getElementById('formTelefone'),estado=document.getElementById('formEstado'),info=document.getElementById('dddInfo');
             let t=tel.value.replace(/\D/g,'');
