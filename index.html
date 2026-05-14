@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Marcas e Patentes | BI Executivo Pro v3.0</title>
-    <link rel="icon" href="logo.jpg">
+    <title>Gestão de Marcas e Patentes | BI Executive Pro v3.0</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,8 +28,7 @@
         .sidebar{width:260px;min-width:260px;background:var(--bg2);border-right:1px solid var(--borda);position:fixed;top:0;left:0;height:100vh;z-index:200;display:flex;flex-direction:column;transition:var(--transition);overflow:hidden}
         .sidebar.collapsed{width:64px;min-width:64px}
         .side-brand{padding:20px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--borda);flex-shrink:0}
-        .side-logo{width:38px;height:38px;min-width:38px;background:none;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:none}
-        .side-logo img{width:38px;height:38px;border-radius:10px;object-fit:cover}
+        .side-logo{width:38px;height:38px;min-width:38px;background:linear-gradient(135deg,var(--gold),var(--gold-l));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--bg)}
         .side-brand-text{overflow:hidden;white-space:nowrap}
         .sidebar.collapsed .side-brand-text{display:none}
         .side-name{font-size:15px;font-weight:700;letter-spacing:-0.3px}
@@ -72,8 +71,7 @@
         .menu-toggle{width:34px;height:34px;border-radius:8px;border:1px solid var(--borda-l);background:rgba(255,255,255,0.02);color:var(--text2);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:15px;transition:var(--transition)}
         .menu-toggle:hover{border-color:var(--azul);color:var(--azul-l)}
         .top-left{display:flex;align-items:center;gap:12px}
-        .top-logo{width:36px;height:36px;min-width:36px;background:none;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:none}
-        .top-logo img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+        .top-logo{width:36px;height:36px;min-width:36px;background:linear-gradient(135deg,var(--gold),var(--gold-l));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--bg)}
         .top-name{font-weight:700;font-size:14px;letter-spacing:-0.3px}
         .top-sub{font-size:10px;color:var(--text3)}
         .top-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -242,6 +240,32 @@
         .import-options{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
         .import-options label{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);cursor:pointer}
 
+        /* DOWNLOAD BUTTON */
+        .download-app-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--gold), #e0a830);
+            color: var(--bg);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 8px 25px rgba(229,184,76,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .download-app-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(229,184,76,0.6);
+        }
+
         .footer{text-align:center;padding:14px;color:var(--text3);font-size:10px;border-top:1px solid var(--borda);margin-top:20px}
 
         @media(max-width:1400px){.metrics-grid{grid-template-columns:repeat(3,1fr)}.dashboard-grid{grid-template-columns:1fr 1fr}}
@@ -255,9 +279,7 @@
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
         <div class="side-brand">
-            <div class="side-logo">
-                <img src="logo.jpg" alt="Logo">
-            </div>
+            <div class="side-logo">💎</div>
             <div class="side-brand-text">
                 <div class="side-name">Gestão<span>Pro</span></div>
                 <div class="side-sub">BI Executive v3.0</div>
@@ -273,10 +295,10 @@
         <div class="side-footer">
             <div class="user-avatar" id="userAvatar" onclick="editarNomeAdmin()">A</div>
             <div class="user-info">
-                <div class="user-name" id="adminNameDisplay" onclick="editarNomeAdmin()">Admin <i class="fas fa-pen"></i></div>
+                <div class="user-name" id="adminNameDisplay" onclick="editarNomeAdmin()">Admin ✏️</div>
                 <div class="user-role">Administrador</div>
             </div>
-            <button class="btn-edit-admin" onclick="editarNomeAdmin()" title="Editar perfil"><i class="fas fa-pen"></i></button>
+            <button class="btn-edit-admin" onclick="editarNomeAdmin()" title="Editar perfil">✏️</button>
         </div>
         <div class="version-tag">v3.0.0 Pro</div>
     </aside>
@@ -286,9 +308,7 @@
         <header class="topbar">
             <button class="menu-toggle" id="menuToggle">☰</button>
             <div class="top-left">
-                <div class="top-logo">
-                    <img src="logo.jpg" alt="Logo">
-                </div>
+                <div class="top-logo">💎</div>
                 <div>
                     <div class="top-name">Gestão de Marcas e Patentes</div>
                     <div class="top-sub">Business Intelligence Pro</div>
@@ -300,6 +320,7 @@
                 <button class="btn-quick" onclick="abrirImportacao()">📥 Importar</button>
                 <button class="btn-quick" onclick="exportData()">💾 Backup</button>
                 <button class="btn-quick" onclick="restaurarBackup()">📤 Restaurar</button>
+                <button class="btn-quick" onclick="downloadApp()" style="background: linear-gradient(135deg, var(--gold), #e0a830); color: var(--bg); border-color: var(--gold); font-weight: 700;">⬇️ Baixar App</button>
                 <input type="file" id="restoreFile" accept=".json" onchange="handleRestoreFile(event)" style="display:none;">
             </div>
         </header>
@@ -309,7 +330,7 @@
             <div class="page active" id="page-dashboard">
                 <div class="header-card">
                     <div><h1>📊 Dashboard de Balanceamento</h1><p class="subtitle">Visão executiva completa</p></div>
-                    <div class="date-badge"><div class="day" id="currentDay">06</div><div class="month" id="currentMonth">Maio 2026</div></div>
+                    <div class="date-badge"><div class="day" id="currentDay">14</div><div class="month" id="currentMonth">Maio 2026</div></div>
                     <div style="display:flex;gap:8px;"><button class="btn btn-gold" onclick="openModal()">➕ Novo Cliente</button></div>
                 </div>
                 <div class="metrics-grid">
@@ -428,7 +449,7 @@
     const coresEstados=['#4A90E2','#F4D03F','#2ECC71','#E74C3C','#7C3AED','#F39C12','#1ABC9C','#E91E63','#00BCD4','#FF5722','#9C27B0','#8BC34A','#FF9800','#03A9F4','#CDDC39','#FFC107','#795548','#607D8B','#2196F3','#4CAF50','#FFEB3B','#9E9E9E','#673AB7','#00FF00','#FF00FF','#00FFFF','#FF6347'];
     let clientes=[],dadosImportados=[],currentPage='dashboard',editandoId=null;
 
-    function init(){updateDate();sincronizarSheets();setInterval(updateDate,60000);setupNavigation();carregarNomeAdmin();}
+    function init(){updateDate();loadLocalData();setInterval(updateDate,60000);setupNavigation();carregarNomeAdmin();}
     function updateDate(){const d=new Date();document.getElementById('currentDay').textContent=String(d.getDate()).padStart(2,'0');document.getElementById('currentMonth').textContent=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][d.getMonth()]+' '+d.getFullYear();}
 
     function setupNavigation(){document.querySelectorAll('.nav-item').forEach(i=>i.addEventListener('click',function(){navigateTo(this.dataset.page);}));document.getElementById('menuToggle').addEventListener('click',()=>{document.getElementById('sidebar').classList.toggle('collapsed');document.getElementById('mainContent').classList.toggle('expanded');});}
@@ -436,9 +457,11 @@
     function renderPage(page){switch(page){case'dashboard':updateMetrics();renderBalance();renderStates('statesGridDash');renderRanking('rankingListDash');renderPerformance('performanceDash');break;case'vendedoras':renderVendedorasDetail();renderRanking('rankingListVend');renderPerformance('performanceVend');break;case'mensal':renderMonthlyReport();break;case'estados':renderEstadosPage();break;case'clientes':renderTable();break;}}
     function renderAll(){renderPage(currentPage);document.getElementById('navClientCount').textContent=clientes.length;}
 
-    function carregarNomeAdmin(){const n=localStorage.getItem('admin_name');if(n){document.getElementById('adminNameDisplay').innerHTML=n+' <i class="fas fa-pen"></i>';document.getElementById('userAvatar').textContent=n.charAt(0).toUpperCase();}}
+    function loadLocalData(){const saved=localStorage.getItem('clientes');if(saved){clientes=JSON.parse(saved);renderAll();}sincronizarSheets();}
+
+    function carregarNomeAdmin(){const n=localStorage.getItem('admin_name');if(n){document.getElementById('adminNameDisplay').innerHTML=n+' ✏️';document.getElementById('userAvatar').textContent=n.charAt(0).toUpperCase();}}
     window.editarNomeAdmin=function(){const atual=document.getElementById('adminNameDisplay').textContent.replace(/\s+/g,' ').trim().split(' ')[0];const overlay=document.createElement('div');overlay.className='admin-edit-overlay';overlay.onclick=function(e){if(e.target===this)this.remove();};overlay.innerHTML=`<div class="admin-dialog" onclick="event.stopPropagation()"><div class="admin-avatar-lg" id="adminAvatarLarge">${atual.charAt(0).toUpperCase()}</div><h4>Editar Perfil</h4><p>Personalize o nome do administrador</p><input type="text" class="input-admin" id="inputAdminName" value="${atual}" maxlength="30" oninput="document.getElementById('adminAvatarLarge').textContent=this.value.charAt(0).toUpperCase()"><div class="modal-actions"><button class="btn btn-outline" onclick="this.closest('.admin-edit-overlay').remove()">Cancelar</button><button class="btn btn-gold" onclick="salvarNomeAdmin()">Salvar</button></div></div>`;document.body.appendChild(overlay);setTimeout(()=>{const inp=document.getElementById('inputAdminName');if(inp){inp.focus();inp.select();}},100);};
-    window.salvarNomeAdmin=function(){const n=document.getElementById('inputAdminName').value.trim()||'Admin';localStorage.setItem('admin_name',n);document.getElementById('adminNameDisplay').innerHTML=n+' <i class="fas fa-pen"></i>';document.getElementById('userAvatar').textContent=n.charAt(0).toUpperCase();document.querySelector('.admin-edit-overlay')?.remove();showToast('Nome atualizado!','success');};
+    window.salvarNomeAdmin=function(){const n=document.getElementById('inputAdminName').value.trim()||'Admin';localStorage.setItem('admin_name',n);document.getElementById('adminNameDisplay').innerHTML=n+' ✏️';document.getElementById('userAvatar').textContent=n.charAt(0).toUpperCase();document.querySelector('.admin-edit-overlay')?.remove();showToast('Nome atualizado!','success');};
 
     async function sincronizarSheets(){const d=document.getElementById('syncDot'),t=document.getElementById('syncText');d.className='sync-dot loading';t.textContent='Sincronizando...';try{const r=await fetch(GOOGLE_SHEETS_URL+'?t='+Date.now());const s=await r.json();if(s&&s.length>0){clientes=s;localStorage.setItem('clientes',JSON.stringify(clientes));d.className='sync-dot on';t.textContent=clientes.length+' clientes';}else{clientes=JSON.parse(localStorage.getItem('clientes'))||[];d.className='sync-dot on';t.textContent='Conectado';}}catch(e){clientes=JSON.parse(localStorage.getItem('clientes'))||[];d.className='sync-dot off';t.textContent='Offline';}renderAll();}
     async function enviarParaSheets(c){try{await fetch(GOOGLE_SHEETS_URL,{method:'POST',body:JSON.stringify(c)});}catch(e){}}
@@ -477,13 +500,36 @@
     function deleteCliente(id){if(!confirm('Excluir cliente? Esta ação não pode ser desfeita.'))return;clientes=clientes.filter(x=>x.id!==id);localStorage.setItem('clientes',JSON.stringify(clientes));renderAll();showToast('Cliente excluído!','success');}
     function detectarEstadoPorDDD(){const tel=document.getElementById('formTelefone'),estado=document.getElementById('formEstado'),info=document.getElementById('dddInfo');let t=tel.value.replace(/\D/g,'');if(t.length>0){if(t.length<=2)tel.value='('+t;else if(t.length<=7)tel.value='('+t.substring(0,2)+') '+t.substring(2);else tel.value='('+t.substring(0,2)+') '+t.substring(2,7)+'-'+t.substring(7,11);}const ddd=t.substring(0,2);if(ddd.length===2&&dddEstados[ddd]){estado.value=dddEstados[ddd];estado.classList.add('estado-detectado');tel.classList.add('estado-detectado');info.textContent='✅ DDD '+ddd+' → '+dddEstados[ddd];info.classList.add('show');info.style.color='var(--verde)';}else if(ddd.length===2){info.textContent='⚠️ DDD não reconhecido';info.classList.add('show');info.style.color='var(--laranja)';}else{info.classList.remove('show');}}
     function calcularSaldo(){const t=parseFloat(document.getElementById('formValorTotal').value)||0,e=parseFloat(document.getElementById('formValorEntrada').value)||0,s=t-e;const el=document.getElementById('saldoRestante');el.textContent='💰 Saldo Restante: R$ '+s.toLocaleString('pt-BR',{minimumFractionDigits:2});el.style.color=s<=0?'var(--verde)':'var(--laranja)';}
-    function exportData(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({data:new Date().toISOString(),clientes},null,2)],{type:'application/json'}));a.download='backup_'+new Date().toISOString().split('T')[0]+'.json';a.click();showToast('Backup exportado!','success');}
-    function showToast(msg,type){const t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'times-circle'}"></i> ${msg}`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(120%)';t.style.transition='all 0.3s';setTimeout(()=>t.remove(),300);},3000);}
+    
+    function exportData(){const data={data:new Date().toISOString(),clientes:clientes};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='backup_'+new Date().toISOString().split('T')[0]+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);showToast('Backup exportado!','success');}
+
+    // Função para download do aplicativo
+    function downloadApp() {
+        const htmlContent = document.documentElement.outerHTML;
+        const blob = new Blob(['<!DOCTYPE html>\n' + htmlContent], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Gestao_Marcas_Patentes_BI_Pro_v3.0.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Aplicativo baixado! Abra o arquivo HTML para usar.','success');
+    }
+
+    function showToast(msg,type){const t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=`${type==='success'?'✅':'❌'} ${msg}`;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(120%)';t.style.transition='all 0.3s';setTimeout(()=>t.remove(),300);},3000);}
 
     document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
     document.getElementById('importModal').addEventListener('click',function(e){if(e.target===this)closeImportModal();});
     document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeImportModal();document.querySelector('.admin-edit-overlay')?.remove();}});
     document.addEventListener('DOMContentLoaded',init);
 </script>
+
+<!-- Botão flutuante de download -->
+<button class="download-app-btn" onclick="downloadApp()" title="Baixar aplicativo para seu computador">
+    ⬇️ Baixar App para Computador
+</button>
+
 </body>
 </html>
