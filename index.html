@@ -14,7 +14,7 @@
         :root{--bg:#030712;--primary:#4f46e5;--primary-light:#818cf8;--secondary:#7c3aed;--emerald:#10b981;--red:#ef4444;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,0.06)}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center}
-        body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -20%,rgba(79,70,229,0.1) 0%,transparent 100%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(245,158,11,0.05) 0%,transparent 100%);pointer-events:none;z-index:0}
+        body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -20%,rgba(229,184,76,0.1) 0%,transparent 100%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(74,144,226,0.05) 0%,transparent 100%);pointer-events:none;z-index:0}
         .container{position:relative;z-index:1;width:100%;max-width:440px;padding:20px}
         .card{background:rgba(17,24,39,0.7);backdrop-filter:blur(30px);border:1px solid var(--border);border-radius:20px;padding:40px 30px;text-align:center}
         .logo{width:60px;height:60px;background:linear-gradient(135deg,#e5b84c,#f0d070);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#000;margin:0 auto 20px;box-shadow:0 8px 25px rgba(229,184,76,0.3)}
@@ -24,10 +24,8 @@
         .input{width:100%;padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:14px;font-family:inherit;margin-bottom:12px;transition:all 0.3s}
         .input:focus{outline:none;border-color:#e5b84c;box-shadow:0 0 0 3px rgba(229,184,76,0.15)}
         .btn{width:100%;padding:14px;border:none;border-radius:12px;color:#000;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;transition:all 0.3s;background:linear-gradient(135deg,#e5b84c,#d97706);box-shadow:0 4px 15px rgba(229,184,76,0.3)}
-        .btn:hover{transform:translateY(-2px)}
-        .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-        .link{font-size:12px;color:var(--text3);margin-top:16px;cursor:pointer}
-        .link:hover{color:#f0d070}.link span{color:#f0d070;font-weight:600}
+        .btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+        .link{font-size:12px;color:var(--text3);margin-top:16px;cursor:pointer}.link:hover{color:#f0d070}.link span{color:#f0d070;font-weight:600}
         .msg{display:none;padding:10px;border-radius:8px;font-size:12px;margin-bottom:12px}
         .msg.error{display:block;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red)}
         .msg.success{display:block;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--emerald)}
@@ -64,12 +62,12 @@
 
 <script>
 const firebaseConfig = {
-    apiKey: "AIzaSyCPiGXTl0k1Kq4RYEiABZ6tBxScitRhFwM",
-    authDomain: "controle-de-fechamento-f8137.firebaseapp.com",
-    projectId: "controle-de-fechamento-f8137",
-    storageBucket: "controle-de-fechamento-f8137.firebasestorage.app",
-    messagingSenderId: "1016803983243",
-    appId: "1:1016803983243:web:66f2ad592c824bd847798e"
+    apiKey: "AIzaSyC_IoFUQxa-a5EWDKdAUCeIcU6ngoel2ME",
+    authDomain: "gestao-de-marcas.firebaseapp.com",
+    projectId: "gestao-de-marcas",
+    storageBucket: "gestao-de-marcas.firebasestorage.app",
+    messagingSenderId: "893784316712",
+    appId: "1:893784316712:web:4b625e1406b655ffca0e1d"
 };
 
 firebase.initializeApp(firebaseConfig);
